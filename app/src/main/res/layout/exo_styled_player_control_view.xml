@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgTopTrans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/top_trans" />
+
+        <RelativeLayout
+            android:id="@+id/linearToolBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/imgVideoBack"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:adjustViewBounds="true"
+                android:padding="@dimen/_2sdp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ig_back"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/txtVideoPlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="marquee"
+                android:fontFamily="@font/sf_pro_text_bold"
+                android:layout_centerVertical="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:layout_toStartOf="@id/imgVideoOpenInst"
+                android:layout_toEndOf="@id/imgVideoBack"
+                android:text="VID_202401289.mp4"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp" />
+
+
+            <ImageView
+                android:id="@+id/imgVideoOpenInst"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:padding="@dimen/_3sdp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ig_insta"
+                android:adjustViewBounds="true"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linearVideoItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearToolBar"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgVideoAudio"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ig_audio_player" />
+
+            <ImageView
+                android:id="@+id/imgVideoWallpaper"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ig_wall_player" />
+
+            <ImageView
+                android:id="@+id/imgVideoRepost"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ig_repost_player" />
+
+            <ImageView
+                android:id="@+id/imgVideoShare"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ig_share_player" />
+
+            <ImageView
+                android:id="@+id/imgVideoSpeed"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:padding="@dimen/_2sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ig_speed_player" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/exo_center_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:layoutDirection="ltr"
+            android:padding="@dimen/exo_styled_controls_padding">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@id/exo_play_pause"
+                    style="@style/ExoStyledControls.Button.Center.PlayPause"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:padding="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgBottomTrans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/bottom_trans" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:paddingStart="@dimen/exo_styled_bottom_bar_time_padding"
+            android:paddingLeft="@dimen/exo_styled_bottom_bar_time_padding"
+            android:paddingEnd="@dimen/exo_styled_bottom_bar_time_padding"
+            android:paddingRight="@dimen/exo_styled_bottom_bar_time_padding">
+
+            <TextView
+                android:id="@id/exo_position"
+                style="@style/ExoStyledControls.TimeText.Position"
+                android:layout_below="@id/exo_progress_placeholder"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/sf_pro_text_bold"
+                android:minWidth="@dimen/_42sdp"
+                android:textSize="@dimen/_9sdp" />
+
+            <View
+                android:id="@id/exo_progress_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="@dimen/_2sdp" />
+
+            <TextView
+                android:id="@id/exo_duration"
+                style="@style/ExoStyledControls.TimeText.Duration"
+                android:layout_below="@id/exo_progress_placeholder"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/sf_pro_text_bold"
+                android:minWidth="@dimen/_42sdp"
+                android:textSize="@dimen/_9sdp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</merge>

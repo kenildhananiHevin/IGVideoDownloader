@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_13sdp"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:text="@string/delete_video"
+        android:fontFamily="@font/sf_pro_text_bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/delete_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:text="@string/delete_d"
+        android:fontFamily="@font/sf_pro_text_medium"
+        android:textColor="@color/txt_color"
+        android:textAlignment="center"
+        android:textSize="@dimen/_11sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_txt">
+
+        <TextView
+            android:id="@+id/delete_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:ellipsize="marquee"
+            android:background="@drawable/cancle_bg"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/cancle"
+            android:textColor="@color/txt_color"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            android:id="@+id/delete_ok"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:ellipsize="marquee"
+            android:background="@drawable/delete_bg"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/delete"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

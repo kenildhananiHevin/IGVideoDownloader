@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    tools:context=".fragment.HomeFragment">
+
+    <com.cashloan.myapplication.igvideodownloader.other.TouchableWebView
+        android:id="@+id/page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" />
+
+
+    <LinearLayout
+        android:id="@+id/linearPasteLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:background="@drawable/edt_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ig_paste_ic" />
+
+        <EditText
+            android:id="@+id/edtPasteLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
+            android:background="@color/transparent"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:hint="@string/paste_link"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/paste_txt_color"
+            android:textSize="@dimen/_13sdp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_13sdp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/linearPasteLink">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtPaste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/sf_pro_text_medium"
+                android:gravity="center_horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:singleLine="true"
+                android:text="@string/paste"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_alignEnd="@id/txtPaste"
+                android:layout_alignStart="@id/txtPaste"
+                android:layout_below="@id/txtPaste"
+                android:background="@color/black" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txtDownload"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/ig_download_bg"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/download"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txtOpenInstagram"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:background="@drawable/open_insta_bg"
+        android:fontFamily="@font/sf_pro_text_semibold"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/open_instagram"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_15sdp"
+        app:layout_constraintTop_toBottomOf="@id/linearItem" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

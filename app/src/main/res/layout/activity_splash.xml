@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.SplashActivity">
+
+    <ImageView
+        android:id="@+id/imgSplash"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ig_splash_icon"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/txtSplashName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/imgSplash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/insaver"
+        android:fontFamily="@font/sf_pro_text_bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_17sdp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/txtSplashName"
+        android:text="@string/splash_desc"
+        android:textAlignment="center"
+        android:textColor="@color/txt_color"
+        android:textSize="@dimen/_13sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:fontFamily="@font/sf_pro_text_medium"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

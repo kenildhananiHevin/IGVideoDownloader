@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apply_now">Apply Now</string>
+    <string name="cancles">CANCLE</string>
+    <string name="ok">OK</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="home_screen">Home screen</string>
+    <string name="both">Both</string>
+    <string name="set_as_wallpaper">Set as wallpaper</string>
+</resources>

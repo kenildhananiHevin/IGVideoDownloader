@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_20sdp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="@dimen/_1sdp"
+                android:gravity="start"
+                android:text="@string/set_as_wallpaper"
+                android:textColor="@color/black"
+                android:fontFamily="@font/sf_pro_text_semibold"
+                android:textSize="@dimen/_15ssp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_15sdp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llLock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgLockSelect"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ig_unselect"/>
+
+                    <TextView
+                        android:id="@+id/txtOff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_1sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:textAlignment="textStart"
+                        android:lineSpacingExtra="@dimen/_4sdp"
+                        android:text="@string/lock_screen"
+                        android:fontFamily="@font/sf_pro_text_medium"
+                        android:textColor="@color/txt_color"
+                        android:textSize="@dimen/_13sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgHomeSelect"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ig_unselect"/>
+
+                    <TextView
+                        android:id="@+id/txtThreeSecond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_1sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:textAlignment="textStart"
+                        android:lineSpacingExtra="@dimen/_4sdp"
+                        android:text="@string/home_screen"
+                        android:fontFamily="@font/sf_pro_text_medium"
+                        android:textColor="@color/txt_color"
+                        android:textSize="@dimen/_13ssp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llBoth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgBothSelect"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:padding="@dimen/_2sdp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ig_unselect"/>
+
+                    <TextView
+                        android:id="@+id/txtTenSecond"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/_1sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:textAlignment="textStart"
+                        android:lineSpacingExtra="@dimen/_4sdp"
+                        android:text="@string/both"
+                        android:fontFamily="@font/sf_pro_text_medium"
+                        android:textColor="@color/txt_color"
+                        android:textSize="@dimen/_13ssp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_1sdp"
+                    android:text="@string/cancles"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_text_medium"
+                    android:textColor="@color/txt_color"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    android:id="@+id/txtOk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/_1sdp"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:text="@string/ok"
+                    android:fontFamily="@font/sf_pro_text_medium"
+                    android:textColor="@color/app_color"
+                    android:textSize="@dimen/_15sdp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.HistoryFragment">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/HistoryTabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/lan_bg_color"
+        android:longClickable="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/app_color"
+        app:tabMaxWidth="0dp"
+        android:layout_marginTop="@dimen/_7sdp"
+        app:tabSelectedTextColor="@color/app_color"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+        app:tabTextColor="@color/txt_color" />
+
+    <com.cashloan.myapplication.igvideodownloader.model.CustomViewPager
+        android:id="@+id/HistoryViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HistoryTabLayout"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

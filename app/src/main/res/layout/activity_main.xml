@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/settingA"
+    android:background="@color/all_bg"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/linearToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtInSaver"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/insaver"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp"
+            android:singleLine="true"
+            android:fontFamily="@font/sf_pro_text_bold"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="marquee"/>
+
+        <ImageView
+            android:id="@+id/imgInstagramLogin"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:padding="@dimen/_5sdp"
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ig_open" />
+
+        <!-- <ImageView
+            android:id="@+id/imgInstagramSetting"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/settings"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:adjustViewBounds="true"/>-->
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ig_tab_bottom"
+        android:adjustViewBounds="true"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:longClickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tabIndicatorColor="@color/transparent"
+        app:tabMaxWidth="0dp"
+        android:background="@color/transparent"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+        app:tabTextColor="@color/black" />
+
+
+    <ImageView
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
+        android:padding="@dimen/_3sdp"
+        android:src="@drawable/ig_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:elevation="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/_20sdp"/>
+
+    <com.cashloan.myapplication.igvideodownloader.model.CustomViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="36dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

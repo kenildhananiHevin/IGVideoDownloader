@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">IGVideoDownloader</string>
+    <string name="insaver">IG Saver</string>
+    <string name="home">Trang chủ</string>
+    <string name="explore">Khám phá</string>
+    <string name="browser">Trình duyệt</string>
+    <string name="history">Lịch sử</string>
+    <string name="hello_blank_fragment">Chào mảnh trống</string>
+    <string name="app_not_available">Ứng dụng không khả dụng</string>
+    <string name="paste_link">Dán liên kết</string>
+    <string name="download">Tải xuống</string>
+    <string name="please_allow">vui lòng cho phép sử dụng tính năng</string>
+    <string name="allow">Cho phép</string>
+    <string name="downloadStarted">Bắt đầu tải xuống</string>
+    <string name="downloadCompleted">Tải xuống hoàn tất</string>
+    <string name="somethingWentWrong">Đã xảy ra sự cố, hãy thử lại!</string>
+    <string name="link_parsing_successful_type_is_reels">Phân tích liên kết thành công, loại là Reels.</string>
+    <string name="extract_audio">Trích xuất âm thanh</string>
+    <string name="play">Phát</string>
+    <string name="speed">Tốc độ</string>
+    <string name="open_instagram">Mở Instagram</string>
+    <string name="copy_text">Sao chép văn bản</string>
+    <string name="repost">Đăng lại</string>
+    <string name="speed_playback">Tốc độ phát lại</string>
+    <string name="wallapaper">Hình nền</string>
+    <string name="share">Chia sẻ ứng dụng</string>
+    <string name="share_image_via">Chia sẻ tệp...</string>
+    <string name="video">VIDEO</string>
+    <string name="photo">ẢNH</string>
+    <string name="music">ÂM THANH</string>
+    <string name="delete">Xóa</string>
+    <string name="delete_d">Bạn có chắc chắn muốn xóa video này?</string>
+    <string name="cancle">Hủy</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="rate_our_app">Đánh giá chúng tôi</string>
+    <string name="privacy_policy">Chính sách bảo mật</string>
+    <string name="share_with_friends">Chia sẻ với bạn bè</string>
+    <string name="wallpaper_set">Hình nền đã đặt</string>
+    <string name="something_went_wrong">Đã xảy ra sự cố!</string>
+    <string name="reels_not_available">Ứng dụng Instagram không khả dụng</string>
+    <string name="setting">Cài đặt</string>
+    <string name="paste">Dán</string>
+    <string name="audio">Âm thanh</string>
+    <string name="preview">Xem trước</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="press">Nhấn quay lại để thoát</string>
+    <string name="shares">Chia sẻ</string>
+    <string name="delete_video">Xóa video?</string>
+    <string name="splash_desc">Dán bất kỳ URL nào của ảnh, video, câu chuyện và tải xuống ngay lập tức</string>
+    <string name="apply_now">Áp dụng ngay</string>
+    <string name="cancles">Hủy</string>
+    <string name="ok">OK</string>
+    <string name="lock_screen">Màn hình khóa</string>
+    <string name="home_screen">Màn hình chính</string>
+    <string name="both">Cả hai</string>
+    <string name="set_as_wallpaper">Đặt làm hình nền</string>
+
+
+
+</resources>
