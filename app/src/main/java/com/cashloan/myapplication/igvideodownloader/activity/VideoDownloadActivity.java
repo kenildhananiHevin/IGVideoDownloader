@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.cashloan.myapplication.igvideodownloader.R;
 import com.cashloan.myapplication.igvideodownloader.other.AudioExtractor;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
+import com.cashloan.myapplication.igvideodownloader.other.DebouncedOnClickListener;
 import com.cashloan.myapplication.igvideodownloader.service.VideoLiveWallpaperIGService;
 
 import java.io.FileOutputStream;
@@ -97,9 +98,9 @@ public class VideoDownloadActivity extends BaseActivity {
             videoItem.setVisibility(View.GONE);
             imageItem.setVisibility(View.VISIBLE);
 
-            linearImageShow.setOnClickListener(new View.OnClickListener() {
+            linearImageShow.setOnClickListener(new DebouncedOnClickListener(750) {
                 @Override
-                public void onClick(View v) {
+                public void onDebouncedClick(View v) {
                     Intent intent = new Intent(activity, VideoPlayerActivity.class);
                     intent.putExtra("from", uri);
                     intent.putExtra("lin", links);
@@ -107,6 +108,7 @@ public class VideoDownloadActivity extends BaseActivity {
                     startActivity(intent);
                 }
             });
+
 
             linearImageShare.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,9 +147,9 @@ public class VideoDownloadActivity extends BaseActivity {
         });
 
 
-        linearVideoPlayVideo.setOnClickListener(new View.OnClickListener() {
+        linearVideoPlayVideo.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 Intent intent = new Intent(activity, VideoPlayerActivity.class);
                 intent.putExtra("from", uri);
                 intent.putExtra("lin", links);
@@ -156,9 +158,9 @@ public class VideoDownloadActivity extends BaseActivity {
             }
         });
 
-        linearVideoExtractAudio.setOnClickListener(new View.OnClickListener() {
+        linearVideoExtractAudio.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 try {
                     new AudioExtractor().genVideoUsingMuxer(uri, pathAudio, -1, -1, true, false);
                     startActivity(new Intent(activity, AudioActivity.class).putExtra("path", pathAudio).putExtra("name", names).putExtra("positionsss", "do not list")
@@ -170,6 +172,8 @@ public class VideoDownloadActivity extends BaseActivity {
                 }
             }
         });
+
+
 
         linearVideoWallapaper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,13 +198,14 @@ public class VideoDownloadActivity extends BaseActivity {
         linearVideoShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareAllVideo(activity, Videofileuri.toString());
+                shareAllVideo(activity, uri);
             }
         });
 
-        imgDownload.setOnClickListener(new View.OnClickListener() {
+
+        imgDownload.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 Intent intent = new Intent(activity, VideoPlayerActivity.class);
                 intent.putExtra("from", uri);
                 intent.putExtra("lin", links);

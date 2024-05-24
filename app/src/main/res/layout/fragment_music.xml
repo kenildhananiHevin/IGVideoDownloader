@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.MusicFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,7 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/audio_item"
-        />
+        tools:listitem="@layout/audio_item" />
+
+    <LinearLayout
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_75sdp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ig_no_music"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/no_music_found"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:textSize="@dimen/_13sdp"
+            android:gravity="center_horizontal"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

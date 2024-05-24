@@ -46,7 +46,7 @@
     <string name="press">종료하려면 뒤로를 다시 누르세요</string>
     <string name="shares">공유</string>
     <string name="delete_video">비디오 삭제?</string>
-    <string name="splash_desc">사진, 비디오, 스토리의 URL을 붙여넣고 즉시 다운로드</string>
+    <string name="splash_desc">사진, 동영상, 릴 URL을 붙여 넣으면 즉시 다운로드됩니다</string>
     <string name="apply_now">지금 적용</string>
     <string name="cancles">취소</string>
     <string name="ok">확인</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">홈 화면</string>
     <string name="both">둘 다</string>
     <string name="set_as_wallpaper">배경화면으로 설정</string>
+    <string name="audio_d">이 오디오를 삭제하시겠습니까?</string>
+    <string name="delete_audio">오디오 삭제</string>
+    <string name="invalid_url">유효하지 않은 URL</string>
+    <string name="extract_this_audio">이 오디오 추출 ..... </string>
+    <string name="no_music_found">음악을 찾을 수 없습니다</string>
+    <string name="photo_d">이 사진을 삭제하시겠습니까?</string>
+    <string name="delete_photo">사진 삭제</string>
+    <string name="no_images_found">이미지를 찾을 수 없습니다</string>
+    <string name="no_videos_found">동영상을 찾을 수 없습니다</string>
+
 
 
 </resources>

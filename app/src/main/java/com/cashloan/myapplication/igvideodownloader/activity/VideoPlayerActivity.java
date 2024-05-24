@@ -11,8 +11,6 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,11 +27,13 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cashloan.myapplication.igvideodownloader.R;
 import com.cashloan.myapplication.igvideodownloader.other.AudioExtractor;
+import com.cashloan.myapplication.igvideodownloader.other.DebouncedOnClickListener;
 import com.cashloan.myapplication.igvideodownloader.service.VideoLiveWallpaperIGService;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
@@ -44,17 +44,20 @@ import com.google.android.exoplayer2.ui.StyledPlayerView;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import smartdevelop.ir.eram.showcaseviewlib.GuideView;
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+
 public class VideoPlayerActivity extends BaseActivity {
 
     VideoPlayerActivity activity;
     public static StyledPlayerView player;
     private ExoPlayer players;
     float currentSpeed = 1.0f;
-    ImageView imgPic, imgShare, imgWallpaper, imgBack, imgMore,imgRepost,imgTopTrans,imgOpenInst;
+    ImageView imgPic, imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst;
     LinearLayout linearItem;
     String pathAudio = IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
     Uri fileuri;
-    TextView txtVideoPlayer,txtImage;
+    TextView txtVideoPlayer, txtImage;
     RelativeLayout relativeToolBar;
 
 
@@ -99,12 +102,13 @@ public class VideoPlayerActivity extends BaseActivity {
         player.setPlayer(players);
         players.play();
 
+
         if (url.endsWith(".jpg")) {
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
             imgTopTrans.setVisibility(View.VISIBLE);
-            imgPic.setImageURI(fileuri);
+            Glide.with(activity).load(fileuri).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPic);
 
             txtImage.setText(allName);
             txtImage.setSelected(true);
@@ -126,9 +130,13 @@ public class VideoPlayerActivity extends BaseActivity {
             imgRepost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    shareInstagramImage(activity,url);
+                    shareInstagramImage(activity, url);
                 }
             });
+
+            if (linkss.isEmpty()) {
+                imgOpenInst.setVisibility(View.GONE);
+            }
 
             imgOpenInst.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,11 +156,26 @@ public class VideoPlayerActivity extends BaseActivity {
                     startActivity(new Intent(activity, WallpaperActivity.class).putExtra("uriImg", fileuri.toString()));
                 }
             });
+        } else {
+            new GuideView.Builder(activity)
+                    .setTitle(getString(R.string.extract_audio))
+                    .setContentText(getString(R.string.extract_this_audio))
+                    .setDismissType(DismissType.anywhere)
+                    .setTargetView(findViewById(R.id.imgVideoAudio))
+                    .setContentTextSize(12)//optional
+                    .setTitleTextSize(14)//optional
+                    .build()
+                    .show();
         }
+
 
         txtVideoPlayer.setText(allName);
         txtVideoPlayer.setSelected(true);
 
+
+        if (linkss.isEmpty()) {
+            findViewById(R.id.imgVideoOpenInst).setVisibility(View.GONE);
+        }
 
         findViewById(R.id.imgVideoOpenInst).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,15 +212,15 @@ public class VideoPlayerActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.imgVideoAudio).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imgVideoAudio).setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 try {
                     new AudioExtractor().genVideoUsingMuxer(url, pathAudio, -1, -1, true, false);
                     startActivity(new Intent(activity, AudioActivity.class)
                             .putExtra("path", pathAudio)
                             .putExtra("name", allName)
-                            .putExtra("positionsss","do not list"));
+                            .putExtra("positionsss", "do not list"));
                 } catch (IOException e) {
                     Log.d("TAG", "errorss: " + e.getMessage());
                     throw new RuntimeException(e);

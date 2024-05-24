@@ -1,25 +1,25 @@
 package com.cashloan.myapplication.igvideodownloader.fragment;
 
 import static com.cashloan.myapplication.igvideodownloader.other.CommonClass.IgAudioPathDirectory;
-import static com.cashloan.myapplication.igvideodownloader.other.CommonClass.IgVideoPathDirectory;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cashloan.myapplication.igvideodownloader.R;
 import com.cashloan.myapplication.igvideodownloader.adapter.MusicAdapter;
-import com.cashloan.myapplication.igvideodownloader.adapter.PhotoAdapter;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
 
 import java.io.File;
@@ -35,6 +35,7 @@ public class MusicFragment extends Fragment {
     int pos = -1;
     public static File musicfiles;
     String languageCode;
+    LinearLayout empty_list;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +48,35 @@ public class MusicFragment extends Fragment {
         musicFile = new ArrayList<>();
 
         audioRecycle = view.findViewById(R.id.audioRecycle);
+        empty_list = view.findViewById(R.id.empty_list);
+
+
+        audioRecycle.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        musicAdapter = new MusicAdapter(requireActivity(), musicFile, new MusicAdapter.DeleteMusic() {
+            @Override
+            public void MusicDeleteClick(File str, int i) {
+                if (Build.VERSION.SDK_INT >= 30) {
+                    pos = i;
+                    Intent b = new Intent();
+                    b.putExtra("pos", i);
+                    b.putExtra("flag", true);
+                    List<File> list = new ArrayList<>();
+                    list.add(str);
+                    musicfiles = str;
+                    CommonClass.deleteFiles(list, CommonClass.REQUEST_PERM_DELETE_AUDIO, requireActivity(), b);
+                } else {
+                    pos = i;
+                    File musicfiles = str;
+                    musicfiles.delete();
+                    removeAt(pos);
+                    MediaScannerConnection.scanFile(requireActivity(), new String[]{musicfiles.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
+                        }
+                    });
+                }
+            }
+        });
+        audioRecycle.setAdapter(musicAdapter);
 
         return view;
     }
@@ -70,37 +100,29 @@ public class MusicFragment extends Fragment {
             }
         }
 
-        audioRecycle.setLayoutManager(new LinearLayoutManager(requireActivity()));
-        musicAdapter = new MusicAdapter(requireActivity(), musicFile, new MusicAdapter.DeleteMusic() {
-            @Override
-            public void MusicDeleteClick(File str, int i) {
-                if (Build.VERSION.SDK_INT >= 30) {
-                    pos = i;
-                    Intent b = new Intent();
-                    b.putExtra("pos", i);
-                    b.putExtra("flag", true);
-                    List<File> list = new ArrayList<>();
-                    list.add(str);
-                    musicfiles = str;
-                    CommonClass.deleteFiles(list, CommonClass.REQUEST_PERM_DELETE, requireActivity(), b);
-                } else {
-                    File musicfiles = str;
-                    musicfiles.delete();
-                    removeAt(pos);
-                }
-            }
-        });
-        audioRecycle.setAdapter(musicAdapter);
+        if (musicFile.isEmpty()) {
+            empty_list.setVisibility(View.VISIBLE);
+        } else {
+            empty_list.setVisibility(View.GONE);
+        }
+
+        musicAdapter.musicFile = musicFile;
+        musicAdapter.notifyDataSetChanged();
+
+
     }
 
     private void removeAt(int pos) {
-        musicAdapter.notifyDataSetChanged();
+        if (musicAdapter != null) {
+            musicAdapter.musicFile.remove(pos);
+            musicAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CommonClass.REQUEST_PERM_DELETE && resultCode == -1) {
+        if (requestCode == CommonClass.REQUEST_PERM_DELETE_AUDIO && resultCode == -1) {
             removeAt(pos);
         }
     }

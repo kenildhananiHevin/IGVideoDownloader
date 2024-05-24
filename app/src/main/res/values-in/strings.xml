@@ -46,7 +46,7 @@
     <string name="press">Tekan kembali lagi untuk keluar</string>
     <string name="shares">Bagikan</string>
     <string name="delete_video">Hapus Video?</string>
-    <string name="splash_desc">Tempel URL foto, video, cerita apa pun, dan unduh secara instan</string>
+    <string name="splash_desc">Tempelkan URL foto, video, reels apa saja, unduh seketika</string>
     <string name="apply_now">Terapkan sekarang</string>
     <string name="cancles">Batal</string>
     <string name="ok">OK</string>
@@ -54,5 +54,16 @@
     <string name="home_screen">Layar beranda</string>
     <string name="both">Keduanya</string>
     <string name="set_as_wallpaper">Setel sebagai wallpaper</string>
+    <string name="audio_d">Apakah Anda yakin ingin menghapus audio ini?</string>
+    <string name="delete_audio">Hapus Audio</string>
+    <string name="invalid_url">URL tidak valid</string>
+    <string name="extract_this_audio">Ekstrak audio ini ..... </string>
+    <string name="no_music_found">Tidak ada musik yang ditemukan</string>
+    <string name="photo_d">Apakah Anda yakin ingin menghapus foto ini?</string>
+    <string name="delete_photo">Hapus Foto</string>
+    <string name="no_images_found">Tidak Ada Gambar Ditemukan</string>
+    <string name="no_videos_found">Tidak Ada Video Ditemukan</string>
+
+
 
 </resources>

@@ -46,7 +46,7 @@
     <string name="press">再次按返回退出</string>
     <string name="shares">分享</string>
     <string name="delete_video">删除视频？</string>
-    <string name="splash_desc">粘贴任何照片、视频、故事的URL，立即下载</string>
+    <string name="splash_desc"> 粘贴任何照片、视频、捲軸的URL，立即下载</string>
     <string name="apply_now">立即申请</string>
     <string name="cancles">取消</string>
     <string name="ok">确定</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">主屏幕</string>
     <string name="both">两者</string>
     <string name="set_as_wallpaper">设为壁纸</string>
+    <string name="audio_d">您确定要删除此音频吗？</string>
+    <string name="delete_audio">删除音频</string>
+    <string name="invalid_url">无效的URL</string>
+    <string name="extract_this_audio">提取此音频 ..... </string>
+    <string name="no_music_found">未找到音乐</string>
+    <string name="photo_d">您确定要删除这张照片吗？</string>
+    <string name="delete_photo">删除照片</string>
+    <string name="no_images_found">未找到图片</string>
+    <string name="no_videos_found">未找到视频</string>
+
 
 
 </resources>

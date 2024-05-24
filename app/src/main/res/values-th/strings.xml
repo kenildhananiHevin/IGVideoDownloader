@@ -46,7 +46,7 @@
     <string name="press">กดกลับอีกครั้งเพื่อออก</string>
     <string name="shares">แชร์</string>
     <string name="delete_video">ลบวิดีโอ?</string>
-    <string name="splash_desc">วาง URL ของรูปภาพ วิดีโอ เรื่องราว แล้วดาวน์โหลดทันที</string>
+    <string name="splash_desc">วาง URL ของรูปภาพ วิดีโอ วงล้อใด ๆ เพื่อดาวน์โหลดทันที</string>
     <string name="apply_now">สมัครตอนนี้</string>
     <string name="cancles">ยกเลิก</string>
     <string name="ok">ตกลง</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">หน้าจอหลัก</string>
     <string name="both">ทั้งสอง</string>
     <string name="set_as_wallpaper">ตั้งเป็นวอลเปเปอร์</string>
+    <string name="audio_d">คุณแน่ใจหรือว่าต้องการลบเสียงนี้?</string>
+    <string name="delete_audio">ลบเสียง</string>
+    <string name="invalid_url">URL ไม่ถูกต้อง</string>
+    <string name="extract_this_audio">แยกเสียงนี้ ..... </string>
+    <string name="no_music_found">ไม่พบเพลง</string>
+    <string name="photo_d">คุณแน่ใจหรือว่าต้องการลบรูปภาพนี้?</string>
+    <string name="delete_photo">ลบรูปภาพ</string>
+    <string name="no_images_found">ไม่พบรูปภาพ</string>
+    <string name="no_videos_found">ไม่พบวิดีโอ</string>
+
 
 
 </resources>

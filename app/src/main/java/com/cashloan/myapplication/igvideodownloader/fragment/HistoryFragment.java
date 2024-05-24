@@ -54,7 +54,7 @@ public class HistoryFragment extends Fragment {
         HistoryTabLayout.addTab(HistoryTabLayout.newTab().setText(R.string.photo));
         HistoryTabLayout.addTab(HistoryTabLayout.newTab().setText(R.string.music));
 
-        historyAdapter = new HistoryAdapter(requireActivity(), requireActivity().getSupportFragmentManager(), HistoryTabLayout.getTabCount());
+        historyAdapter = new HistoryAdapter(requireActivity(), getChildFragmentManager(), HistoryTabLayout.getTabCount());
         historyAdapter.addFragment(videoFragment);
         historyAdapter.addFragment(photoFragment);
         historyAdapter.addFragment(musicFragment);
@@ -135,11 +135,16 @@ public class HistoryFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CommonClass.REQUEST_PERM_DELETE && resultCode == -1) {
-            videoFragment.onActivityResult(requestCode,resultCode,data);
-            photoFragment.onActivityResult(requestCode,resultCode,data);
-            musicFragment.onActivityResult(requestCode,resultCode,data);
+            videoFragment.onActivityResult(requestCode, resultCode, data);
+        }
+        if (requestCode == CommonClass.REQUEST_PERM_DELETE_PHOTO && resultCode == -1) {
+            photoFragment.onActivityResult(requestCode, resultCode, data);
+        }
+        if (requestCode == CommonClass.REQUEST_PERM_DELETE_AUDIO && resultCode == -1) {
+            musicFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();

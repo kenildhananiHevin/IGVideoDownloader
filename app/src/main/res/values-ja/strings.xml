@@ -46,7 +46,7 @@
     <string name="press">終了するにはもう一度戻るを押します</string>
     <string name="shares">共有</string>
     <string name="delete_video">ビデオを削除しますか？</string>
-    <string name="splash_desc">写真、ビデオ、ストーリーのURLを貼り付けてすぐにダウンロード</string>
+    <string name="splash_desc">写真、ビデオ、リールのURLを貼り付けて、すぐにダウンロード</string>
     <string name="apply_now">今すぐ適用</string>
     <string name="cancles">キャンセル</string>
     <string name="ok">わかりました</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">ホーム画面</string>
     <string name="both">両方</string>
     <string name="set_as_wallpaper">壁紙に設定</string>
+    <string name="audio_d">このオーディオを削除してもよろしいですか？</string>
+    <string name="delete_audio">オーディオを削除</string>
+    <string name="invalid_url">無効なURL</string>
+    <string name="extract_this_audio">このオーディオを抽出する ..... </string>
+    <string name="no_music_found">音楽が見つかりません</string>
+    <string name="photo_d">この写真を削除してもよろしいですか？</string>
+    <string name="delete_photo">写真を削除する</string>
+    <string name="no_images_found">画像が見つかりません</string>
+    <string name="no_videos_found">動画が見つかりません</string>
+
 
 
 </resources>

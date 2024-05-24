@@ -18,7 +18,7 @@ public class AudioExtractor {
     private static final int DEFAULT_BUFFER_SIZE = 1 * 1024 * 1024;
     private static final String TAG = "AudioExtractorDecoder";
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "WrongConstant"})
     public void genVideoUsingMuxer(String srcPath, String dstPath, int startMs, int endMs, boolean useAudio, boolean useVideo) throws IOException {
         MediaExtractor extractor = new MediaExtractor();
         extractor.setDataSource(srcPath);

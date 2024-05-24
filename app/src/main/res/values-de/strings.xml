@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Saver</string>
+    <string name="insaver">IG Sparer</string>
     <string name="home">Startseite</string>
     <string name="explore">Erkunden</string>
     <string name="browser">Browser</string>
@@ -46,7 +46,7 @@
     <string name="press">Drücken Sie erneut zurück zum Beenden</string>
     <string name="shares">Teilen</string>
     <string name="delete_video">Video löschen?</string>
-    <string name="splash_desc">Fügen Sie eine beliebige URL von Foto, Video, Story ein und laden Sie sofort herunter</string>
+    <string name="splash_desc">Fügen Sie eine beliebige URL von Foto, Video, Reels ein und laden Sie sofort herunter</string>
     <string name="apply_now">Jetzt bewerben</string>
     <string name="cancles">Abbrechen</string>
     <string name="ok">OK</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">Startbildschirm</string>
     <string name="both">Beide</string>
     <string name="set_as_wallpaper">Als Hintergrundbild festlegen</string>
+    <string name="audio_d">Sind Sie sicher, dass Sie dieses Audio löschen möchten?</string>
+    <string name="delete_audio">Audio löschen</string>
+    <string name="invalid_url">Ungültige URL</string>
+    <string name="extract_this_audio">Dieses Audio extrahieren ..... </string>
+    <string name="no_music_found">Keine Musik gefunden</string>
+    <string name="photo_d">Sind Sie sicher, dass Sie dieses Foto löschen möchten?</string>
+    <string name="delete_photo">Foto löschen</string>
+    <string name="no_images_found">Keine Bilder gefunden</string>
+    <string name="no_videos_found">Keine Videos gefunden</string>
+
 
 
 </resources>

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Saver</string>
+    <string name="insaver">IG Trình lưu</string>
     <string name="home">Trang chủ</string>
     <string name="explore">Khám phá</string>
     <string name="browser">Trình duyệt</string>
@@ -46,7 +46,7 @@
     <string name="press">Nhấn quay lại để thoát</string>
     <string name="shares">Chia sẻ</string>
     <string name="delete_video">Xóa video?</string>
-    <string name="splash_desc">Dán bất kỳ URL nào của ảnh, video, câu chuyện và tải xuống ngay lập tức</string>
+    <string name="splash_desc">Dán bất kỳ URL ảnh, video, reels nào để tải xuống ngay lập tức</string>
     <string name="apply_now">Áp dụng ngay</string>
     <string name="cancles">Hủy</string>
     <string name="ok">OK</string>
@@ -54,6 +54,15 @@
     <string name="home_screen">Màn hình chính</string>
     <string name="both">Cả hai</string>
     <string name="set_as_wallpaper">Đặt làm hình nền</string>
+    <string name="audio_d">Bạn có chắc chắn muốn xóa âm thanh này không?</string>
+    <string name="delete_audio">Xóa âm thanh</string>
+    <string name="invalid_url">URL không hợp lệ</string>
+    <string name="extract_this_audio">Trích xuất âm thanh này ..... </string>
+    <string name="no_music_found">Không tìm thấy nhạc</string>
+    <string name="photo_d">Bạn có chắc chắn muốn xóa ảnh này không?</string>
+    <string name="delete_photo">Xóa ảnh</string>
+    <string name="no_images_found">Không tìm thấy hình ảnh</string>
+    <string name="no_videos_found">Không tìm thấy video</string>
 
 
 

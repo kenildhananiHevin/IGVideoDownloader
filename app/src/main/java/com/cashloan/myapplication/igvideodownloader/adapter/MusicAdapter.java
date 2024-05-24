@@ -20,13 +20,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cashloan.myapplication.igvideodownloader.R;
 import com.cashloan.myapplication.igvideodownloader.activity.AudioActivity;
+import com.cashloan.myapplication.igvideodownloader.other.DebouncedOnClickListener;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> {
     FragmentActivity requireActivity;
-    ArrayList<File> musicFile;
+    public ArrayList<File> musicFile;
     DeleteMusic deleteMusic;
 
     public MusicAdapter(FragmentActivity requireActivity, ArrayList<File> musicFile, DeleteMusic deleteMusic) {
@@ -63,6 +64,11 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
                 MusicDeleteDailog.setCanceledOnTouchOutside(false);
                 TextView cancel = view1.findViewById(R.id.delete_cancel);
                 TextView delete_btn = view1.findViewById(R.id.delete_ok);
+                TextView delete = view1.findViewById(R.id.delete);
+                TextView delete_txt = view1.findViewById(R.id.delete_txt);
+
+                delete.setText(R.string.delete_audio);
+                delete_txt.setText(R.string.audio_d);
 
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -90,18 +96,20 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.ViewHolder> 
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 requireActivity.startActivity(new Intent(requireActivity, AudioActivity.class)
                         .putExtra("path", musicFile.get(position).getAbsolutePath())
                         .putExtra("positions", position)
-                        .putExtra("name",musicFile.get(position).getName()));
+                        .putExtra("name", musicFile.get(position).getName()));
             }
         });
 
         if (position >= musicFile.size() - 1) {
-            holder.viewAudioBorder.setVisibility(View.GONE);
+            holder.viewAudioBorder.setVisibility(View.INVISIBLE);
+        }else {
+            holder.viewAudioBorder.setVisibility(View.VISIBLE);
         }
 
     }

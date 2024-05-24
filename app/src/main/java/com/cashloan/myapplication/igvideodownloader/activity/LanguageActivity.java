@@ -88,6 +88,7 @@ public class LanguageActivity extends BaseActivity {
                 if (languageAdapter.selected != -1) {
                     Languages languages = LanguageActivity.this.languages.get(languageAdapter.selected);
                     LocaleHelper.setLocale(LanguageActivity.this, languages.getLanguageCode());
+                    /*LocaleHelper.setLocale(LanguageActivity.this, languages.getLanguageCode());*/
 
                     SharedPreferences prefsString = getSharedPreferences("Language", 0);
                     SharedPreferences.Editor editor = prefsString.edit();

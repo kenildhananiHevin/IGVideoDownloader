@@ -2,15 +2,15 @@ package com.cashloan.myapplication.igvideodownloader.fragment;
 
 import static com.cashloan.myapplication.igvideodownloader.other.CommonClass.IgVideoPathDirectory;
 
+import android.Manifest;
 import android.app.AlertDialog;
-import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,11 +24,12 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -40,7 +41,6 @@ import com.cashloan.myapplication.igvideodownloader.other.TouchableWebView;
 import com.cashloan.myapplication.igvideodownloader.other.Utils;
 import com.cashloan.myapplication.igvideodownloader.other.VideoContentSearch;
 
-
 import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -50,10 +50,11 @@ public class HomeFragment extends Fragment {
     EditText edtPasteLink;
     AlertDialog alertDialog;
     ProgressBar progressBar;
-    TextView txtDownload,txtPaste,txtOpenInstagram;
+    TextView txtDownload, txtPaste, txtOpenInstagram;
     TouchableWebView page;
     private SSLSocketFactory defaultSSLSF;
     String languageCode;
+    String[] permissions;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +62,6 @@ public class HomeFragment extends Fragment {
 
         SharedPreferences preferences = requireActivity().getSharedPreferences("Language", 0);
         languageCode = preferences.getString("language_code", "en");
-
 
         edtPasteLink = view.findViewById(R.id.edtPasteLink);
         page = view.findViewById(R.id.page);
@@ -87,6 +87,39 @@ public class HomeFragment extends Fragment {
         txtDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                    permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS,
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO
+
+                    };
+                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
+                            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED &&
+                            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                       return;
+                    }
+                } else {
+                    permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+
+                if (edtPasteLink.getText().toString().isEmpty()) {
+                    Toast.makeText(requireActivity(), getString(R.string.paste_link), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!edtPasteLink.getText().toString().contains("instagram.com")){
+                    Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (edtPasteLink.getText().toString().contains("stories")){
+                    Log.d("TAG", "edtPasteLinks1: "+edtPasteLink.getText().toString());
+                    Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (!IgVideoPathDirectory.exists()) {
                     IgVideoPathDirectory.mkdirs();
                 }
@@ -95,7 +128,7 @@ public class HomeFragment extends Fragment {
                 create_progress();
             }
         });
-
+        
         return view;
     }
 
@@ -111,7 +144,6 @@ public class HomeFragment extends Fragment {
 
     String foundLink = "";
 
-
     public void DownloadClick(String url) {
         VideoContentSearch.firstJpegFound = false;
         VideoContentSearch.isVideo = false;
@@ -123,13 +155,12 @@ public class HomeFragment extends Fragment {
                 Log.d("TAG", "onVideoFoundss2: " + name);
                 if (!foundLink.equals(link)) {
                     foundLink = link;
-                    startDownload(link, requireActivity(), System.currentTimeMillis() + "." + type, alertDialog, edtPasteLink.getText().toString(),name);
+                        startDownload(link, requireActivity(), System.currentTimeMillis() + "." + type, alertDialog, edtPasteLink.getText().toString(), name);
                 }
             }
-        });
+        },url);
         page.loadUrl(url);
     }
-
 
     private void create_progress() {
         alertDialog = new AlertDialog.Builder(requireActivity(), R.style.MyTransparentBottomSheetDialogTheme).create();
@@ -149,12 +180,11 @@ public class HomeFragment extends Fragment {
         window.setGravity(Gravity.CENTER);
     }
 
-
     interface VideoFoundCallback {
         void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio);
     }
 
-    private void setupDownloaderSettings(final VideoFoundCallback callback) {
+    private void setupDownloaderSettings(final VideoFoundCallback callback, String mainUrl) {
         defaultSSLSF = HttpsURLConnection.getDefaultSSLSocketFactory();
         page.getSettings().setJavaScriptEnabled(true);
         page.getSettings().setDomStorageEnabled(true);
@@ -164,41 +194,51 @@ public class HomeFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                Log.d("TAG", "onVideoFoundss11: "+view);
                 return super.shouldOverrideUrlLoading(view, request);
             }
 
             @Override
             public void onPageStarted(final WebView webview, final String url, Bitmap favicon) {
+                Log.d("TAG", "onVideoFoundss10: "+url);
                 super.onPageStarted(webview, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.d("TAG", "onVideoFoundss9: "+url);
                 super.onPageFinished(view, url);
             }
 
             @Override
             public void onLoadResource(final WebView view, final String url) {
+                Log.d("TAG", "onVideoFoundss8: "+url);
                 final String viewUrl = view.getUrl();
                 final String title = view.getTitle();
 
-                new VideoContentSearch(requireActivity(), url, viewUrl, title) {
-                    @Override
-                    public void onStartInspectingURL() {
-                        Utils.disableSSLCertificateChecking();
-                    }
+                try {
+                    new VideoContentSearch(requireActivity(), url, viewUrl, title,mainUrl) {
+                        @Override
+                        public void onStartInspectingURL() {
+                            Log.d("TAG", "onVideoFoundss6: "+viewUrl);
+                            Utils.disableSSLCertificateChecking();
+                        }
 
-                    @Override
-                    public void onFinishedInspectingURL(boolean finishedAll) {
-                        HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSF);
-                    }
+                        @Override
+                        public void onFinishedInspectingURL(boolean finishedAll) {
+                            Log.d("TAG", "onVideoFoundss5: "+viewUrl);
+                            HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSF);
+                        }
 
-                    @Override
-                    public void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio) {
-                        Log.e("TAG", "onVideoFound: " + link);
-                        callback.onVideoFound(size, type, link, name, page, chunked, website, audio);
-                    }
-                }.start();
+                        @Override
+                        public void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio) {
+                            Log.e("TAG", "onVideoFoundss7: " + link);
+                            callback.onVideoFound(size, type, link, name, page, chunked, website, audio);
+                        }
+                    }.start();
+                }catch (Exception e){
+                    Log.d("TAG", "onVideoFoundss4: "+e.getMessage());
+                }
             }
 
             @Override
@@ -218,7 +258,7 @@ public class HomeFragment extends Fragment {
         page.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-
+                Log.d("TAG", "onProgressChanged: "+newProgress);
             }
 
             @Override
@@ -239,7 +279,7 @@ public class HomeFragment extends Fragment {
     }
 
     public static void startDownload(String paths, FragmentActivity instagram, String name, AlertDialog alertDialog, String edtPaste, String nameIns) {
-        new InstagramDownload(instagram, name, alertDialog, edtPaste,nameIns).execute(paths);
+        new InstagramDownload(instagram, name, alertDialog, edtPaste, nameIns).execute(paths);
     }
 
 }

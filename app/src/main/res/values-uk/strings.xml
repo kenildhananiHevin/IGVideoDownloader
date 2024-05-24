@@ -46,7 +46,7 @@
     <string name="press">Натисніть ще раз для виходу</string>
     <string name="shares">Поділитися</string>
     <string name="delete_video">Видалити відео?</string>
-    <string name="splash_desc">Вставте будь-яку URL-адресу фото, відео, історії та завантажуйте негайно</string>
+    <string name="splash_desc">Вставте будь-яку URL-адресу фото, відео, роликів та завантажте миттєво</string>
     <string name="apply_now">Застосувати зараз</string>
     <string name="cancles">Скасувати</string>
     <string name="ok">OK</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">Головний екран</string>
     <string name="both">Обидва</string>
     <string name="set_as_wallpaper">Встановити як шпалери</string>
+    <string name="audio_d">Ви впевнені, що хочете видалити цей аудіофайл?</string>
+    <string name="delete_audio">Видалити аудіо</string>
+    <string name="invalid_url">Недійсна URL-адреса</string>
+    <string name="extract_this_audio">Витягти це аудіо ..... </string>
+    <string name="no_music_found">Музику не знайдено</string>
+    <string name="photo_d">Ви впевнені, що хочете видалити це фото?</string>
+    <string name="delete_photo">Видалити фото</string>
+    <string name="no_images_found">Зображення не знайдено</string>
+    <string name="no_videos_found">Відео не знайдено</string>
+
 
 
 </resources>

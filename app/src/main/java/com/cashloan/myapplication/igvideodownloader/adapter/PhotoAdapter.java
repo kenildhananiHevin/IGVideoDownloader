@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,11 +26,15 @@ import com.cashloan.myapplication.igvideodownloader.activity.WallpaperActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     FragmentActivity requireActivity;
-    ArrayList<File> imageFile;
-    TextView txtImageWallpaper,txtImageSpeedShare,txtImageDelete;
+    public ArrayList<File> imageFile;
+    LinearLayout linearWallpaper,linearAudio,linearShare,linearDelete;
+    TextView txtVideoName;
+    ImageView close;
+
     DeleteData ImageDeleteData;
 
     public PhotoAdapter(FragmentActivity requireActivity, ArrayList<File> imageFile,DeleteData ImageDeleteData) {
@@ -62,19 +67,36 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
             }
         });
 
-       /* holder.imgDownloadMore.setOnClickListener(new View.OnClickListener() {
+        holder.imgMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog alertDialog = new AlertDialog.Builder(requireActivity, R.style.MyTransparentBottomSheetDialogTheme).create();
                 LayoutInflater layoutInflater = requireActivity.getLayoutInflater();
-                View view = layoutInflater.inflate(R.layout.photo_dailog, null);
+                View view = layoutInflater.inflate(R.layout.video_dailog, null);
                 alertDialog.setView(view);
 
-                txtImageWallpaper = view.findViewById(R.id.txtImageWallpaper);
-                txtImageSpeedShare = view.findViewById(R.id.txtImageSpeedShare);
-                txtImageDelete = view.findViewById(R.id.txtImageDelete);
 
-                txtImageWallpaper.setOnClickListener(new View.OnClickListener() {
+
+                linearWallpaper = view.findViewById(R.id.linearWallpaper);
+                linearAudio = view.findViewById(R.id.linearAudio);
+                linearShare = view.findViewById(R.id.linearShare);
+                linearDelete = view.findViewById(R.id.linearDelete);
+                txtVideoName = view.findViewById(R.id.txtVideoName);
+                close = view.findViewById(R.id.close);
+
+                linearAudio.setVisibility(View.GONE);
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                txtVideoName.setText(imageFile.get(position).getName());
+                txtVideoName.setSelected(true);
+
+                linearWallpaper.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         requireActivity.startActivity(new Intent(requireActivity, WallpaperActivity.class)
@@ -83,14 +105,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                     }
                 });
 
-                txtImageSpeedShare.setOnClickListener(new View.OnClickListener() {
+                linearShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         shareAllImage(requireActivity, imageFile.get(position).getAbsolutePath());
                     }
                 });
 
-                txtImageDelete.setOnClickListener(new View.OnClickListener() {
+                linearDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         AlertDialog delete_dialog = new AlertDialog.Builder(requireActivity, R.style.MyTransparentBottomSheetDialogTheme).create();
@@ -100,6 +122,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                         delete_dialog.setCanceledOnTouchOutside(false);
                         TextView cancel = view1.findViewById(R.id.delete_cancel);
                         TextView delete_btn = view1.findViewById(R.id.delete_ok);
+                        TextView delete = view1.findViewById(R.id.delete);
+                        TextView delete_txt = view1.findViewById(R.id.delete_txt);
+
+                        delete.setText(R.string.delete_photo);
+                        delete_txt.setText(R.string.photo_d);
 
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -137,7 +164,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
                 window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
                 window.setGravity(Gravity.CENTER);
             }
-        });*/
+        });
     }
 
     public interface DeleteData {
@@ -152,12 +179,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imgPhotoShow;
+        ImageView imgPhotoShow,imgMore;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgPhotoShow = itemView.findViewById(R.id.imgPhotoShow);
+            imgMore = itemView.findViewById(R.id.imgMore);
         }
     }
 }

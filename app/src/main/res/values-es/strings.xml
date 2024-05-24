@@ -46,7 +46,7 @@
     <string name="press">Presiona atrás de nuevo para salir</string>
     <string name="shares">Compartir</string>
     <string name="delete_video">Eliminar video?</string>
-    <string name="splash_desc">Pega cualquier URL de foto, video, historia y descarga al instante</string>
+    <string name="splash_desc">Pega cualquier URL de foto, video,carretes descárgalo instante</string>
     <string name="apply_now">Aplicar ahora</string>
     <string name="cancles">Cancelar</string>
     <string name="ok">OK</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">Pantalla de inicio</string>
     <string name="both">Ambos</string>
     <string name="set_as_wallpaper">Establecer como fondo de pantalla</string>
+    <string name="audio_d">Estás seguro de que quieres eliminar este audio?</string>
+    <string name="delete_audio">Eliminar audio</string>
+    <string name="invalid_url">URL no válida</string>
+    <string name="extract_this_audio">Extraer este audio ..... </string>
+    <string name="no_music_found">No se encontró música</string>
+    <string name="photo_d">Estás seguro de que deseas eliminar esta foto?</string>
+    <string name="delete_photo">Eliminar foto</string>
+    <string name="no_images_found">No se encontraron imágenes</string>
+    <string name="no_videos_found">No se encontraron videos</string>
+
 
 
 </resources>

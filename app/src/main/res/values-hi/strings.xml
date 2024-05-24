@@ -46,7 +46,7 @@
     <string name="press">बाहर निकलने के लिए फिर से बैक दबाएं</string>
     <string name="shares">साझा करें</string>
     <string name="delete_video">वीडियो हटाएं?</string>
-    <string name="splash_desc">फोटो, वीडियो, कहानी का कोई भी URL पेस्ट करें और तुरंत डाउनलोड करें</string>
+    <string name="splash_desc">किसी भी फ़ोटो, वीडियो, रील का URL पेस्ट करें, तुरंत डाउनलोड करें</string>
     <string name="apply_now">अभी लागू करें</string>
     <string name="cancles">रद्द करें</string>
     <string name="ok">ठीक है</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">होम स्क्रीन</string>
     <string name="both">दोनों</string>
     <string name="set_as_wallpaper">वॉलपेपर के रूप में सेट करें</string>
+    <string name="audio_d">क्या आप वाकई इस ऑडियो को हटाना चाहते हैं?</string>
+    <string name="delete_audio">ऑडियो हटाएं</string>
+    <string name="invalid_url">अमान्य यूआरएल</string>
+    <string name="extract_this_audio">इस ऑडियो को निकालें ..... </string>
+    <string name="no_music_found">कोई संगीत नहीं मिला</string>
+    <string name="photo_d">क्या आप वाकई इस फोटो को हटाना चाहते हैं?</string>
+    <string name="delete_photo">फोटो हटाएं</string>
+    <string name="no_images_found">कोई छवियां नहीं मिलीं</string>
+    <string name="no_videos_found">कोई वीडियो नहीं मिले</string>
+
 
 
 </resources>

@@ -24,6 +24,10 @@ public class LocaleHelper {
         setLocale(context, lang);
     }
 
+    public static Context setNewLocale(Context context) {
+        return setLocale(context, getLanguage(context));
+    }
+
     public static void onCreate(Context context, String defaultLanguage) {
         String lang = getPersistedData(context, defaultLanguage);
         setLocale(context, lang);
@@ -33,9 +37,9 @@ public class LocaleHelper {
         return getPersistedData(context, Locale.getDefault().getLanguage());
     }
 
-    public static void setLocale(Context context, String language) {
+    public static Context setLocale(Context context, String language) {
         persist(context, language);
-        updateResources(context, language);
+        return updateResources(context, language);
     }
 
     private static String getPersistedData(Context context, String defaultLanguage) {
@@ -43,25 +47,18 @@ public class LocaleHelper {
         return preferences.getString(SELECTED_LANGUAGE, defaultLanguage);
     }
 
-    private static void persist(Context context, String language) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-
-        editor.putString(SELECTED_LANGUAGE, language);
-        editor.apply();
+    private static void persist(Context context, String str) {
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        edit.putString(SELECTED_LANGUAGE, str);
+        edit.apply();
     }
 
-    private static void updateResources(Context context, String language) {
-        Locale locale = new Locale(language);
+    private static Context updateResources(Context context, String str) {
+        Locale locale = new Locale(str);
         Locale.setDefault(locale);
-
-        Resources resources = context.getResources();
-
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-
-
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        configuration.setLayoutDirection(locale);
+        return context.createConfigurationContext(configuration);
     }
 }

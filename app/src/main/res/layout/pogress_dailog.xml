@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:indeterminateTint="@color/app_color"/>
 
     <TextView
@@ -17,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/link_parsing_successful_type_is_reels"
         android:textColor="@color/black"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/progressBar"
         android:textSize="@dimen/_13sdp"
         android:layout_marginVertical="@dimen/_8sdp"

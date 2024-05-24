@@ -31,6 +31,7 @@ import com.cashloan.myapplication.igvideodownloader.activity.AudioActivity;
 import com.cashloan.myapplication.igvideodownloader.activity.VideoPlayerActivity;
 import com.cashloan.myapplication.igvideodownloader.other.AudioExtractor;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
+import com.cashloan.myapplication.igvideodownloader.other.DebouncedOnClickListener;
 import com.cashloan.myapplication.igvideodownloader.service.VideoLiveWallpaperIGService;
 
 import java.io.File;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
 
     FragmentActivity requireActivity;
-    ArrayList<File> videoFile;
+    public ArrayList<File> videoFile;
     LinearLayout linearAudio, linearWallpaper, linearShare, linearDelete;
     TextView txtVideoName, txtAudio, txtWallpaper, txtShare, txtDelete;
     ImageView close;
@@ -90,9 +91,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         holder.txtVideoSize.setText(videoSize);
         holder.txtDuration.setText(durationString);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
-            public void onClick(View v) {
+            public void onDebouncedClick(View v) {
                 Intent intent = new Intent(requireActivity, VideoPlayerActivity.class);
                 intent.putExtra("from", videoFile.get(position).getAbsolutePath());
                 intent.putExtra("lin", "");
@@ -169,6 +170,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                     @Override
                     public void onClick(View v) {
                         try {
+                            pathAudio = IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
                             new AudioExtractor().genVideoUsingMuxer(videoFile.get(position).getAbsolutePath(), pathAudio, -1, -1, true, false);
                             requireActivity.startActivity(new Intent(requireActivity, AudioActivity.class)
                                     .putExtra("path", pathAudio)

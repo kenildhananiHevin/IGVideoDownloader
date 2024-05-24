@@ -3,6 +3,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        relase {
+            storeFile file('D:\\kenil\\IGVideoDownloader\\app\\com.cashloan.myapplication.igvideodownloader.jks')
+            storePassword 'com.cashloan.myapplication.igvideodownloader'
+            keyAlias 'com.cashloan.myapplication.igvideodownloader'
+            keyPassword 'com.cashloan.myapplication.igvideodownloader'
+        }
+    }
     namespace 'com.cashloan.myapplication.igvideodownloader'
     compileSdk 33
 
@@ -14,13 +22,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.relase
     }
 
     buildTypes {
         release {
             minifyEnabled true
+            debuggable true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.relase
         }
     }
     compileOptions {
@@ -75,5 +86,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
 
     implementation 'com.airbnb.android:lottie:4.0.0'
+
+    implementation 'com.github.mreram:showcaseview:1.4.1'
 
 }

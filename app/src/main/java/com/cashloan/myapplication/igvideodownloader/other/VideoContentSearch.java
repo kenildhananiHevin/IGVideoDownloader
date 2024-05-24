@@ -29,6 +29,7 @@ public abstract class VideoContentSearch extends Thread {
     private static final String MYSPACE = "myspace.com";
     private Context context;
     private String url;
+    private String mainUrl;
     private String page;
     private String title;
     private int numLinksInspected;
@@ -40,9 +41,10 @@ public abstract class VideoContentSearch extends Thread {
 
     public abstract void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio);
 
-    public VideoContentSearch(Context context, String url, String page, String title) {
+    public VideoContentSearch(Context context, String url, String page, String title, String mainUrl) {
         this.context = context;
         this.url = url;
+        this.mainUrl = mainUrl;
         this.page = page;
         this.title = title;
         numLinksInspected = 0;
@@ -160,18 +162,26 @@ public abstract class VideoContentSearch extends Thread {
                     break;
             }
             Log.d("TAG", "addVideoToList: " + type);
-            if (type.equals("jpg")) {
-                if (link.contains("1080") && !firstJpegFound) {
+
+           /* if (type.equals("jpg") && (link.contains("p1080") || link.contains("p750") || link.contains("p512"))) {
+                if ((link.contains("p1080") || link.contains("p750") || link.contains("p512")) && !firstJpegFound) {
+                    Log.d("TAGjkl", "addVideoToList: first found");
+                    firstJpegFound = true;
+                    onVideoFound(size, type, link, name, page, chunked, website, audio);
+                }
+            }*/
+            if (type.equals("jpg") && (!link.contains("s150"))) {
+                if ( (!link.contains("s150")) && !firstJpegFound) {
                     Log.d("TAGjkl", "addVideoToList: first found");
                     firstJpegFound = true;
                     onVideoFound(size, type, link, name, page, chunked, website, audio);
                 }
             } else {
-                /*if (!firstJpegFound) {
-                    firstJpegFound = true;
-                    onVideoFound(size, type, link, name, page, chunked, website, audio);
-                }*/
-                onVideoFound(size, type, link, name, page, chunked, website, audio);
+                if (!firstJpegFound) {
+                    if (mainUrl.contains("reel")) {
+                        onVideoFound(size, type, link, name, page, chunked, website, audio);
+                    }
+                }
             }
         } catch (IOException e) {
             e.getMessage();

@@ -71,13 +71,22 @@ public class AudioActivity extends BaseActivity {
             MediaItem mediaItems = MediaItem.fromUri(audio);
             mediaItem.add(mediaItems);
             exoPlayer.setMediaItem(mediaItems);
+            exoPlayer.prepare();
+            playerView.setPlayer(exoPlayer);
         } else {
+            int i = 0;
             if (IgAudioPathDirectory.listFiles() != null) {
                 for (File file : IgAudioPathDirectory.listFiles()) {
                     if (!file.getName().startsWith(".")) {
-                        musicFile.add(file);
+                        if (audio.equals(file.getAbsolutePath())){
+                            allAudioPosition = i;
+                        }
+                       musicFile.add(file);
+                        i++;
                     }
+
                 }
+
             }
 
             exoPlayer = new ExoPlayer.Builder(activity).build();
@@ -88,9 +97,10 @@ public class AudioActivity extends BaseActivity {
             }
             exoPlayer.setMediaItems(mediaItem);
             exoPlayer.seekTo(allAudioPosition, 0);
+            exoPlayer.prepare();
+            playerView.setPlayer(exoPlayer);
         }
-        exoPlayer.prepare();
-        playerView.setPlayer(exoPlayer);
+
 
 //        musicFile.clear();
 

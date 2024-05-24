@@ -26,8 +26,8 @@
     <string name="share">Uygulamayı Paylaş</string>
     <string name="share_image_via">Dosyayı Paylaş...</string>
     <string name="video">VİDEOLAR</string>
-    <string name="photo">FOTOĞRAFLAR</string>
-    <string name="music">SES DOSYALARI</string>
+    <string name="photo">FOTOĞRAF</string>
+    <string name="music">SESLER</string>
     <string name="delete">Sil</string>
     <string name="delete_d">Bu videoyu silmek istediğinizden emin misiniz?</string>
     <string name="cancle">İptal</string>
@@ -46,7 +46,7 @@
     <string name="press">Çıkmak için tekrar basın</string>
     <string name="shares">Paylaş</string>
     <string name="delete_video">Videoyu Sil?</string>
-    <string name="splash_desc">Herhangi bir fotoğraf, video, hikaye URL\'sini yapıştırın ve hemen indirin</string>
+    <string name="splash_desc">Herhangi bir fotoğraf, video, reels URL\'sini yapıştırın ve anında indirin</string>
     <string name="apply_now">Şimdi Başvur</string>
     <string name="cancles">İptal</string>
     <string name="ok">Tamam</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">Ana ekran</string>
     <string name="both">Her ikisi de</string>
     <string name="set_as_wallpaper">Duvar kağıdı olarak ayarla</string>
+    <string name="audio_d">Bu sesi silmek istediğinizden emin misiniz?</string>
+    <string name="delete_audio">Sesi Sil</string>
+    <string name="invalid_url">Geçersiz URL</string>
+    <string name="extract_this_audio">Bu sesi çıkar ..... </string>
+    <string name="no_music_found">Müzik bulunamadı</string>
+    <string name="photo_d">Bu fotoğrafı silmek istediğinizden emin misiniz?</string>
+    <string name="delete_photo">Fotoğrafı Sil</string>
+    <string name="no_images_found">Görüntü Bulunamadı</string>
+    <string name="no_videos_found">Video Bulunamadı</string>
+
 
 
 </resources>

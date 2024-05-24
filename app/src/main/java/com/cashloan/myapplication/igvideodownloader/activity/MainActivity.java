@@ -1,21 +1,25 @@
 package com.cashloan.myapplication.igvideodownloader.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -28,6 +32,7 @@ import com.cashloan.myapplication.igvideodownloader.fragment.HomeFragment;
 import com.cashloan.myapplication.igvideodownloader.fragment.SettingFragment;
 import com.cashloan.myapplication.igvideodownloader.model.CustomViewPager;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
+import com.cashloan.myapplication.igvideodownloader.other.LocaleHelper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -48,7 +53,7 @@ public class MainActivity extends BaseActivity {
     HistoryFragment historyFragment = new HistoryFragment();
     SettingFragment settingFragment = new SettingFragment();
     String[] permissions;
-    ImageView imgInstagramLogin;
+    ImageView imgInstagramLogin, imgHomeS;
     String languageCode;
 
 
@@ -68,22 +73,32 @@ public class MainActivity extends BaseActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.view_pager);
         imgInstagramLogin = findViewById(R.id.imgInstagramLogin);
+        imgHomeS = findViewById(R.id.imgHomeS);
 
         txtInSaver.setSelected(true);
 
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_history).setText(R.string.history));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_home).setText(R.string.home));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_setting).setText(R.string.setting));
-
-
+         homeFragment = new HomeFragment();
+         historyFragment = new HistoryFragment();
+         settingFragment = new SettingFragment();
         adapter = new MyAdapter(activity, getSupportFragmentManager(), tabLayout.getTabCount());
         adapter.addFragment(historyFragment);
         adapter.addFragment(homeFragment);
         adapter.addFragment(settingFragment);
         viewPager.setAdapter(adapter);
         viewPager.setPagingEnabled(false);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        },1500);
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -92,12 +107,14 @@ public class MainActivity extends BaseActivity {
                 saveTabPosition(tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == 0) {
+                    hideKeyboard(activity);
                     tab.setIcon(R.drawable.ig_select_history);
                     imgInstagramLogin.setVisibility(View.VISIBLE);
                 } else if (tab.getPosition() == 1) {
                     tab.setIcon(R.drawable.ig_home);
                     imgInstagramLogin.setVisibility(View.GONE);
                 } else if (tab.getPosition() == 2) {
+                    hideKeyboard(activity);
                     tab.setIcon(R.drawable.ig_select_setting);
                     imgInstagramLogin.setVisibility(View.GONE);
                 }
@@ -122,6 +139,12 @@ public class MainActivity extends BaseActivity {
 
         tabLayout.selectTab(tabLayout.getTabAt(1));
         tabLayout.getTabAt(1).setIcon(R.drawable.ig_home);
+        imgHomeS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tabLayout.selectTab(tabLayout.getTabAt(1));
+            }
+        });
 
 
         imgInstagramLogin.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +167,7 @@ public class MainActivity extends BaseActivity {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) &&
                         ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) &&
                         ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
-                    showSnackbar(activity, findViewById(R.id.settingA), R.string.please_allow, R.string.allow, new Runnable() {
+                    showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
                         @Override
                         public void run() {
                             openSettingsDialog();
@@ -158,7 +181,7 @@ public class MainActivity extends BaseActivity {
             permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    showSnackbar(activity, findViewById(R.id.settingA), R.string.please_allow, R.string.allow, new Runnable() {
+                    showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
                         @Override
                         public void run() {
                             openSettingsDialog();
@@ -168,6 +191,20 @@ public class MainActivity extends BaseActivity {
                     ActivityCompat.requestPermissions(activity, permissions, 101);
                 }
             }
+        }
+    }
+
+    private void hideKeyboard(MainActivity activity) {
+        try {
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) activity.getSystemService(
+                            Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        } catch (Exception e) {
+            Log.d("TAG", "hideKeyboard: " + e.getMessage());
         }
     }
 
@@ -232,6 +269,48 @@ public class MainActivity extends BaseActivity {
         snackbar.show();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO
+
+            };
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) &&
+                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) &&
+                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
+                    showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettingsDialog();
+                        }
+                    });
+                } else {
+//                    ActivityCompat.requestPermissions(activity, permissions, 101);
+                }
+            }
+        } else {
+            permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
+                        @Override
+                        public void run() {
+                            openSettingsDialog();
+                        }
+                    });
+                } else {
+//                    ActivityCompat.requestPermissions(activity, permissions, 101);
+                }
+            }
+        }
+    }
+
     private void openSettingsDialog() {
         final String EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key";
         final String EXTRA_SHOW_FRAGMENT_ARGUMENTS = ":settings:show_fragment_args";
@@ -263,6 +342,24 @@ public class MainActivity extends BaseActivity {
         String languageCode = preferences.getString("language_code", "en");
         if (!Objects.equals(this.languageCode, languageCode)) {
             recreate();
+        }
+    }
+
+    boolean backClick = false;
+
+    @Override
+    public void onBackPressed() {
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                backClick = false;
+            }
+        }, 2000);
+        if (backClick) {
+            finishAffinity();
+        } else {
+            backClick = true;
+            Toast.makeText(this, R.string.press, Toast.LENGTH_SHORT).show();
         }
     }
 }

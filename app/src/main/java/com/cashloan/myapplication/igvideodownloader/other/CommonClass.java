@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 public class CommonClass {
 
     public static final int REQUEST_PERM_DELETE = 1222;
+    public static final int REQUEST_PERM_DELETE_PHOTO = 1223;
+    public static final int REQUEST_PERM_DELETE_AUDIO = 1224;
 
     public static File IgVideoPathDirectory = new File(Environment.getExternalStorageDirectory()
             + "/Download/Ig_Downloader/IgVideo");

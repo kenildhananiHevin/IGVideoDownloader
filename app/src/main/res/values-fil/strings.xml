@@ -46,7 +46,7 @@
     <string name="press">Pindutin muli ang back upang lumabas</string>
     <string name="shares">Ibahagi</string>
     <string name="delete_video">Tanggalin ang Video?</string>
-    <string name="splash_desc">I-paste ang anumang URL ng larawan, video, kwento at agad na mag-download</string>
+    <string name="splash_desc">I-paste ang anumang URL ng larawan, video, reels, agad na i-download</string>
     <string name="apply_now">Mag-apply Ngayon</string>
     <string name="cancles">Kanselahin</string>
     <string name="ok">OK</string>
@@ -54,6 +54,16 @@
     <string name="home_screen">Home screen</string>
     <string name="both">Pareho</string>
     <string name="set_as_wallpaper">Itakda bilang wallpaper</string>
+    <string name="audio_d">Sigurado ka bang gusto mong tanggalin ang audio na ito?</string>
+    <string name="delete_audio">Tanggalin ang Audio</string>
+    <string name="invalid_url">Di-wastong URL</string>
+    <string name="extract_this_audio">I-extract ang audio na ito ..... </string>
+    <string name="no_music_found">Walang Natagpuang Musika</string>
+    <string name="photo_d">Sigurado ka bang gusto mong tanggalin ang larawang ito?</string>
+    <string name="delete_photo">Tanggalin ang Larawan</string>
+    <string name="no_images_found">Walang Natagpuang Mga Larawan</string>
+    <string name="no_videos_found">Walang Natagpuang Mga Video</string>
+
 
 
 </resources>

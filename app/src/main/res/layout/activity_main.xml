@@ -51,6 +51,9 @@
 
     </LinearLayout>
 
+
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,8 +74,18 @@
         app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
         app:tabTextColor="@color/black" />
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorP"
+        android:layout_width="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_height="@dimen/_100sdp">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <ImageView
+        android:id="@+id/imgHomeS"
         android:layout_width="@dimen/_55sdp"
         android:layout_height="@dimen/_55sdp"
         android:padding="@dimen/_3sdp"
