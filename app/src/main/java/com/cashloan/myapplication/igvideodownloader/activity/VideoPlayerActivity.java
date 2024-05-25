@@ -74,6 +74,7 @@ public class VideoPlayerActivity extends BaseActivity {
         Log.d("TAG", "pathss: " + url);
         Log.d("TAG", "linkss: " + linkss);
 
+
         MediaScannerConnection.scanFile(this, new String[]{url}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
                 fileuri = uri;

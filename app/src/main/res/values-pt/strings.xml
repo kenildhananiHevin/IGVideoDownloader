@@ -63,7 +63,26 @@
     <string name="delete_photo">Excluir foto</string>
     <string name="no_images_found">Nenhuma imagem encontrada</string>
     <string name="no_videos_found">Nenhum vídeo encontrado</string>
-
+    <string name="login_with_instagram">Entrar com Instagram</string>
+    <string name="english">Inglês</string>
+    <string name="hindi">hindi</string>
+    <string name="spanish">Espanhol</string>
+    <string name="french">Francês</string>
+    <string name="russian">russo</string>
+    <string name="portuguese">Português</string>
+    <string name="german">Alemão</string>
+    <string name="indonesian">indonésio</string>
+    <string name="chinese">chinês</string>
+    <string name="filipino">filipino</string>
+    <string name="italian">italiano</string>
+    <string name="afrikaans">afrikaans</string>
+    <string name="japanese">japonês</string>
+    <string name="korean">coreano</string>
+    <string name="polish">polonês</string>
+    <string name="thai">tailandês</string>
+    <string name="turkish">turco</string>
+    <string name="ukrainian">ucraniano</string>
+    <string name="vietnamese">vietnamita</string>
 
 
 </resources>

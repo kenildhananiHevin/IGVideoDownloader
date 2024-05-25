@@ -3,14 +3,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        relase {
-            storeFile file('D:\\kenil\\IGVideoDownloader\\app\\com.cashloan.myapplication.igvideodownloader.jks')
-            storePassword 'com.cashloan.myapplication.igvideodownloader'
-            keyAlias 'com.cashloan.myapplication.igvideodownloader'
-            keyPassword 'com.cashloan.myapplication.igvideodownloader'
-        }
-    }
     namespace 'com.cashloan.myapplication.igvideodownloader'
     compileSdk 33
 
@@ -20,23 +12,19 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.relase
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            debuggable true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.relase
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     bundle{
@@ -88,5 +76,9 @@ dependencies {
     implementation 'com.airbnb.android:lottie:4.0.0'
 
     implementation 'com.github.mreram:showcaseview:1.4.1'
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }

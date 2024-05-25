@@ -63,7 +63,26 @@
     <string name="delete_photo">ลบรูปภาพ</string>
     <string name="no_images_found">ไม่พบรูปภาพ</string>
     <string name="no_videos_found">ไม่พบวิดีโอ</string>
-
+    <string name="login_with_instagram">ล็อกอินด้วยอินสตาแกรม</string>
+    <string name="english">ภาษาอังกฤษ</string>
+    <string name="hindi">ฮินดี</string>
+    <string name="spanish">สเปน</string>
+    <string name="french">ภาษาฝรั่งเศส</string>
+    <string name="russian">ภาษารัสเซีย</string>
+    <string name="portuguese">โปรตุเกส</string>
+    <string name="german">เยอรมัน</string>
+    <string name="indonesian">ชาวอินโดนีเซีย</string>
+    <string name="chinese">ชาวจีน</string>
+    <string name="filipino">ฟิลิปปินส์</string>
+    <string name="italian">ภาษาอิตาลี</string>
+    <string name="afrikaans">ชาวแอฟริกัน</string>
+    <string name="japanese">ญี่ปุ่น</string>
+    <string name="korean">เกาหลี</string>
+    <string name="polish">ขัด</string>
+    <string name="thai">แบบไทย</string>
+    <string name="turkish">ภาษาตุรกี</string>
+    <string name="ukrainian">ภาษายูเครน</string>
+    <string name="vietnamese">ภาษาเวียดนาม</string>
 
 
 </resources>

@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.media.MediaMetadataRetriever;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
 
 import com.cashloan.myapplication.igvideodownloader.R;
 
@@ -34,11 +37,26 @@ public class CommonClass {
     public static final int REQUEST_PERM_DELETE_PHOTO = 1223;
     public static final int REQUEST_PERM_DELETE_AUDIO = 1224;
 
+    private static Context context;
+
     public static File IgVideoPathDirectory = new File(Environment.getExternalStorageDirectory()
             + "/Download/Ig_Downloader/IgVideo");
 
     public static File IgAudioPathDirectory = new File(Environment.getExternalStorageDirectory()
             + "/Download/Ig_Downloader/IgAudio");
+
+    public CommonClass(Context context2) {
+        context = context2;
+    }
+
+    public static boolean isNullOrEmpty(String str) {
+        return false;
+    }
+
+    public boolean isNetworkAvailable() {
+        NetworkInfo activeNetworkInfo = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
     public static void OpenApp(Context context2, String str) {
         Intent launchIntentForPackage = context2.getPackageManager().getLaunchIntentForPackage(str);

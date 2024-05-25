@@ -63,7 +63,26 @@
     <string name="delete_photo">फोटो हटाएं</string>
     <string name="no_images_found">कोई छवियां नहीं मिलीं</string>
     <string name="no_videos_found">कोई वीडियो नहीं मिले</string>
-
+    <string name="login_with_instagram">इंस्टाग्राम से लॉगिन करें</string>
+    <string name="english">अंग्रेज़ी</string>
+    <string name="hindi">हिंदी</string>
+    <string name="spanish">स्पैनिश</string>
+    <string name="french">फ़्रेंच</string>
+    <string name="russian">रूसी</string>
+    <string name="portuguese">पुर्तगाली</string>
+    <string name="german">जर्मन</string>
+    <string name="indonesian">इन्डोनेशियाई</string>
+    <string name="chinese">चीनी</string>
+    <string name="filipino">filipino</string>
+    <string name="italian">इतालवी</string>
+    <string name="afrikaans">अफ्रीकी</string>
+    <string name="japanese">जापानी</string>
+    <string name="korean">कोरियाई</string>
+    <string name="polish">पोलिश</string>
+    <string name="thai">थाई</string>
+    <string name="turkish">तुर्की</string>
+    <string name="ukrainian">यूक्रेनी</string>
+    <string name="vietnamese">वियतनामी</string>
 
 
 </resources>

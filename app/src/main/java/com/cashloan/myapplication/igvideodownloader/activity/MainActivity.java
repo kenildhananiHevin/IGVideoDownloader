@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -32,7 +34,8 @@ import com.cashloan.myapplication.igvideodownloader.fragment.HomeFragment;
 import com.cashloan.myapplication.igvideodownloader.fragment.SettingFragment;
 import com.cashloan.myapplication.igvideodownloader.model.CustomViewPager;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
-import com.cashloan.myapplication.igvideodownloader.other.LocaleHelper;
+import com.cashloan.myapplication.igvideodownloader.other.DebouncedOnClickListener;
+import com.cashloan.myapplication.igvideodownloader.other.SharedPref;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -56,6 +59,12 @@ public class MainActivity extends BaseActivity {
     ImageView imgInstagramLogin, imgHomeS;
     String languageCode;
 
+    // Drawer
+    DrawerLayout drawerMain;
+    TextView txtLogin;
+    ImageView imgProfile;
+    LinearLayout linearLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +84,32 @@ public class MainActivity extends BaseActivity {
         imgInstagramLogin = findViewById(R.id.imgInstagramLogin);
         imgHomeS = findViewById(R.id.imgHomeS);
 
+        //Drawer
+        drawerMain = findViewById(R.id.drawerMain);
+        txtLogin = findViewById(R.id.txtLogin);
+        imgProfile = findViewById(R.id.imgProfile);
+        linearLogin = findViewById(R.id.linearLogin);
+
         txtInSaver.setSelected(true);
+        txtLogin.setSelected(true);
+
+        linearLogin.setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                    startActivity(new Intent(activity, MainInstagramLogin.class));
+                    return;
+                }
+                drawerMain.close();
+            }
+        });
 
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_history).setText(R.string.history));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_home).setText(R.string.home));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_setting).setText(R.string.setting));
-         homeFragment = new HomeFragment();
-         historyFragment = new HistoryFragment();
-         settingFragment = new SettingFragment();
+        homeFragment = new HomeFragment();
+        historyFragment = new HistoryFragment();
+        settingFragment = new SettingFragment();
         adapter = new MyAdapter(activity, getSupportFragmentManager(), tabLayout.getTabCount());
         adapter.addFragment(historyFragment);
         adapter.addFragment(homeFragment);
@@ -98,8 +125,16 @@ public class MainActivity extends BaseActivity {
             public void run() {
                 adapter.notifyDataSetChanged();
             }
-        },1500);
+        }, 1500);
 
+
+        findViewById(R.id.imgMenu).setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                drawerMain.open();
+                hideKeyboard(activity);
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

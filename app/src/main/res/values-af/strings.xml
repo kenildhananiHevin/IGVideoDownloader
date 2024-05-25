@@ -63,7 +63,26 @@
     <string name="delete_photo">Verwyder foto</string>
     <string name="no_images_found">Geen Beelde Gevind Nie</string>
     <string name="no_videos_found">Geen Video\'s Gevind Nie</string>
-
+    <string name="login_with_instagram">Teken in met Instagram</string>
+    <string name="english">Engels</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Spaans</string>
+    <string name="french">Frans</string>
+    <string name="russian">Russies</string>
+    <string name="portuguese">Portugees</string>
+    <string name="german">Duits</string>
+    <string name="indonesian">Indonesies</string>
+    <string name="chinese">Chinese</string>
+    <string name="filipino">Filippyns</string>
+    <string name="italian">Italiaans</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="japanese">Japannese</string>
+    <string name="korean">Koreaans</string>
+    <string name="polish">Pools</string>
+    <string name="thai">Thai</string>
+    <string name="turkish">Turks</string>
+    <string name="ukrainian">Oekraïens</string>
+    <string name="vietnamese">Viëtnamees</string>
 
 
 </resources>

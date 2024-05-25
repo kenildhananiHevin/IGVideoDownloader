@@ -63,7 +63,26 @@
     <string name="delete_photo">Hapus Foto</string>
     <string name="no_images_found">Tidak Ada Gambar Ditemukan</string>
     <string name="no_videos_found">Tidak Ada Video Ditemukan</string>
-
+    <string name="login_with_instagram">Login Dengan Instagram</string>
+    <string name="english">Inggris</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Orang Spanyol</string>
+    <string name="french">Perancis</string>
+    <string name="russian">Rusia</string>
+    <string name="portuguese">Portugis</string>
+    <string name="german">Jerman</string>
+    <string name="indonesian">bahasa Indonesia</string>
+    <string name="chinese">Cina</string>
+    <string name="filipino">Filipina</string>
+    <string name="italian">Italia</string>
+    <string name="afrikaans">Afrikanas</string>
+    <string name="japanese">Jepang</string>
+    <string name="korean">Korea</string>
+    <string name="polish">Polandia</string>
+    <string name="thai">Thai</string>
+    <string name="turkish">Turki</string>
+    <string name="ukrainian">Ukraina</string>
+    <string name="vietnamese">Vietnam</string>
 
 
 </resources>

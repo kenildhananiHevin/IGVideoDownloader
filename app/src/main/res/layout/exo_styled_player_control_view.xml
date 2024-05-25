@@ -45,7 +45,6 @@
                 android:gravity="center_vertical"
                 android:layout_toStartOf="@id/imgVideoOpenInst"
                 android:layout_toEndOf="@id/imgVideoBack"
-                android:text="VID_202401289.mp4"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13sdp" />
 
@@ -59,6 +58,17 @@
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ig_insta"
                 android:adjustViewBounds="true"/>
+
+            <ImageView
+                android:id="@+id/imgVideoDownload"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/download"
+                android:adjustViewBounds="true"
+                android:visibility="gone"
+                app:tint="@color/white" />
 
         </RelativeLayout>
 

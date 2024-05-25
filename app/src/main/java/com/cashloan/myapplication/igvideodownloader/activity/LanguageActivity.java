@@ -62,25 +62,25 @@ public class LanguageActivity extends BaseActivity {
             recycleLanguageList.setVisibility(View.VISIBLE);
         }, delay);
 
-        languages.add(new Languages(R.drawable.ig_english, "English", "en", "Default"));
-        languages.add(new Languages(R.drawable.ig_hindi, "Hindi", "hi", "हिंदी"));
-        languages.add(new Languages(R.drawable.ig_spanish, "Spanish", "es", "Español"));
-        languages.add(new Languages(R.drawable.ig_french, "French", "fr", "Français"));
-        languages.add(new Languages(R.drawable.ig_russian, "Russian", "ru", "Русский"));
-        languages.add(new Languages(R.drawable.ig_portuguese, "Portuguese", "pt", "Português"));
-        languages.add(new Languages(R.drawable.ig_german, "German", "de", "Deutsch"));
-        languages.add(new Languages(R.drawable.ig_indonesian, "Indonesian", "in", "Indonesia"));
-        languages.add(new Languages(R.drawable.ig_chinese, "Chinese", "zh","中國人"));
-        languages.add(new Languages(R.drawable.ig_filipino, "Filipino", "fil","Filipino"));
-        languages.add(new Languages(R.drawable.ig_italian, "Italian", "it","Italiana"));
-        languages.add(new Languages(R.drawable.ig_afrikaans, "Afrikaans", "af","Afrikaans"));
-        languages.add(new Languages(R.drawable.ig_japanese, "Japanese", "ja","日本語"));
-        languages.add(new Languages(R.drawable.ig_korean, "Korean", "ko","한국인"));
-        languages.add(new Languages(R.drawable.ig_polish, "Polish", "pl","Polski"));
-        languages.add(new Languages(R.drawable.ig_thai, "Thai", "th","แบบไทย"));
-        languages.add(new Languages(R.drawable.ig_turkish, "Turkish", "tr","Türkçe"));
-        languages.add(new Languages(R.drawable.ig_ukrainian, "Ukrainian", "uk","українська"));
-        languages.add(new Languages(R.drawable.ig_vietnamese, "Vietnamese", "vi","Tiếng Việt"));
+        languages.add(new Languages(R.drawable.ig_english, getString(R.string.english), "en", "Default"));
+        languages.add(new Languages(R.drawable.ig_hindi, getString(R.string.hindi), "hi", "हिंदी"));
+        languages.add(new Languages(R.drawable.ig_spanish, getString(R.string.spanish), "es", "Español"));
+        languages.add(new Languages(R.drawable.ig_french, getString(R.string.french), "fr", "Français"));
+        languages.add(new Languages(R.drawable.ig_russian, getString(R.string.russian), "ru", "Русский"));
+        languages.add(new Languages(R.drawable.ig_portuguese, getString(R.string.portuguese), "pt", "Português"));
+        languages.add(new Languages(R.drawable.ig_german, getString(R.string.german), "de", "Deutsch"));
+        languages.add(new Languages(R.drawable.ig_indonesian, getString(R.string.indonesian), "in", "Indonesia"));
+        languages.add(new Languages(R.drawable.ig_chinese, getString(R.string.chinese), "zh","中國人"));
+        languages.add(new Languages(R.drawable.ig_filipino, getString(R.string.filipino), "fil","Filipino"));
+        languages.add(new Languages(R.drawable.ig_italian, getString(R.string.italian), "it","Italiana"));
+        languages.add(new Languages(R.drawable.ig_afrikaans, getString(R.string.afrikaans), "af","Afrikaans"));
+        languages.add(new Languages(R.drawable.ig_japanese, getString(R.string.japanese), "ja","日本語"));
+        languages.add(new Languages(R.drawable.ig_korean, getString(R.string.korean), "ko","한국인"));
+        languages.add(new Languages(R.drawable.ig_polish, getString(R.string.polish), "pl","Polski"));
+        languages.add(new Languages(R.drawable.ig_thai, getString(R.string.thai), "th","แบบไทย"));
+        languages.add(new Languages(R.drawable.ig_turkish, getString(R.string.turkish), "tr","Türkçe"));
+        languages.add(new Languages(R.drawable.ig_ukrainian, getString(R.string.ukrainian), "uk","українська"));
+        languages.add(new Languages(R.drawable.ig_vietnamese, getString(R.string.vietnamese), "vi","Tiếng Việt"));
 
         imgDone.setOnClickListener(new View.OnClickListener() {
             @Override

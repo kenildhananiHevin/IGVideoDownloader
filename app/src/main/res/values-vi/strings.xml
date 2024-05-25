@@ -63,7 +63,26 @@
     <string name="delete_photo">Xóa ảnh</string>
     <string name="no_images_found">Không tìm thấy hình ảnh</string>
     <string name="no_videos_found">Không tìm thấy video</string>
-
+    <string name="login_with_instagram">Đăng nhập với Instagram</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="hindi">Tiếng Hindi</string>
+    <string name="spanish">người Tây Ban Nha</string>
+    <string name="french">người Pháp</string>
+    <string name="russian">tiếng Nga</string>
+    <string name="portuguese">tiếng Bồ Đào Nha</string>
+    <string name="german">tiếng Đức</string>
+    <string name="indonesian">tiếng Indonesia</string>
+    <string name="chinese">người Trung Quốc</string>
+    <string name="filipino">Tiếng Philippin</string>
+    <string name="italian">người Ý</string>
+    <string name="afrikaans">tiếng Afrikaans</string>
+    <string name="japanese">tiếng Nhật</string>
+    <string name="korean">Hàn Quốc</string>
+    <string name="polish">Đánh bóng</string>
+    <string name="thai">tiếng Thái</string>
+    <string name="turkish">tiếng Thổ Nhĩ Kỳ</string>
+    <string name="ukrainian">tiếng Ukraina</string>
+    <string name="vietnamese">Tiếng Việt</string>
 
 
 </resources>

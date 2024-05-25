@@ -32,19 +32,32 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cashloan.myapplication.igvideodownloader.R;
+import com.cashloan.myapplication.igvideodownloader.adapter.StoriesViewAdapter;
+import com.cashloan.myapplication.igvideodownloader.adapter.StoryAdapter;
+import com.cashloan.myapplication.igvideodownloader.api.CommonClassForAPI;
+import com.cashloan.myapplication.igvideodownloader.interfaces.StoryUserListInterface;
+import com.cashloan.myapplication.igvideodownloader.model.story.InstagramStory;
+import com.cashloan.myapplication.igvideodownloader.model.story.StoryFullDetail;
+import com.cashloan.myapplication.igvideodownloader.model.story.StoryTray;
 import com.cashloan.myapplication.igvideodownloader.model.VisitedVideoPage;
 import com.cashloan.myapplication.igvideodownloader.other.CommonClass;
 import com.cashloan.myapplication.igvideodownloader.other.InstagramDownload;
+import com.cashloan.myapplication.igvideodownloader.other.SharedPref;
 import com.cashloan.myapplication.igvideodownloader.other.TouchableWebView;
 import com.cashloan.myapplication.igvideodownloader.other.Utils;
 import com.cashloan.myapplication.igvideodownloader.other.VideoContentSearch;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
+
+import io.reactivex.observers.DisposableObserver;
 
 public class HomeFragment extends Fragment {
     EditText edtPasteLink;
@@ -55,6 +68,85 @@ public class HomeFragment extends Fragment {
     private SSLSocketFactory defaultSSLSF;
     String languageCode;
     String[] permissions;
+    RecyclerView recycleRVUserList,recycleRVStories;
+    StoryAdapter storyAdapter;
+    StoriesViewAdapter storiesViewAdapter;
+    ProgressBar progressLoading;
+    private CommonClassForAPI CallInstaApi;
+
+    DisposableObserver<StoryFullDetail> storyDetailsMainObserver = new DisposableObserver<StoryFullDetail>() {
+        @Override
+        public void onNext(StoryFullDetail fullDetailModel) {
+            recycleRVUserList.setVisibility(View.VISIBLE);
+            progressLoading.setVisibility(View.GONE);
+            try {
+                if (fullDetailModel.getReel_feed() != null) {
+                    storiesViewAdapter = new StoriesViewAdapter(requireActivity(), fullDetailModel.getReel_feed().get(0).getItems(), requireActivity());
+                    recycleRVStories.setAdapter(storiesViewAdapter);
+                    storiesViewAdapter.notifyDataSetChanged();
+                } else {
+                    storiesViewAdapter = new StoriesViewAdapter(requireActivity(), new ArrayList<>(), requireActivity());
+                    recycleRVStories.setAdapter(storiesViewAdapter);
+                    storiesViewAdapter.notifyDataSetChanged();
+                }
+            } catch (Exception e) {
+                Log.d("TAG", "onNextsssss: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            progressLoading.setVisibility(View.GONE);
+            Log.d("TAG", "onErrorssss: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onComplete() {
+            progressLoading.setVisibility(View.GONE);
+        }
+    };
+
+    private DisposableObserver<InstagramStory> storyObserver = new DisposableObserver<InstagramStory>() {
+        @Override
+        public void onNext(InstagramStory instagramStory) {
+            recycleRVUserList.setVisibility(View.VISIBLE);
+            progressLoading.setVisibility(View.GONE);
+            try {
+                ArrayList arrayList = new ArrayList();
+                for (int i = 0; i < instagramStory.getTray().size(); i++) {
+                    try {
+                        if (instagramStory.getTray().get(i).getUser().getFull_name() != null) {
+                            arrayList.add(instagramStory.getTray().get(i));
+                        }
+                    } catch (Exception unused) {
+                    }
+                }
+                storyAdapter = new StoryAdapter(requireActivity(), arrayList, new StoryUserListInterface() {
+                    @Override
+                    public void storyUserListClick(int i, StoryTray storyTray) {
+                        callStoriesDetailApi(String.valueOf(storyTray.getUser().getPk()));
+                    }
+                });
+                recycleRVUserList.setAdapter(storyAdapter);
+            } catch (Exception e) {
+                Log.d("TAG", "onNext: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            progressLoading.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onComplete() {
+            progressLoading.setVisibility(View.GONE);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,6 +160,12 @@ public class HomeFragment extends Fragment {
         txtDownload = view.findViewById(R.id.txtDownload);
         txtPaste = view.findViewById(R.id.txtPaste);
         txtOpenInstagram = view.findViewById(R.id.txtOpenInstagram);
+        recycleRVUserList = view.findViewById(R.id.recycleRVUserList);
+        progressLoading = view.findViewById(R.id.progressLoading);
+       recycleRVStories = view.findViewById(R.id.recycleRVStories);
+
+        CallInstaApi = CommonClassForAPI.getInstance();
+
 
         txtOpenInstagram.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,19 +226,17 @@ public class HomeFragment extends Fragment {
                 create_progress();
             }
         });
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
+        recycleRVStories.setLayoutManager(gridLayoutManager);
+        recycleRVStories.setNestedScrollingEnabled(false);
+        recycleRVStories.setHasFixedSize(false);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        SharedPreferences preferences = requireActivity().getSharedPreferences("Language", 0);
-        String languageCode = preferences.getString("language_code", "en");
-        if (!Objects.equals(this.languageCode, languageCode)) {
-            requireActivity().recreate();
-        }
-    }
+
 
     String foundLink = "";
 
@@ -280,6 +376,54 @@ public class HomeFragment extends Fragment {
 
     public static void startDownload(String paths, FragmentActivity instagram, String name, AlertDialog alertDialog, String edtPaste, String nameIns) {
         new InstagramDownload(instagram, name, alertDialog, edtPaste, nameIns).execute(paths);
+    }
+
+
+    private void callStoriesDetailApi(String str) {
+        try {
+            if (!new CommonClass(requireActivity()).isNetworkAvailable()) {
+                Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            } else if (CallInstaApi != null) {
+                progressLoading.setVisibility(View.VISIBLE);
+                CommonClassForAPI commonClassForAPI2 = CallInstaApi;
+                DisposableObserver<StoryFullDetail> disposableObserver = storyDetailsMainObserver;
+                commonClassForAPI2.getFullDetailFeed(disposableObserver, str, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void callStoriesApi() {
+        try {
+            if (!new CommonClass(requireActivity()).isNetworkAvailable()) {
+                Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            } else if (CallInstaApi != null) {
+                progressLoading.setVisibility(View.VISIBLE);
+                CommonClassForAPI commonClassForAPI2 = CallInstaApi;
+                DisposableObserver<InstagramStory> disposableObserver = storyObserver;
+                commonClassForAPI2.getStories(disposableObserver, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences preferences = requireActivity().getSharedPreferences("Language", 0);
+        String languageCode = preferences.getString("language_code", "en");
+        if (!Objects.equals(this.languageCode, languageCode)) {
+            requireActivity().recreate();
+        }
+        GridLayoutManager userGridLayoutManager = new GridLayoutManager(requireActivity(), 1);
+        recycleRVUserList.setLayoutManager(userGridLayoutManager);
+        recycleRVUserList.setNestedScrollingEnabled(false);
+        userGridLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        if (SharedPref.getInstance(requireActivity()).mainSharedGetBoolean(requireActivity(), SharedPref.ISINSTALOGIN)) {
+            callStoriesApi();
+        }
     }
 
 }

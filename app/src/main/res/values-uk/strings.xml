@@ -63,7 +63,26 @@
     <string name="delete_photo">Видалити фото</string>
     <string name="no_images_found">Зображення не знайдено</string>
     <string name="no_videos_found">Відео не знайдено</string>
-
+    <string name="login_with_instagram">Увійти через Instagram</string>
+    <string name="english">англійська</string>
+    <string name="hindi">Хінді</string>
+    <string name="spanish">Іспанська</string>
+    <string name="french">французька</string>
+    <string name="russian">російський</string>
+    <string name="portuguese">португальська</string>
+    <string name="german">Німецький</string>
+    <string name="indonesian">індонезійська</string>
+    <string name="chinese">китайський</string>
+    <string name="filipino">філіппінець</string>
+    <string name="italian">італійська</string>
+    <string name="afrikaans">африкаанс</string>
+    <string name="japanese">Японський</string>
+    <string name="korean">корейська</string>
+    <string name="polish">польський</string>
+    <string name="thai">тайська</string>
+    <string name="turkish">турецька</string>
+    <string name="ukrainian">українська</string>
+    <string name="vietnamese">в\'єтнамська</string>
 
 
 </resources>

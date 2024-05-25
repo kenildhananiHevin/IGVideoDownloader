@@ -63,7 +63,26 @@
     <string name="delete_photo">Tanggalin ang Larawan</string>
     <string name="no_images_found">Walang Natagpuang Mga Larawan</string>
     <string name="no_videos_found">Walang Natagpuang Mga Video</string>
-
+    <string name="login_with_instagram">Mag-login sa Instagram</string>
+    <string name="english">Ingles</string>
+    <string name="hindi">Hindi</string>
+    <string name="spanish">Espanyol</string>
+    <string name="french">Pranses</string>
+    <string name="russian">Ruso</string>
+    <string name="portuguese">Portuges</string>
+    <string name="german">Aleman</string>
+    <string name="indonesian">Indonesian</string>
+    <string name="chinese">Intsik</string>
+    <string name="filipino">Filipino</string>
+    <string name="italian">Italyano</string>
+    <string name="afrikaans">Afrikaans</string>
+    <string name="japanese">Hapon</string>
+    <string name="korean">Koreano</string>
+    <string name="polish">Polish</string>
+    <string name="thai">Thai</string>
+    <string name="turkish">Turkish</string>
+    <string name="ukrainian">Ukrainian</string>
+    <string name="vietnamese">Vietnamese</string>
 
 
 </resources>
