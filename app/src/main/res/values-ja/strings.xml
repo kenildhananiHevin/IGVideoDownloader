@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGビデオダウンローダー</string>
-    <string name="insaver">IGセイバー</string>
+    <string name="app_name">ビデオダウンローダー</string>
+    <string name="insaver">ビデオ セイバー</string>
     <string name="home">ホーム</string>
     <string name="explore">探検</string>
     <string name="browser">ブラウザ</string>

@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">ИГ Экономия</string>
+    <string name="app_name">Видеозагрузчик</string>
+    <string name="insaver">видео Экономия</string>
     <string name="home">Главная</string>
     <string name="explore">Исследовать</string>
     <string name="browser">Браузер</string>

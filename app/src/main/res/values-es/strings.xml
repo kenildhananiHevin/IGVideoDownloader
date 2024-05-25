@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Guardar</string>
+    <string name="app_name">VideoDownloader</string>
+    <string name="insaver">Video Guardar</string>
     <string name="home">Inicio</string>
     <string name="explore">Explorar</string>
     <string name="browser">Navegador</string>
