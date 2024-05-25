@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaverr"
+        applicationId "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
         minSdk 24
         targetSdk 33
         versionCode 1
