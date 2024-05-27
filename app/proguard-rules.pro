@@ -21,6 +21,6 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class com.cashloan.myapplication.igvideodownloader.model.**{*;}
--keep class com.cashloan.myapplication.igvideodownloader.model.Languages.**{*;}
--keep class com.cashloan.myapplication.igvideodownloader.model.CustomViewPager.**{*;}
--keep class com.cashloan.myapplication.igvideodownloader.model.VisitedVideoPage.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.Languages.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage.**{*;}

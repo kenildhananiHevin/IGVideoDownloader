@@ -7,7 +7,7 @@
     android:background="@color/transparent"
     tools:context=".fragment.HomeFragment">
 
-    <com.cashloan.myapplication.igvideodownloader.other.TouchableWebView
+    <vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.TouchableWebView
         android:id="@+id/page"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
