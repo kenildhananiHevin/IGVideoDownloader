@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearStoryLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_3sdp"
+    android:padding="@dimen/_2sdp"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleStory"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@drawable/story_border"
+        android:padding="@dimen/_2sdp"
+        app:civ_border_color="#1D2337"
+        app:civ_border_width="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/txtRealName"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintTop_toBottomOf="@id/circleStory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center_horizontal|center_vertical"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtUserName"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        app:layout_constraintTop_toBottomOf="@id/txtRealName"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text=""
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_10sdp"
+        android:visibility="gone" />
+
+
+</LinearLayout>

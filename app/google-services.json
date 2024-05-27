@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "951328358203",
+    "project_id": "downloader---blue-point-tool",
+    "storage_bucket": "downloader---blue-point-tool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951328358203:android:e7e17a5435843437fd011e",
+        "android_client_info": {
+          "package_name": "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD68KUXotIPKGDRp1gGEYuTaU7Srb3EeMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
