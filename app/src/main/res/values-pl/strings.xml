@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Oszczędzanie</string>
+    <string name="app_name">WideoPobieracz</string>
+    <string name="insaver">Wideo Oszczędzanie</string>
     <string name="home">Dom</string>
     <string name="explore">Eksploruj</string>
     <string name="browser">Przeglądarka</string>
@@ -83,6 +83,10 @@
     <string name="turkish">turecki</string>
     <string name="ukrainian">ukraiński</string>
     <string name="vietnamese">wietnamski</string>
+    <string name="logout_for_instagram">Wyloguj się z Instagram?</string>
+    <string name="story">HISTORIA</string>
+    <string name="posts">POSTY</string>
+
 
 
 </resources>

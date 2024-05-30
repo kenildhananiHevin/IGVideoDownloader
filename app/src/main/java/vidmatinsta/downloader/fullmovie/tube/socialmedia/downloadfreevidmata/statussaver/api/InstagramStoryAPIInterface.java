@@ -5,21 +5,29 @@ import com.google.gson.JsonObject;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.InstagramStory;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryFullDetail;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.Root;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story_show.RootStory;
 
-public interface InstagramAPIInterface {
+public interface InstagramStoryAPIInterface {
     @GET
     Observable<JsonObject> callResult(
             @Url String url,
             @Header("Cookie") String cookie,
             @Header("User-Agent") String userAgent
     );
+
     @GET
     Observable<StoryModel> getStoriesApi(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3);
 
+    //    "https://www.instagram.com/{username}/?__a=1"
     @GET
-    Observable<StoryFullDetail> getFullDetailInfoApi(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3);
+    Observable<Root> getUserDetail(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3, @Query("max_id") String str4);
+
+    @GET
+    Observable<RootStory> getUserStory(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3);
+
+
 }

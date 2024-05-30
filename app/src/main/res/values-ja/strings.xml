@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGビデオダウンローダー</string>
-    <string name="insaver">IGセイバー</string>
+    <string name="app_name">ビデオダウンローダー</string>
+    <string name="insaver">ビデオ セイバー</string>
     <string name="home">ホーム</string>
     <string name="explore">探検</string>
     <string name="browser">ブラウザ</string>
@@ -83,6 +83,10 @@
     <string name="turkish">トルコ語</string>
     <string name="ukrainian">ウクライナ語</string>
     <string name="vietnamese">ベトナム語</string>
+    <string name="logout_for_instagram">Instagramのログアウト?</string>
+    <string name="story">ストーリー</string>
+    <string name="posts">投稿</string>
+
 
 
 </resources>

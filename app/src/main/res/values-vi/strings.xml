@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Trình lưu</string>
+    <string name="app_name">PhimTrìnhtảixuống</string>
+    <string name="insaver">Phim Trình</string>
     <string name="home">Trang chủ</string>
     <string name="explore">Khám phá</string>
     <string name="browser">Trình duyệt</string>
@@ -83,6 +83,10 @@
     <string name="turkish">tiếng Thổ Nhĩ Kỳ</string>
     <string name="ukrainian">tiếng Ukraina</string>
     <string name="vietnamese">Tiếng Việt</string>
+    <string name="logout_for_instagram">Đăng xuất Instagram?</string>
+    <string name="story">CÂU CHUYỆN</string>
+    <string name="posts">BÀI VIẾT</string>
+
 
 
 </resources>

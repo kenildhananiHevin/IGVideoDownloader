@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_10sdp"
+    android:background="@drawable/download_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/story_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout_for_instagram"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/sf_pro_text_medium"/>
+
+    <TextView
+        android:id="@+id/story_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancles"
+        app:layout_constraintTop_toBottomOf="@id/story_text"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/txt_color"
+        app:layout_constraintEnd_toStartOf="@id/story_yes"
+        android:fontFamily="@font/sf_pro_text_medium"
+        android:textSize="@dimen/_13sdp"/>
+
+    <TextView
+        android:id="@+id/story_yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/story_text"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:textColor="@color/app_color"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/sf_pro_text_semibold"
+        android:textSize="@dimen/_15sdp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

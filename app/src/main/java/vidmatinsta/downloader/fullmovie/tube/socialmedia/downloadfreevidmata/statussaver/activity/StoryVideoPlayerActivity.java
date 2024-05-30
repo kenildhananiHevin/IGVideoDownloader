@@ -1,7 +1,9 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity;
 
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment.HomeFragment.startDownload;
+
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaScannerConnection;
@@ -9,14 +11,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,12 +35,10 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
 
-
 import java.io.IOException;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
-
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
@@ -46,12 +49,13 @@ public class StoryVideoPlayerActivity extends BaseActivity {
     public static StyledPlayerView player;
     private ExoPlayer players;
     float currentSpeed = 1.0f;
-    ImageView imgPic, imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst,imgDownload;
+    ImageView imgPic, imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst, imgDownload;
     LinearLayout linearItem;
     String pathAudio = CommonClass.IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
     Uri fileuri;
     TextView txtVideoPlayer, txtImage;
     RelativeLayout relativeToolBar;
+    AlertDialog alertDialog;
 
 
     @SuppressLint("MissingInflatedId")
@@ -98,12 +102,12 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         players.play();
 
 
-        if (url.contains(".jpg")) {
+        if (url.contains(".jpg") || url.contains(".heic") || url.contains(".png") || url.contains(".jpeg")) {
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
             imgTopTrans.setVisibility(View.VISIBLE);
-            Glide.with(activity).load(fileuri).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPic);
+            Glide.with(activity).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPic);
 
             txtImage.setText(allName);
             txtImage.setSelected(true);
@@ -125,6 +129,18 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             imgOpenInst.setVisibility(View.GONE);
             imgDownload.setVisibility(View.VISIBLE);
             imgRepost.setVisibility(View.GONE);
+
+            imgDownload.setOnClickListener(new DebouncedOnClickListener(750) {
+                @Override
+                public void onDebouncedClick(View v) {
+                    try {
+                        createProgress();
+                        startDownload(url, activity, System.currentTimeMillis() + ".jpg", alertDialog, "", "");
+                    } catch (Exception e) {
+                        e.getMessage();
+                    }
+                }
+            });
 
 
             imgWallpaper.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +169,18 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         findViewById(R.id.imgVideoOpenInst).setVisibility(View.GONE);
         findViewById(R.id.imgVideoWallpaper).setVisibility(View.GONE);
         findViewById(R.id.imgVideoRepost).setVisibility(View.GONE);
+
+        findViewById(R.id.imgVideoDownload).setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                try {
+                    createProgress();
+                    startDownload(url, activity, System.currentTimeMillis() + ".mp4", alertDialog, "", "");
+                } catch (Exception e) {
+                    e.getMessage();
+                }
+            }
+        });
 
 
         findViewById(R.id.imgVideoSpeed).setOnClickListener(new View.OnClickListener() {
@@ -199,6 +227,24 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             timeBar.setUnplayedColor(ContextCompat.getColor(activity, R.color.white));
             timeBar.setBufferedColor(ContextCompat.getColor(activity, R.color.white));
         }
+    }
+
+    private void createProgress() {
+        alertDialog = new AlertDialog.Builder(activity, R.style.MyTransparentBottomSheetDialogTheme).create();
+        LayoutInflater layoutInflater = getLayoutInflater();
+        View view1 = layoutInflater.inflate(R.layout.pogress_dailog, null);
+        alertDialog.setView(view1);
+        alertDialog.setCanceledOnTouchOutside(false);
+        ProgressBar progressBar = view1.findViewById(R.id.progressBar);
+
+        alertDialog.show();
+        Window window = alertDialog.getWindow();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenWidth = displayMetrics.widthPixels;
+        int dialogWidth = (int) (screenWidth * 0.88);
+        window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
     }
 
     private void popMenu(View view) {

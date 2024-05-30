@@ -1,6 +1,7 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,8 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,12 +26,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment.HistoryFragment;
@@ -35,12 +48,6 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class MainActivity extends BaseActivity {
     TextView txtInSaver;
@@ -57,13 +64,7 @@ public class MainActivity extends BaseActivity {
     String[] permissions;
     ImageView imgInstagramLogin, imgHomeS;
     String languageCode;
-
-    // Drawer
-    DrawerLayout drawerMain;
-    TextView txtLogin;
-    ImageView imgProfile;
-    LinearLayout linearLogin;
-
+    SwitchCompat switchCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,25 +84,7 @@ public class MainActivity extends BaseActivity {
         imgInstagramLogin = findViewById(R.id.imgInstagramLogin);
         imgHomeS = findViewById(R.id.imgHomeS);
 
-        //Drawer
-        drawerMain = findViewById(R.id.drawerMain);
-        txtLogin = findViewById(R.id.txtLogin);
-        imgProfile = findViewById(R.id.imgProfile);
-        linearLogin = findViewById(R.id.linearLogin);
-
         txtInSaver.setSelected(true);
-        txtLogin.setSelected(true);
-
-        linearLogin.setOnClickListener(new DebouncedOnClickListener(750) {
-            @Override
-            public void onDebouncedClick(View v) {
-                if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
-                    startActivity(new Intent(activity, MainInstagramLogin.class));
-                    return;
-                }
-                drawerMain.close();
-            }
-        });
 
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_history).setText(R.string.history));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ig_home).setText(R.string.home));
@@ -127,10 +110,94 @@ public class MainActivity extends BaseActivity {
         }, 1500);
 
 
-        findViewById(R.id.imgMenu).setOnClickListener(new DebouncedOnClickListener(750) {
+        findViewById(R.id.imgLogin).setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
             public void onDebouncedClick(View v) {
-                drawerMain.open();
+                AlertDialog alertDialog = new AlertDialog.Builder(activity, R.style.MyTransparentBottomSheetDialogTheme).create();
+                LayoutInflater layoutInflater = getLayoutInflater();
+                View view = layoutInflater.inflate(R.layout.login_dialog, null);
+                alertDialog.setView(view);
+
+                TextView txtLogin = view.findViewById(R.id.txtLogin);
+                ImageView imgProfile = view.findViewById(R.id.imgProfile);
+                LinearLayout linearLogin = view.findViewById(R.id.linearLogin);
+                switchCompat = view.findViewById(R.id.Switch);
+
+                if (switchCompat != null) {
+                    if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                        switchCompat.setChecked(true);
+                    } else {
+                        switchCompat.setChecked(false);
+                    }
+                }
+
+                txtLogin.setSelected(true);
+
+                switchCompat.setOnClickListener(new DebouncedOnClickListener(750) {
+                    @Override
+                    public void onDebouncedClick(View v) {
+                        switchCompat.setChecked(false);
+                        alertDialog.dismiss();
+                        if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                            startActivityForResult(new Intent(activity, MainInstagramLogin.class), 250);
+                            return;
+                        }
+                        AlertDialog delete_dialog = new AlertDialog.Builder(activity, R.style.MyTransparentBottomSheetDialogTheme).create();
+                        LayoutInflater layoutInflater = getLayoutInflater();
+                        View view1 = layoutInflater.inflate(R.layout.logout_dailog, null);
+                        delete_dialog.setView(view1);
+                        delete_dialog.setCanceledOnTouchOutside(false);
+
+                        TextView story_cancel = view1.findViewById(R.id.story_cancel);
+                        TextView story_yes = view1.findViewById(R.id.story_yes);
+
+                        story_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                delete_dialog.dismiss();
+                                switchCompat.setChecked(true);
+                            }
+                        });
+
+                        story_yes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                SharedPref.getInstance(activity).mainSharedPutBoolean(activity, SharedPref.ISINSTALOGIN, false);
+                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.COOKIES, "");
+                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.CSRF, "");
+                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.SESSIONID, "");
+                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.USERID, "");
+                                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                                    switchCompat.setChecked(true);
+                                } else {
+                                    switchCompat.setChecked(false);
+                                    findViewById(R.id.recycleRVUserList).setVisibility(View.GONE);
+                                }
+                                delete_dialog.dismiss();
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                        delete_dialog.show();
+                        Window window = delete_dialog.getWindow();
+                        DisplayMetrics displayMetrics = new DisplayMetrics();
+                        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                        int screenWidth = displayMetrics.widthPixels;
+                        int dialogWidth = (int) (screenWidth * 0.80);
+                        window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        window.setGravity(Gravity.CENTER);
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                Window window = alertDialog.getWindow();
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int screenWidth = displayMetrics.widthPixels;
+                int dialogWidth = (int) (screenWidth * 0.83);
+                window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+                window.setGravity(Gravity.CENTER);
+
                 hideKeyboard(activity);
             }
         });
@@ -367,6 +434,16 @@ public class MainActivity extends BaseActivity {
         if (requestCode == CommonClass.REQUEST_PERM_DELETE && resultCode == -1) {
             historyFragment.onActivityResult(requestCode, resultCode, data);
         }
+
+        if (requestCode == 250 && resultCode == -1) {
+            if (switchCompat != null) {
+                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                    switchCompat.setChecked(true);
+                } else {
+                    switchCompat.setChecked(false);
+                }
+            }
+        }
     }
 
     @Override
@@ -378,6 +455,7 @@ public class MainActivity extends BaseActivity {
             recreate();
         }
     }
+
 
     boolean backClick = false;
 

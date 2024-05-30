@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Saver</string>
+    <string name="app_name">VideoDownloader</string>
+    <string name="insaver">Video Saver</string>
     <string name="home">Tahanan</string>
     <string name="explore">Galugarin</string>
     <string name="browser">Browser</string>
@@ -83,6 +83,10 @@
     <string name="turkish">Turkish</string>
     <string name="ukrainian">Ukrainian</string>
     <string name="vietnamese">Vietnamese</string>
+    <string name="logout_for_instagram">Mag-log Out sa Instagram?</string>
+    <string name="story">KWENTO</string>
+    <string name="posts">MGA POST</string>
+
 
 
 </resources>

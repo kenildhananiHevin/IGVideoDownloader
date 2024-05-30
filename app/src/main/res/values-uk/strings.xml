@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">IG Saver</string>
+    <string name="app_name">відеоавантажувач</string>
+    <string name="insaver">відео ереження</string>
     <string name="home">Головна</string>
     <string name="explore">Досліджувати</string>
     <string name="browser">Браузер</string>
@@ -83,6 +83,10 @@
     <string name="turkish">турецька</string>
     <string name="ukrainian">українська</string>
     <string name="vietnamese">в\'єтнамська</string>
+    <string name="logout_for_instagram">Вийти з Instagram?</string>
+    <string name="story">ІСТОРІЯ</string>
+    <string name="posts">ПОСТИ</string>
+
 
 
 </resources>

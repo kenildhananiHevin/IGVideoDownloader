@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.StoryPostShowActivity">
+
+    <LinearLayout
+        android:id="@+id/linearPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtPost"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:layout_weight="1"
+            android:background="@drawable/download_bg"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/posts"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
+
+        <TextView
+            android:id="@+id/txtStory"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_weight="1"
+            android:background="@drawable/download_bg"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="@string/story"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13sdp" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleRVPost"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginHorizontal="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearPost" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleRVStories"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearPost" />
+
+    <ProgressBar
+        android:id="@+id/progressStory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:indeterminateTint="@color/app_color"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

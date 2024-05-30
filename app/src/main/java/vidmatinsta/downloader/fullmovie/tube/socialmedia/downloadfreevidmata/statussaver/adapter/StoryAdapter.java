@@ -1,5 +1,8 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter;
 
+
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.StoryPostShowActivity;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryTray;
 
@@ -37,7 +41,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull StoryAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtRealName.setText(arrayList.get(position).getUser().getFull_name());
         holder.txtRealName.setSelected(true);
         holder.txtUserName.setSelected(true);
@@ -47,10 +51,14 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.ViewHolder> 
         holder.linearStoryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+/*
                 StoryAdapter.this.storyUserListInterface.storyUserListClick(position,StoryAdapter.this.arrayList.get(position));
+*/
+                Intent intent = new Intent(requireActivity, StoryPostShowActivity.class);
+                intent.putExtra("userId",arrayList.get(position).getUser().getPk());
+                requireActivity.startActivity(intent);
             }
         });
-
     }
 
     @Override

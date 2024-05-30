@@ -33,24 +33,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
-
-
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.StoriesViewAdapter;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.StoryAdapter;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassForAPI;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryFullDetail;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryTray;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.InstagramDownload;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.TouchableWebView;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.Utils;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.VideoContentSearch;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -58,6 +40,19 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 import io.reactivex.observers.DisposableObserver;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.StoryAdapter;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryTray;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.InstagramDownload;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.TouchableWebView;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.Utils;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.VideoContentSearch;
 
 public class HomeFragment extends Fragment {
     EditText edtPasteLink;
@@ -68,51 +63,14 @@ public class HomeFragment extends Fragment {
     private SSLSocketFactory defaultSSLSF;
     String languageCode;
     String[] permissions;
-    RecyclerView recycleRVUserList,recycleRVStories;
+    RecyclerView recycleRVUserList;
     StoryAdapter storyAdapter;
-    StoriesViewAdapter storiesViewAdapter;
-    ProgressBar progressLoading;
-    private CommonClassForAPI CallInstaApi;
-
-    DisposableObserver<StoryFullDetail> storyDetailsMainObserver = new DisposableObserver<StoryFullDetail>() {
-        @Override
-        public void onNext(StoryFullDetail fullDetailModel) {
-            recycleRVUserList.setVisibility(View.VISIBLE);
-            progressLoading.setVisibility(View.GONE);
-            try {
-                if (fullDetailModel.getReel_feed() != null) {
-                    storiesViewAdapter = new StoriesViewAdapter(requireActivity(), fullDetailModel.getReel_feed().get(0).getItems(), requireActivity());
-                    recycleRVStories.setAdapter(storiesViewAdapter);
-                    storiesViewAdapter.notifyDataSetChanged();
-                } else {
-                    storiesViewAdapter = new StoriesViewAdapter(requireActivity(), new ArrayList<>(), requireActivity());
-                    recycleRVStories.setAdapter(storiesViewAdapter);
-                    storiesViewAdapter.notifyDataSetChanged();
-                }
-            } catch (Exception e) {
-                Log.d("TAG", "onNextsssss: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            progressLoading.setVisibility(View.GONE);
-            Log.d("TAG", "onErrorssss: " + e.getMessage());
-            e.printStackTrace();
-        }
-
-        @Override
-        public void onComplete() {
-            progressLoading.setVisibility(View.GONE);
-        }
-    };
+    private CommonClassStoryForAPI CallInstaApi;
 
     private DisposableObserver<StoryModel> storyObserver = new DisposableObserver<StoryModel>() {
         @Override
         public void onNext(StoryModel instagramStory) {
             recycleRVUserList.setVisibility(View.VISIBLE);
-            progressLoading.setVisibility(View.GONE);
             try {
                 ArrayList arrayList = new ArrayList();
                 for (int i = 0; i < instagramStory.getTray().size(); i++) {
@@ -126,7 +84,7 @@ public class HomeFragment extends Fragment {
                 storyAdapter = new StoryAdapter(requireActivity(), arrayList, new StoryUserListInterface() {
                     @Override
                     public void storyUserListClick(int i, StoryTray storyTray) {
-                        callStoriesDetailApi(String.valueOf(storyTray.getUser().getPk()));
+
                     }
                 });
                 recycleRVUserList.setAdapter(storyAdapter);
@@ -138,13 +96,11 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onError(Throwable e) {
-            progressLoading.setVisibility(View.GONE);
             e.printStackTrace();
         }
 
         @Override
         public void onComplete() {
-            progressLoading.setVisibility(View.GONE);
         }
     };
 
@@ -161,10 +117,8 @@ public class HomeFragment extends Fragment {
         txtPaste = view.findViewById(R.id.txtPaste);
         txtOpenInstagram = view.findViewById(R.id.txtOpenInstagram);
         recycleRVUserList = view.findViewById(R.id.recycleRVUserList);
-        progressLoading = view.findViewById(R.id.progressLoading);
-       recycleRVStories = view.findViewById(R.id.recycleRVStories);
 
-        CallInstaApi = CommonClassForAPI.getInstance();
+        CallInstaApi = CommonClassStoryForAPI.getInstance();
 
 
         txtOpenInstagram.setOnClickListener(new View.OnClickListener() {
@@ -187,15 +141,11 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                    permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS,
-                            Manifest.permission.READ_MEDIA_IMAGES,
-                            Manifest.permission.READ_MEDIA_VIDEO
+                    permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
 
                     };
-                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-                       return;
+                    if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                        return;
                     }
                 } else {
                     permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -208,13 +158,13 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(requireActivity(), getString(R.string.paste_link), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (!edtPasteLink.getText().toString().contains("instagram.com")){
+                if (!edtPasteLink.getText().toString().contains("instagram.com")) {
                     Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (edtPasteLink.getText().toString().contains("stories")){
-                    Log.d("TAG", "edtPasteLinks1: "+edtPasteLink.getText().toString());
+                if (edtPasteLink.getText().toString().contains("stories")) {
+                    Log.d("TAG", "edtPasteLinks1: " + edtPasteLink.getText().toString());
                     Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -227,15 +177,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), 2);
-        recycleRVStories.setLayoutManager(gridLayoutManager);
-        recycleRVStories.setNestedScrollingEnabled(false);
-        recycleRVStories.setHasFixedSize(false);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        
+
         return view;
     }
-
 
 
     String foundLink = "";
@@ -251,10 +195,10 @@ public class HomeFragment extends Fragment {
                 Log.d("TAG", "onVideoFoundss2: " + name);
                 if (!foundLink.equals(link)) {
                     foundLink = link;
-                        startDownload(link, requireActivity(), System.currentTimeMillis() + "." + type, alertDialog, edtPasteLink.getText().toString(), name);
+                    startDownload(link, requireActivity(), System.currentTimeMillis() + "." + type, alertDialog, edtPasteLink.getText().toString(), name);
                 }
             }
-        },url);
+        }, url);
         page.loadUrl(url);
     }
 
@@ -290,39 +234,39 @@ public class HomeFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d("TAG", "onVideoFoundss11: "+view);
+                Log.d("TAG", "onVideoFoundss11: " + view);
                 return super.shouldOverrideUrlLoading(view, request);
             }
 
             @Override
             public void onPageStarted(final WebView webview, final String url, Bitmap favicon) {
-                Log.d("TAG", "onVideoFoundss10: "+url);
+                Log.d("TAG", "onVideoFoundss10: " + url);
                 super.onPageStarted(webview, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                Log.d("TAG", "onVideoFoundss9: "+url);
+                Log.d("TAG", "onVideoFoundss9: " + url);
                 super.onPageFinished(view, url);
             }
 
             @Override
             public void onLoadResource(final WebView view, final String url) {
-                Log.d("TAG", "onVideoFoundss8: "+url);
+                Log.d("TAG", "onVideoFoundss8: " + url);
                 final String viewUrl = view.getUrl();
                 final String title = view.getTitle();
 
                 try {
-                    new VideoContentSearch(requireActivity(), url, viewUrl, title,mainUrl) {
+                    new VideoContentSearch(requireActivity(), url, viewUrl, title, mainUrl) {
                         @Override
                         public void onStartInspectingURL() {
-                            Log.d("TAG", "onVideoFoundss6: "+viewUrl);
+                            Log.d("TAG", "onVideoFoundss6: " + viewUrl);
                             Utils.disableSSLCertificateChecking();
                         }
 
                         @Override
                         public void onFinishedInspectingURL(boolean finishedAll) {
-                            Log.d("TAG", "onVideoFoundss5: "+viewUrl);
+                            Log.d("TAG", "onVideoFoundss5: " + viewUrl);
                             HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSF);
                         }
 
@@ -332,8 +276,8 @@ public class HomeFragment extends Fragment {
                             callback.onVideoFound(size, type, link, name, page, chunked, website, audio);
                         }
                     }.start();
-                }catch (Exception e){
-                    Log.d("TAG", "onVideoFoundss4: "+e.getMessage());
+                } catch (Exception e) {
+                    Log.d("TAG", "onVideoFoundss4: " + e.getMessage());
                 }
             }
 
@@ -354,7 +298,7 @@ public class HomeFragment extends Fragment {
         page.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                Log.d("TAG", "onProgressChanged: "+newProgress);
+                Log.d("TAG", "onProgressChanged: " + newProgress);
             }
 
             @Override
@@ -378,31 +322,14 @@ public class HomeFragment extends Fragment {
         new InstagramDownload(instagram, name, alertDialog, edtPaste, nameIns).execute(paths);
     }
 
-
-    private void callStoriesDetailApi(String str) {
-        try {
-            if (!new CommonClass(requireActivity()).isNetworkAvailable()) {
-                Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-            } else if (CallInstaApi != null) {
-                progressLoading.setVisibility(View.VISIBLE);
-                CommonClassForAPI commonClassForAPI2 = CallInstaApi;
-                DisposableObserver<StoryFullDetail> disposableObserver = storyDetailsMainObserver;
-                commonClassForAPI2.getFullDetailFeed(disposableObserver, str, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void callStoriesApi() {
         try {
             if (!new CommonClass(requireActivity()).isNetworkAvailable()) {
                 Toast.makeText(requireActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             } else if (CallInstaApi != null) {
-                progressLoading.setVisibility(View.VISIBLE);
-                CommonClassForAPI commonClassForAPI2 = CallInstaApi;
+                CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
                 DisposableObserver<StoryModel> disposableObserver = storyObserver;
-                commonClassForAPI2.getStories(disposableObserver, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
+                commonClassStoryForAPI2.getStories(disposableObserver, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
             }
         } catch (Exception e) {
             e.printStackTrace();

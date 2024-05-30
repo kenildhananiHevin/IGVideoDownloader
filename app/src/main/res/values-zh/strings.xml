@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">免疫組化 视频下载器</string>
-    <string name="insaver">免疫組化 保存程式</string>
+    <string name="app_name">影片下載器</string>
+    <string name="insaver">影片 保存程式</string>
     <string name="home">首页</string>
     <string name="explore">探索</string>
     <string name="browser">浏览器</string>
@@ -83,6 +83,10 @@
     <string name="turkish">土耳其</string>
     <string name="ukrainian">烏克蘭</string>
     <string name="vietnamese">越南語</string>
+    <string name="logout_for_instagram">登出 Instagram？</string>
+    <string name="story">故事</string>
+    <string name="posts">帖子</string>
+
 
 
 </resources>

@@ -19,15 +19,14 @@ import java.util.ArrayList;
 
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.StoryVideoPlayerActivity;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.VideoPlayerActivity;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.InstagramStory;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story_show.Item;
 
 public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.ViewHolder> {
     Context context;
-    ArrayList<InstagramStory> items;
+    ArrayList<Item> items;
     FragmentActivity requireActivity;
 
-    public StoriesViewAdapter(Context context, ArrayList<InstagramStory> items, FragmentActivity requireActivity) {
+    public StoriesViewAdapter(Context context, ArrayList<Item> items, FragmentActivity requireActivity) {
         this.context = context;
         this.items = items;
         this.requireActivity = requireActivity;
@@ -41,21 +40,21 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull StoriesViewAdapter.ViewHolder holder, int position) {
-        InstagramStory itemModel = items.get(position);
+        Item itemModel = items.get(position);
         try {
-            if (itemModel.getMedia_type() == 2) {
+            if (itemModel.video_versions != null) {
                 holder.imgStoryPlay.setVisibility(View.VISIBLE);
             } else {
                 holder.imgStoryPlay.setVisibility(View.GONE);
             }
-            Glide.with(this.context).load(itemModel.getImage_versions2().getCandidates().get(0).getUrl()).into(holder.shapeableImage);
+            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).into(holder.shapeableImage);
         } catch (Exception e) {
             e.printStackTrace();
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (itemModel.getMedia_type() == 2) {
+                if (itemModel.video_versions != null) {
                     VideoShow(itemModel);
                 } else {
                     ImageShow(itemModel);
@@ -64,18 +63,17 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
         });
     }
 
-    private void ImageShow(InstagramStory itemModel) {
+    private void ImageShow(Item itemModel) {
         Intent intent = new Intent(requireActivity, StoryVideoPlayerActivity.class);
-        Log.d("TAG", "ImageShow: "+itemModel.getImage_versions2().getCandidates().get(0).getUrl());
-        intent.putExtra("from", itemModel.getImage_versions2().getCandidates().get(0).getUrl());
+        intent.putExtra("from", itemModel.image_versions2.candidates.get(0).url);
         intent.putExtra("lin", "");
         intent.putExtra("name", "");
         requireActivity.startActivity(intent);
     }
 
-    private void VideoShow(InstagramStory itemModel) {
+    private void VideoShow(Item itemModel) {
         Intent intent = new Intent(requireActivity, StoryVideoPlayerActivity.class);
-        intent.putExtra("from", itemModel.getVideo_versions().get(0).getUrl());
+        intent.putExtra("from", itemModel.video_versions.get(0).url);
         intent.putExtra("lin", "");
         intent.putExtra("name", "");
         requireActivity.startActivity(intent);
@@ -84,7 +82,7 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
 
     @Override
     public int getItemCount() {
-        ArrayList<InstagramStory> arrayList = items;
+        ArrayList<Item> arrayList = items;
         if (arrayList == null) {
             return 0;
         }
@@ -94,7 +92,6 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         ShapeableImageView shapeableImage;
         ImageView imgStoryPlay;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

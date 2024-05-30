@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">ไอจีเครื่องมือดาวน์โหลดวิดีโอ</string>
-    <string name="insaver">ไอจีเซฟเวอร์</string>
+    <string name="app_name">โปรแกรมดาวน์โหลดวิดีโอ</string>
+    <string name="insaver">วีดีโอ จีเซฟเวอร์</string>
     <string name="home">หน้าหลัก</string>
     <string name="explore">สำรวจ</string>
     <string name="browser">เบราว์เซอร์</string>
@@ -83,6 +83,10 @@
     <string name="turkish">ภาษาตุรกี</string>
     <string name="ukrainian">ภาษายูเครน</string>
     <string name="vietnamese">ภาษาเวียดนาม</string>
+    <string name="logout_for_instagram">ออกจากระบบ อินสตาแกรม?</string>
+    <string name="story">เรื่องราว</string>
+    <string name="posts">โพสต์</string>
+
 
 
 </resources>

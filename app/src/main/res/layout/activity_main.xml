@@ -1,127 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/all_bg"
     tools:context=".activity.MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linearToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?actionBarSize"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <ImageView
-                android:id="@+id/imgMenu"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:padding="@dimen/_2sdp"
-                android:src="@drawable/menu"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:adjustViewBounds="true"/>
-
-
-            <TextView
-                android:id="@+id/txtInSaver"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_weight="1"
-                android:ellipsize="marquee"
-                android:fontFamily="@font/sf_pro_text_bold"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:singleLine="true"
-                android:text="@string/insaver"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_20sdp" />
-
-            <ImageView
-                android:id="@+id/imgInstagramLogin"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:adjustViewBounds="true"
-                android:padding="@dimen/_5sdp"
-                android:src="@drawable/ig_open"
-                android:visibility="gone" />
-
-            <!-- <ImageView
-                android:id="@+id/imgInstagramSetting"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/settings"
-                android:visibility="gone"
-                android:layout_marginStart="@dimen/_7sdp"
-                android:adjustViewBounds="true"/>-->
-
-        </LinearLayout>
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/imgLogin"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_7sdp"
             android:adjustViewBounds="true"
-            android:src="@drawable/ig_tab_bottom"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:src="@drawable/ig_profile" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:background="@color/transparent"
-            android:longClickable="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:tabIndicatorColor="@color/transparent"
-            app:tabMaxWidth="0dp"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-            app:tabTextColor="@color/black" />
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/coordinatorP"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
-            app:layout_constraintBottom_toTopOf="@id/tabLayout">
-
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <TextView
+            android:id="@+id/txtInSaver"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:fontFamily="@font/sf_pro_text_bold"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:text="@string/insaver"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp" />
 
         <ImageView
-            android:id="@+id/imgHomeS"
-            android:layout_width="@dimen/_55sdp"
-            android:layout_height="@dimen/_55sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:elevation="@dimen/_10sdp"
-            android:padding="@dimen/_3sdp"
-            android:src="@drawable/ig_home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/imgInstagramLogin"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ig_open"
+            android:visibility="gone" />
 
-        <vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            app:layout_constraintBottom_toTopOf="@+id/tabLayout"
-            app:layout_constraintTop_toBottomOf="@id/linearToolbar"
-            app:layout_constraintVertical_bias="1.0"
-            tools:layout_editor_absoluteX="36dp" />
+        <!-- <ImageView
+            android:id="@+id/imgInstagramSetting"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/settings"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:adjustViewBounds="true"/>-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-    <include
-        android:id="@+id/layoutDrawer"
-        layout="@layout/layout_drawer" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ig_tab_bottom"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:background="@color/transparent"
+        android:longClickable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tabIndicatorColor="@color/transparent"
+        app:tabMaxWidth="0dp"
+        app:tabSelectedTextColor="@color/black"
+        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+        app:tabTextColor="@color/black" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorP"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        app:layout_constraintBottom_toTopOf="@id/tabLayout">
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <ImageView
+        android:id="@+id/imgHomeS"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:elevation="@dimen/_10sdp"
+        android:padding="@dimen/_3sdp"
+        android:src="@drawable/ig_home"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintTop_toBottomOf="@id/linearToolbar"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="36dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

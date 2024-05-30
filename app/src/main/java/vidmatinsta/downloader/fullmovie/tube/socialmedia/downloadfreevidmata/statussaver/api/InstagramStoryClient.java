@@ -18,12 +18,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class InstagramRestClient {
-    private static InstagramRestClient instagramRestClient = new InstagramRestClient();
+public class InstagramStoryClient {
+    private static InstagramStoryClient instagramRestClient = new InstagramStoryClient();
     private static Retrofit retrofit;
     private static Activity mactivity;
 
-    private InstagramRestClient() {
+    private InstagramStoryClient() {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -79,11 +79,11 @@ public class InstagramRestClient {
         }
     }
 
-    public InstagramAPIInterface getService() {
-        return retrofit.create(InstagramAPIInterface.class);
+    public InstagramStoryAPIInterface getService() {
+        return retrofit.create(InstagramStoryAPIInterface.class);
     }
 
-    public static InstagramRestClient getInstance(Activity activity) {
+    public static InstagramStoryClient getInstance(Activity activity) {
         mactivity = activity;
         return instagramRestClient;
     }

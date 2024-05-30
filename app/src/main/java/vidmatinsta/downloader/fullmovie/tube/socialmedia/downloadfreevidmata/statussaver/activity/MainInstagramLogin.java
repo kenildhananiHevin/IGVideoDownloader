@@ -2,6 +2,7 @@ package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.st
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -88,7 +89,9 @@ public class MainInstagramLogin extends BaseActivity {
                 if (mainFindLoginOrNot != null && mainFindLoginOrNot2 != null && mainFindLoginOrNot3 != null) {
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.COOKIES, cooci);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.CSRF, mainFindLoginOrNot2);
+                    Log.d("TAG", "onPageFinisheds1: "+mainFindLoginOrNot);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.SESSIONID, mainFindLoginOrNot);
+                    Log.d("TAG", "onPageFinisheds: "+mainFindLoginOrNot3);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.USERID, mainFindLoginOrNot3);
                     SharedPref.mainSharedPutBoolean(thisActivity, SharedPref.ISINSTALOGIN, true);
                     webView.destroy();

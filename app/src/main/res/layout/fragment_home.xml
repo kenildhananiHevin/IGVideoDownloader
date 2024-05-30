@@ -67,8 +67,8 @@
                 android:id="@+id/txtPaste"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="marquee"
                 android:layout_centerHorizontal="true"
+                android:ellipsize="marquee"
                 android:fontFamily="@font/sf_pro_text_medium"
                 android:gravity="center_horizontal"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -81,9 +81,9 @@
                 android:id="@+id/view"
                 android:layout_width="wrap_content"
                 android:layout_height="2dp"
-                android:layout_alignEnd="@id/txtPaste"
-                android:layout_alignStart="@id/txtPaste"
                 android:layout_below="@id/txtPaste"
+                android:layout_alignStart="@id/txtPaste"
+                android:layout_alignEnd="@id/txtPaste"
                 android:background="@color/black" />
 
         </RelativeLayout>
@@ -115,35 +115,14 @@
         android:textSize="@dimen/_15sdp"
         app:layout_constraintTop_toBottomOf="@id/linearItem" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleRVUserList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginHorizontal="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@id/txtOpenInstagram" />
 
-    <ProgressBar
-        android:id="@+id/progressLoading"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:indeterminate="true"
-        android:layout_marginHorizontal="@dimen/_7sdp"
-        android:indeterminateTint="@color/app_color"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/recycleRVUserList" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleRVStories"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="@dimen/_7sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressLoading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

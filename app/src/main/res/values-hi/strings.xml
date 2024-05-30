@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IGVideoDownloader</string>
-    <string name="insaver">आईजी सेवर</string>
+    <string name="app_name">वीडियो डाउनलोडर</string>
+    <string name="insaver">वीडियो सेवर</string>
     <string name="home">होम</string>
     <string name="explore">अन्वेषण करें</string>
     <string name="browser">ब्राउज़र</string>
@@ -73,7 +73,7 @@
     <string name="german">जर्मन</string>
     <string name="indonesian">इन्डोनेशियाई</string>
     <string name="chinese">चीनी</string>
-    <string name="filipino">filipino</string>
+    <string name="filipino">फिलिपिनो</string>
     <string name="italian">इतालवी</string>
     <string name="afrikaans">अफ्रीकी</string>
     <string name="japanese">जापानी</string>
@@ -83,6 +83,9 @@
     <string name="turkish">तुर्की</string>
     <string name="ukrainian">यूक्रेनी</string>
     <string name="vietnamese">वियतनामी</string>
+    <string name="logout_for_instagram">इंस्टाग्राम के लिए लॉगआउट?</string>
+    <string name="story">कहानी</string>
+    <string name="posts">पोस्ट्स</string>
 
 
 </resources>
