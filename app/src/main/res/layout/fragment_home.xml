@@ -123,6 +123,16 @@
         android:layout_marginTop="@dimen/_20sdp"
         android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toBottomOf="@id/txtOpenInstagram" />
+    <ProgressBar
+        android:id="@+id/progressStory"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/app_color"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/recycleRVUserList" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

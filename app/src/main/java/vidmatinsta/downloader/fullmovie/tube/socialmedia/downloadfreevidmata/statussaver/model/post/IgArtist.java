@@ -1,7 +1,11 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+
+import androidx.annotation.Keep;
+
+@Keep
 public class IgArtist {
-    public int pk;
+    public double pk;
     public String pk_id;
     public String id;
     public String username;

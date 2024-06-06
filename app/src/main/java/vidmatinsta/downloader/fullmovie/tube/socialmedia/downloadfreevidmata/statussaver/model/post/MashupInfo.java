@@ -1,5 +1,9 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+
+import androidx.annotation.Keep;
+
+@Keep
 public class MashupInfo {
     public boolean mashups_allowed;
     public boolean can_toggle_mashups_allowed;

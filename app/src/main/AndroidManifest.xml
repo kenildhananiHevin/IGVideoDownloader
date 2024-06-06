@@ -19,6 +19,7 @@
     </queries>
 
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -30,6 +31,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IGVideoDownloader"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.PhotoVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.BrowserLogin"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ExploreActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.StoryPostShowActivity"
             android:exported="false" />

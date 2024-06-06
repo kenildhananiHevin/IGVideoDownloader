@@ -99,7 +99,7 @@ public class VideoPlayerActivity extends BaseActivity {
         players.play();
 
 
-        if (url.endsWith(".jpg")) {
+        if (url.endsWith(".jpg")|| url.endsWith(".heic") || url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".webp")) {
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);

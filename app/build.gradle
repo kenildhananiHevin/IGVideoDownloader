@@ -17,12 +17,13 @@ android {
         versionName "2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "${applicationId.replace(".", "-")}-${versionName}"
-    }
+        }
 
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -91,5 +92,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-perf'
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 
 }

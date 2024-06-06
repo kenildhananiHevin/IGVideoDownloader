@@ -1,7 +1,11 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+
+@Keep
 public class MusicAssetInfo {
     public String audio_asset_id;
     public String audio_cluster_id;

@@ -1,8 +1,12 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+
+@Keep
 
 public class StoryUser implements Serializable {
     @SerializedName("full_name")

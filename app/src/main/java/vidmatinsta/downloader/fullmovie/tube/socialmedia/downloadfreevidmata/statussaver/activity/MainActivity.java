@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity {
     HistoryFragment historyFragment = new HistoryFragment();
     SettingFragment settingFragment = new SettingFragment();
     String[] permissions;
-    ImageView imgInstagramLogin, imgHomeS;
+    ImageView imgInstagramLogin, imgHomeS, imgInstagramBrowser, imgInstagramExplore,imgLogin;
     String languageCode;
     SwitchCompat switchCompat;
 
@@ -83,6 +83,9 @@ public class MainActivity extends BaseActivity {
         viewPager = findViewById(R.id.view_pager);
         imgInstagramLogin = findViewById(R.id.imgInstagramLogin);
         imgHomeS = findViewById(R.id.imgHomeS);
+        imgInstagramBrowser = findViewById(R.id.imgInstagramBrowser);
+        imgInstagramExplore = findViewById(R.id.imgInstagramExplore);
+        imgLogin = findViewById(R.id.imgLogin);
 
         txtInSaver.setSelected(true);
 
@@ -110,7 +113,7 @@ public class MainActivity extends BaseActivity {
         }, 1500);
 
 
-        findViewById(R.id.imgLogin).setOnClickListener(new DebouncedOnClickListener(750) {
+        imgLogin.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
             public void onDebouncedClick(View v) {
                 AlertDialog alertDialog = new AlertDialog.Builder(activity, R.style.MyTransparentBottomSheetDialogTheme).create();
@@ -119,8 +122,6 @@ public class MainActivity extends BaseActivity {
                 alertDialog.setView(view);
 
                 TextView txtLogin = view.findViewById(R.id.txtLogin);
-                ImageView imgProfile = view.findViewById(R.id.imgProfile);
-                LinearLayout linearLogin = view.findViewById(R.id.linearLogin);
                 switchCompat = view.findViewById(R.id.Switch);
 
                 if (switchCompat != null) {
@@ -137,7 +138,6 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onDebouncedClick(View v) {
                         switchCompat.setChecked(false);
-                        alertDialog.dismiss();
                         if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                             startActivityForResult(new Intent(activity, MainInstagramLogin.class), 250);
                             return;
@@ -174,7 +174,6 @@ public class MainActivity extends BaseActivity {
                                     findViewById(R.id.recycleRVUserList).setVisibility(View.GONE);
                                 }
                                 delete_dialog.dismiss();
-                                alertDialog.dismiss();
                             }
                         });
 
@@ -189,6 +188,7 @@ public class MainActivity extends BaseActivity {
                         alertDialog.dismiss();
                     }
                 });
+
                 alertDialog.show();
                 Window window = alertDialog.getWindow();
                 DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -211,13 +211,22 @@ public class MainActivity extends BaseActivity {
                     hideKeyboard(activity);
                     tab.setIcon(R.drawable.ig_select_history);
                     imgInstagramLogin.setVisibility(View.VISIBLE);
+                    imgInstagramBrowser.setVisibility(View.GONE);
+                    imgInstagramExplore.setVisibility(View.GONE);
+                    imgLogin.setVisibility(View.GONE);
                 } else if (tab.getPosition() == 1) {
                     tab.setIcon(R.drawable.ig_home);
                     imgInstagramLogin.setVisibility(View.GONE);
+                    imgInstagramBrowser.setVisibility(View.VISIBLE);
+                    imgInstagramExplore.setVisibility(View.VISIBLE);
+                    imgLogin.setVisibility(View.VISIBLE);
                 } else if (tab.getPosition() == 2) {
                     hideKeyboard(activity);
                     tab.setIcon(R.drawable.ig_select_setting);
                     imgInstagramLogin.setVisibility(View.GONE);
+                    imgInstagramBrowser.setVisibility(View.GONE);
+                    imgInstagramExplore.setVisibility(View.GONE);
+                    imgLogin.setVisibility(View.GONE);
                 }
             }
 
@@ -247,6 +256,25 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        imgInstagramBrowser.setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                    startActivity(new Intent(activity, BrowserLogin.class));
+                }else {
+                    startActivity(new Intent(activity, BrowserLogin.class));
+                }
+            }
+        });
+
+        imgInstagramExplore.setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                Intent intent = new Intent(activity, ExploreActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         imgInstagramLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,17 +285,11 @@ public class MainActivity extends BaseActivity {
 
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO
+            permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
 
             };
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) &&
-                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) &&
-                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
                     showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
                         @Override
                         public void run() {
@@ -297,13 +319,8 @@ public class MainActivity extends BaseActivity {
 
     private void hideKeyboard(MainActivity activity) {
         try {
-            InputMethodManager inputMethodManager =
-                    (InputMethodManager) activity.getSystemService(
-                            INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(
-                    activity.getCurrentFocus().getWindowToken(),
-                    0
-            );
+            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
             Log.d("TAG", "hideKeyboard: " + e.getMessage());
         }
@@ -350,11 +367,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void showSnackbar(Context context, View view, int text, int dismissText, final Runnable onDismiss) {
-        Snackbar snackbar = Snackbar.make(
-                view,
-                context.getString(text),
-                Snackbar.LENGTH_INDEFINITE
-        );
+        Snackbar snackbar = Snackbar.make(view, context.getString(text), Snackbar.LENGTH_INDEFINITE);
         snackbar.setBackgroundTint(context.getColor(R.color.white));
         snackbar.setTextColor(context.getColor(R.color.black));
         snackbar.setActionTextColor(context.getColor(R.color.app_color));
@@ -374,17 +387,11 @@ public class MainActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO
+            permissions = new String[]{Manifest.permission.POST_NOTIFICATIONS, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO
 
             };
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) &&
-                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) &&
-                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_IMAGES) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_MEDIA_VIDEO)) {
                     showSnackbar(activity, findViewById(R.id.coordinatorP), R.string.please_allow, R.string.allow, new Runnable() {
                         @Override
                         public void run() {
@@ -421,10 +428,7 @@ public class MainActivity extends BaseActivity {
         bundle.putString(EXTRA_FRAGMENT_ARG_KEY, EXTRA_SYSTEM_ALERT_WINDOW);
 
         Uri uri = Uri.fromParts("package", getPackageName(), null);
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                .setData(uri)
-                .putExtra(EXTRA_FRAGMENT_ARG_KEY, EXTRA_SYSTEM_ALERT_WINDOW)
-                .putExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS, bundle);
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(uri).putExtra(EXTRA_FRAGMENT_ARG_KEY, EXTRA_SYSTEM_ALERT_WINDOW).putExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS, bundle);
         startActivityForResult(intent, 102);
     }
 
@@ -434,7 +438,6 @@ public class MainActivity extends BaseActivity {
         if (requestCode == CommonClass.REQUEST_PERM_DELETE && resultCode == -1) {
             historyFragment.onActivityResult(requestCode, resultCode, data);
         }
-
         if (requestCode == 250 && resultCode == -1) {
             if (switchCompat != null) {
                 if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {

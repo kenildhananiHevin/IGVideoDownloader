@@ -1,9 +1,12 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story_show;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.FanClubInfo;
 
+@Keep
 public class User{
     public long pk;
     public String pk_id;

@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.cashloan.myapplication.igvideodownloader",
+  "applicationId": "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.0",
-      "outputFile": "app-release.apk"
+      "versionCode": 2,
+      "versionName": "2.0",
+      "outputFile": "vidmatinsta-downloader-fullmovie-tube-socialmedia-downloadfreevidmata-statussaver-2.0-release.apk"
     }
   ],
   "elementType": "File"

@@ -1,5 +1,8 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class FanClubInfo{
     public Object fan_club_id;
     public Object fan_club_name;

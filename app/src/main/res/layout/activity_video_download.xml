@@ -57,6 +57,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/linearToolbar" />
 
+
     <LinearLayout
         android:id="@+id/videoItem"
         android:layout_width="match_parent"

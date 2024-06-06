@@ -1,5 +1,9 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+
+import androidx.annotation.Keep;
+
+@Keep
 public class FriendshipStatus {
     public boolean following;
     public boolean is_bestie;

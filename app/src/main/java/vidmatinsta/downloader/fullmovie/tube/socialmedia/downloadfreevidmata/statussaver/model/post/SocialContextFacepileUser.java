@@ -1,5 +1,8 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class SocialContextFacepileUser {
     public long pk;
     public String pk_id;

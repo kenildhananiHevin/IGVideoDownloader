@@ -1,5 +1,10 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+
+import androidx.annotation.Keep;
+
+@Keep
+
 public class Location {
     public int pk;
     public String short_name;

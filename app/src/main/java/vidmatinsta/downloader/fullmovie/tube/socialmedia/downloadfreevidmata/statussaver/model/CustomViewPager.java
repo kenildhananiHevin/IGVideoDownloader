@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import androidx.annotation.Keep;
 import androidx.viewpager.widget.ViewPager;
 
+@Keep
 public class CustomViewPager extends ViewPager {
 
     private boolean isPagingEnabled = true;

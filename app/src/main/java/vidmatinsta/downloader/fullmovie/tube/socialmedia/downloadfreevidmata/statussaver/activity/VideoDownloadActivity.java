@@ -12,16 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.service.VideoLiveWallpaperIGService;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DocumentUtils;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.service.VideoLiveWallpaperIGService;
 
 public class VideoDownloadActivity extends BaseActivity {
 
@@ -31,7 +31,7 @@ public class VideoDownloadActivity extends BaseActivity {
     String pathAudio = CommonClass.IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
     Uri Videofileuri;
     LinearLayout videoItem, imageItem;
-    TextView txtAudioVideo, txtWallpaperVideo, txtPreviewVideo, txtShareVideo, txtWallpaperImage, txtPreviewImage, txtShareImage,txtVideoTitle;
+    TextView txtAudioVideo, txtWallpaperVideo, txtPreviewVideo, txtShareVideo, txtWallpaperImage, txtPreviewImage, txtShareImage, txtVideoTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,7 @@ public class VideoDownloadActivity extends BaseActivity {
         String uri = getIntent().getStringExtra("url");
         String links = getIntent().getStringExtra("link");
         String names = getIntent().getStringExtra("name");
+
 
         Log.d("TAG", "onCreategj: " + uri);
         Log.d("TAG", "onCreategj1: " + links);
@@ -91,7 +92,7 @@ public class VideoDownloadActivity extends BaseActivity {
         });
 
 
-        if (uri.endsWith(".jpg")) {
+        if (uri.endsWith(".jpg") || uri.endsWith(".heic") || uri.endsWith(".png") || uri.endsWith(".jpeg") || uri.endsWith(".webp")) {
             videoItem.setVisibility(View.GONE);
             imageItem.setVisibility(View.VISIBLE);
 
@@ -137,7 +138,7 @@ public class VideoDownloadActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Glide.with(activity).load(uri).into(imgDownload);
+                        Glide.with(activity).load(uri).override(500,500).into(imgDownload);
                     }
                 });
             }
@@ -169,7 +170,6 @@ public class VideoDownloadActivity extends BaseActivity {
                 }
             }
         });
-
 
 
         linearVideoWallapaper.setOnClickListener(new View.OnClickListener() {

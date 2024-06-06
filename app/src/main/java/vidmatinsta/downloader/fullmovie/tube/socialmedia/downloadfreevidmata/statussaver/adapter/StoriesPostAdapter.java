@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,13 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
             } else {
                 holder.imgStoryPlay.setVisibility(View.GONE);
             }
-            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).into(holder.shapeableImage);
+
+            if (itemModel.carousel_media_count > 0) {
+                holder.multiImage.setVisibility(View.VISIBLE);
+            } else {
+                holder.multiImage.setVisibility(View.GONE);
+            }
+            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).override(200, 200).into(holder.shapeableImage);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,19 +62,27 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(requireActivity, StoryVideoPlayerActivity.class);
                 if (itemModel.video_versions != null) {
-                    Intent intent = new Intent(requireActivity, StoryVideoPlayerActivity.class);
                     intent.putExtra("from", itemModel.video_versions.get(0).url);
                     intent.putExtra("lin", "");
                     intent.putExtra("name", "");
-                    requireActivity.startActivity(intent);
                 } else {
-                    Intent intent = new Intent(requireActivity, StoryVideoPlayerActivity.class);
-                    intent.putExtra("from", itemModel.image_versions2.candidates.get(0).url);
-                    intent.putExtra("lin", "");
-                    intent.putExtra("name", "");
-                    requireActivity.startActivity(intent);
+                    if (itemModel.carousel_media_count > 0) {
+                        ArrayList<String> photoPath = new ArrayList<>();
+                        for (int i = 0; i < itemModel.carousel_media.size(); i++) {
+                            photoPath.add(itemModel.carousel_media.get(i).image_versions2.candidates.get(0).url);
+                        }
+                        intent.putExtra("photopath", new Gson().toJson(photoPath));
+                        intent.putExtra("lin", "");
+                        intent.putExtra("name", "");
+                    } else {
+                        intent.putExtra("from", itemModel.image_versions2.candidates.get(0).url);
+                        intent.putExtra("lin", "");
+                        intent.putExtra("name", "");
+                    }
                 }
+                requireActivity.startActivity(intent);
             }
         });
 
@@ -81,12 +96,13 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ShapeableImageView shapeableImage;
-        ImageView imgStoryPlay;
+        ImageView imgStoryPlay, multiImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             shapeableImage = itemView.findViewById(R.id.shapeableImage);
             imgStoryPlay = itemView.findViewById(R.id.imgStoryPlay);
+            multiImage = itemView.findViewById(R.id.multiImage);
         }
     }
 }

@@ -8,6 +8,11 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -18,6 +23,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.Node;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.Root;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story_show.RootStory;
@@ -27,6 +37,9 @@ public class CommonClassStoryForAPI {
 
     private static Activity mactivity;
 
+    private String url_for_profile;
+    private boolean is_finish = false;
+
     private static CommonClassStoryForAPI CommonClassStoryForAPI;
 
     public static CommonClassStoryForAPI getInstance() {
@@ -34,11 +47,181 @@ public class CommonClassStoryForAPI {
         return CommonClassStoryForAPI;
     }
 
+    private String webKitKeysFun(String str, String str2) {
+        if (str2 == null || str2.isEmpty() || str2.equalsIgnoreCase("null") || str2.equalsIgnoreCase("0")) {
+            if (str.contains("/tv/")) {
+                return "Instagram 128.0.0.19.128 (Linux; Android 8.0; ANE-LX1 Build/HUAWEIANE-LX1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.109 Mobile Safari/537.36";
+            } else {
+                return "Mozilla/5.0 (Linux; U; Android 4.2.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
+            }
+        }
+        return str2;
+    }
+
+
+    private void followRedirect(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String url, String str2) {
+        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
+        Call<InstagramResponseModelTemp> call = apiService.callResult1(url, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
+        call.enqueue(new Callback<InstagramResponseModelTemp>() {
+            @Override
+            public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
+                if (response.isSuccessful()) {
+                    if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
+                        List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
+                        int size = data.size();
+                        for (int i = 0; i < size; i++) {
+                            stickyNodesList.add(data.get(i).getNode());
+                        }
+                        disposableObserver.onNext(stickyNodesList);
+                        Log.e("=====33", "onResponse: " + size);
+                    } else {
+                        String data = response.body().getData().getShortcode_media().getVideo_url();
+                        if (data == null) {
+                            data = response.body().getData().getShortcode_media().getDisplay_url();
+                        }
+                        disposableObserver2.onNext(data);
+                    }
+
+                } else {
+                    Log.e("=====347", "onResponse: ");
+                    try {
+                        String errorBody = response.errorBody().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+    }
+
+    public static List<Node> stickyNodesList = new ArrayList<>();
+
+    public void callResult(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
+        Log.d("TAG", "edtPasteLinksss: " + str);
+        String oldUrl = str;
+        if (oldUrl.endsWith("/")) {
+            oldUrl = oldUrl.substring(0, oldUrl.length() - 1);
+        }
+        String[] split = oldUrl.split("/");
+        String str3 = "graphql/query/?query_hash=b3055c01b4b222b8a47dc12b090e4e64&variables={%22shortcode%22:%22" + split[split.length - 1] + "%22}";
+
+        Log.e("=====1", "callResult: " + str3);
+        Log.e("=====2", "callResult: " + str2);
+
+        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
+        Call<InstagramResponseModelTemp> call = apiService.callResult1(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
+                            List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
+                            int size = data.size();
+                            for (int i = 0; i < size; i++) {
+                                stickyNodesList.add(data.get(i).getNode());
+                            }
+                            disposableObserver.onNext(stickyNodesList);
+                        } else {
+                            String data = response.body().getData().getShortcode_media().getVideo_url();
+                            if (data == null) {
+                                data = response.body().getData().getShortcode_media().getDisplay_url();
+                            }
+                            disposableObserver2.onNext(data);
+                        }
+                    } else {
+                        Log.e("=====5", "onResponse: ");
+                    }
+                } else if (response.code() == 302) {
+                    Log.e("=====344", "onResponse: ");
+                    String newUrl = response.headers().get("Location");
+                    if (newUrl != null) {
+                        Log.e("=====346", "onResponse: "+newUrl);
+                        followRedirect(disposableObserver, disposableObserver2, newUrl, str2);
+                    } else {
+                        Log.e("=====345", "onResponse: ");
+                    }
+                } else {
+                    Log.e("=====355", "onResponse: ");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
+                Log.e("=====4", "onResponse: " + t.getMessage());
+            }
+        });
+
+       /* InstagramStoryClient.getInstance(mactivity).getService().callResult(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
+            public void onSubscribe(Disposable disposable) {
+            }
+
+            @Override
+            public void onNext(JsonObject userDetailModelGraphqlUser) {
+                Log.d("=====Kenil", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+
+                var listEdges = userDetailModelGraphqlUser.getAsJsonObject("data").getAsJsonObject("shortcode_media").getAsJsonObject("edge_sidecar_to_children").getAsJsonArray("edges");
+
+                for (JsonElement listEdge : listEdges) {
+                    JsonElement node = listEdge.getAsJsonObject().get("node");
+                    Node stikynode = new Gson().fromJson(node, Node.class);
+                    stickyNodesList.add(stikynode);
+                }
+                Log.e("TAG", "onNext: " + stickyNodesList.size());
+                disposableObserver.onNext(userDetailModelGraphqlUser);
+            }
+
+            public void onError(Throwable th) {
+                disposableObserver.onError(th);
+                Log.d("=====Kenil", "onNextghj2: " + th);
+            }
+
+            public void onComplete() {
+                disposableObserver.onComplete();
+            }
+        });*/
+//        if (modifiedStr2 == null || modifiedStr2.isEmpty()) {
+//            modifiedStr2 = "";
+//        }
+//        webKitKeysFun(str, modifiedStr2);
+
+//        InstagramStoryClient.getInstance(mactivity).getService().callResult(str, modifiedStr2, webKitKeysFun(str, modifiedStr2))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<JsonObject>() {
+//                    @Override
+//                    public void onComplete() {
+//                    }
+//
+//                    @Override
+//                    public void onSubscribe(Disposable disposable) {
+//                    }
+//
+//                    @Override
+//                    public void onNext(JsonObject jsonObject) {
+//                        disposableObserver.onNext(jsonObject);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable th) {
+//                        disposableObserver.onError(th);
+//                    }
+//                });
+    }
+
+
     public void getStories(final DisposableObserver disposableObserver, String str) {
         if (CommonClass.isNullOrEmpty(str)) {
             str = "";
         }
-        InstagramStoryClient.getInstance(mactivity).getService().getStoriesApi(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu42WcpscR/vYfeBAs6heZq3l"), str, "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<StoryModel>() {
+        InstagramStoryClient.getInstance(mactivity).getService().getStoriesApi(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu42WcpscR/vYfeBAs6heZq3l"), str, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<StoryModel>() {
             public void onSubscribe(Disposable disposable) {
             }
 
@@ -57,7 +240,7 @@ public class CommonClassStoryForAPI {
     }
 
     public void getFullStory(final DisposableObserver disposableObserver, String str, String str2) {
-        InstagramStoryClient.getInstance(mactivity).getService().getUserStory(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str + "/story", str2, "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<RootStory>() {
+        InstagramStoryClient.getInstance(mactivity).getService().getUserStory(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str + "/story", str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<RootStory>() {
             public void onSubscribe(Disposable disposable) {
             }
 
@@ -78,8 +261,63 @@ public class CommonClassStoryForAPI {
         });
     }
 
+    public void getUserExplore(final DisposableObserver disposableObserver, String str, String str2) {
+/*        String key = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            key = encrypt("https://www.instagram.com/explore/grid/?module=explore_popular");
+        }
+        Log.d("TAG", "getFullPostExtra: " + key);*/
+
+        InstagramStoryClient.getInstance(mactivity).getService().getUsersExplore(a("j/lr6TYl4YNfKyXJTehUaiggxkQBERodO20Naug4Lkp18M49Hf0pL0XzhRShEklQnOgUtCN9LKnDrwxvlRrF0w=="), str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
+            public void onSubscribe(Disposable disposable) {
+            }
+
+            @Override
+            public void onNext(JsonObject userDetailModelGraphqlUser) {
+                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+                disposableObserver.onNext(userDetailModelGraphqlUser);
+            }
+
+            public void onError(Throwable th) {
+                disposableObserver.onError(th);
+                Log.d("TAG", "onNextghj2: " + th);
+            }
+
+            public void onComplete() {
+                disposableObserver.onComplete();
+            }
+        });
+    }
+
+    public void getUserExploreExtra(final DisposableObserver disposableObserver, String str, String str2, String exploreMaxId) {
+      /*  String key = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            key = encrypt("https://www.instagram.com/explore/grid/?module=explore_popular");
+        }
+        Log.d("TAG", "getFullPostExtra1: " + key);*/
+        InstagramStoryClient.getInstance(mactivity).getService().getUserTimeExplore(a("j/lr6TYl4YNfKyXJTehUaiggxkQBERodO20Naug4Lkp18M49Hf0pL0XzhRShEklQnOgUtCN9LKnDrwxvlRrF0w=="), str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", exploreMaxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
+            public void onSubscribe(Disposable disposable) {
+            }
+
+            @Override
+            public void onNext(JsonObject userDetailModelGraphqlUser) {
+                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+                disposableObserver.onNext(userDetailModelGraphqlUser);
+            }
+
+            public void onError(Throwable th) {
+                disposableObserver.onError(th);
+                Log.d("TAG", "onNextghj2: " + th);
+            }
+
+            public void onComplete() {
+                disposableObserver.onComplete();
+            }
+        });
+    }
+
     public void getFullPost(final DisposableObserver disposableObserver, String str, String str2) {
-        InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\"", "0").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
+        InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", "0").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
             public void onSubscribe(Disposable disposable) {
             }
 
@@ -107,7 +345,7 @@ public class CommonClassStoryForAPI {
         }*/
         /*Log.d("TAG", "getFullPostExtra: " + key);*/
 
-        InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 9.5.2 (iPhone7,2; iPhone OS 9_3_3; en_US; en-US; scale=2.00; 750x1334) AppleWebKit/420+\"", maxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
+        InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", maxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
             public void onSubscribe(Disposable disposable) {
             }
 

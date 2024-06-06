@@ -1,7 +1,10 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+@Keep
 public class CarouselMedium{
     public String id;
     public boolean explore_pivot_grid;

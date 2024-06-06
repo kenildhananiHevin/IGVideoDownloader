@@ -1,7 +1,11 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+
+@Keep
 public class MusicConsumptionInfo {
     public IgArtist ig_artist;
     public String placeholder_profile_pic_url;

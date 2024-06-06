@@ -25,7 +25,6 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import java.io.IOException;
 
 public class WallpaperActivity extends BaseActivity {
-
     ImageView imgWallPic, imgWallpaperBack, imgLockSelect, imgHomeSelect, imgBothSelect;
     WallpaperActivity activity;
     TextView txtApply, txtCancel, txtOk;
@@ -46,8 +45,7 @@ public class WallpaperActivity extends BaseActivity {
         imgWallPic = findViewById(R.id.imgWallPic);
         txtApply = findViewById(R.id.txtApply);
         imgWallpaperBack = findViewById(R.id.imgWallpaperBack);
- /*       txHomeScreen = findViewById(R.id.txHomeScreen);
-        txLockScreen = findViewById(R.id.txLockScreen);*/
+
 
         Glide.with(activity).load(imgWall).into(imgWallPic);
 
@@ -180,39 +178,5 @@ public class WallpaperActivity extends BaseActivity {
                 window.setGravity(Gravity.CENTER);
             }
         });
-
-        /*txHomeScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WallpaperManager wallpaperManager = WallpaperManager.getInstance(activity);
-                Bitmap bitmap = ((BitmapDrawable) imgWallPic.getDrawable()).getBitmap();
-                try {
-                    wallpaperManager.setBitmap(bitmap);
-                    Toast.makeText(activity, getString(R.string.wallpaper_set), Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    Toast.makeText(activity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        txLockScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WallpaperManager wallpaperManager = WallpaperManager.getInstance(activity);
-                Bitmap bitmap = ((BitmapDrawable) imgWallPic.getDrawable()).getBitmap();
-                try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        wallpaperManager.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK | WallpaperManager.FLAG_SYSTEM);
-                    } else {
-                        wallpaperManager.setBitmap(bitmap);
-                    }
-                    Toast.makeText(activity, getString(R.string.wallpaper_set), Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    Toast.makeText(activity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        });*/
-
     }
 }

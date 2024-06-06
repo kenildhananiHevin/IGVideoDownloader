@@ -1,7 +1,10 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+@Keep
 public class Owner{
     public Object fbid_v2;
     public boolean feed_post_reshare_disabled;

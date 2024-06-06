@@ -1,5 +1,8 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Caption{
     public int bit_flags;
     public int created_at;

@@ -1,8 +1,12 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
-public class Item{
+@Keep
+
+public class Item {
     public int taken_at;
     public Object pk;
     public String id;

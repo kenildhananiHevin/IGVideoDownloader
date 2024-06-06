@@ -26,20 +26,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.ImagePagerAdapter;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
@@ -49,13 +53,16 @@ public class StoryVideoPlayerActivity extends BaseActivity {
     public static StyledPlayerView player;
     private ExoPlayer players;
     float currentSpeed = 1.0f;
-    ImageView imgPic, imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst, imgDownload;
+    ImageView imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst, imgDownload;
     LinearLayout linearItem;
     String pathAudio = CommonClass.IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
-    Uri fileuri;
     TextView txtVideoPlayer, txtImage;
     RelativeLayout relativeToolBar;
     AlertDialog alertDialog;
+    Uri fileuri;
+    ArrayList<String> photopath = new ArrayList<>();
+    private ImagePagerAdapter adapter;
+    ViewPager2 imgPic;
 
 
     @SuppressLint("MissingInflatedId")
@@ -68,15 +75,24 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         String url = getIntent().getStringExtra("from");
         String linkss = getIntent().getStringExtra("lin");
         String allName = getIntent().getStringExtra("name");
+        int positions = getIntent().getIntExtra("position", 0);
         Log.d("TAG", "pathss: " + url);
         Log.d("TAG", "linkss: " + linkss);
 
 
-        MediaScannerConnection.scanFile(this, new String[]{url}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
-                fileuri = uri;
+        try {
+            if (url != null) {
+                MediaScannerConnection.scanFile(this, new String[]{url}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        fileuri = uri;
+                    }
+                });
+            } else {
+                Log.e("TAG", "onCreate: ");
             }
-        });
+        } catch (Exception e) {
+            Log.e("=====Kenil", "onCreate: " + e.getMessage());
+        }
 
 
         player = findViewById(R.id.video_view);
@@ -95,60 +111,45 @@ public class StoryVideoPlayerActivity extends BaseActivity {
 
 
         players = new ExoPlayer.Builder(activity).build();
-        MediaItem mediaItem = MediaItem.fromUri(url);
-        players.setMediaItem(mediaItem);
-        players.prepare();
-        player.setPlayer(players);
-        players.play();
 
+        if (url != null) {
+            MediaItem mediaItem = MediaItem.fromUri(url);
+            players.setMediaItem(mediaItem);
+            players.prepare();
+            player.setPlayer(players);
+            players.play();
+        }
 
-        if (url.contains(".jpg") || url.contains(".heic") || url.contains(".png") || url.contains(".jpeg")) {
+        if (getIntent().getStringExtra("photopath") != null) {
+            String json = getIntent().getStringExtra("photopath");
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            photopath = gson.fromJson(json, listType);
+            adapter = new ImagePagerAdapter(this, photopath);
+            imgPic.setAdapter(adapter);
+            imgPic.setCurrentItem(positions);
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
             imgTopTrans.setVisibility(View.VISIBLE);
-            Glide.with(activity).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).into(imgPic);
-
-            txtImage.setText(allName);
-            txtImage.setSelected(true);
-
-            imgShare.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    CommonClass.shareAllImage(activity, url);
-                }
-            });
-
-            imgBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-
             imgOpenInst.setVisibility(View.GONE);
             imgDownload.setVisibility(View.VISIBLE);
             imgRepost.setVisibility(View.GONE);
 
-            imgDownload.setOnClickListener(new DebouncedOnClickListener(750) {
-                @Override
-                public void onDebouncedClick(View v) {
-                    try {
-                        createProgress();
-                        startDownload(url, activity, System.currentTimeMillis() + ".jpg", alertDialog, "", "");
-                    } catch (Exception e) {
-                        e.getMessage();
-                    }
-                }
-            });
+        } else if (url.contains(".jpg") || url.contains(".heic") || url.contains(".png") || url.contains(".jpeg") || url.contains(".webp")) {
+            player.setVisibility(View.GONE);
+            relativeToolBar.setVisibility(View.VISIBLE);
+            linearItem.setVisibility(View.VISIBLE);
+            imgTopTrans.setVisibility(View.VISIBLE);
 
-
-            imgWallpaper.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(activity, WallpaperActivity.class).putExtra("uriImg", url));
-                }
-            });
+            photopath.add(url);
+            adapter = new ImagePagerAdapter(this, photopath);
+            imgPic.setAdapter(adapter);
+            imgPic.setCurrentItem(positions);
+            imgOpenInst.setVisibility(View.GONE);
+            imgDownload.setVisibility(View.VISIBLE);
+            imgRepost.setVisibility(View.GONE);
         } else {
             new GuideView.Builder(activity)
                     .setTitle(getString(R.string.extract_audio))
@@ -161,6 +162,41 @@ public class StoryVideoPlayerActivity extends BaseActivity {
                     .show();
         }
 
+        txtImage.setText(allName);
+        txtImage.setSelected(true);
+
+        imgShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonClass.shareAllImage(activity, photopath.get(imgPic.getCurrentItem()));
+            }
+        });
+
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        imgDownload.setOnClickListener(new DebouncedOnClickListener(750) {
+            @Override
+            public void onDebouncedClick(View v) {
+                try {
+                    createProgress();
+                    startDownload(photopath.get(imgPic.getCurrentItem()), activity, System.currentTimeMillis() + ".jpg", alertDialog, "", "");
+                } catch (Exception e) {
+                    e.getMessage();
+                }
+            }
+        });
+
+        imgWallpaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(activity, WallpaperActivity.class).putExtra("uriImg", photopath.get(imgPic.getCurrentItem())));
+            }
+        });
 
         txtVideoPlayer.setText(allName);
         txtVideoPlayer.setSelected(true);
@@ -181,7 +217,6 @@ public class StoryVideoPlayerActivity extends BaseActivity {
                 }
             }
         });
-
 
         findViewById(R.id.imgVideoSpeed).setOnClickListener(new View.OnClickListener() {
             @Override

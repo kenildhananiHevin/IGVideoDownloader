@@ -27,7 +27,7 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
-public class StoryPostShowActivity extends AppCompatActivity {
+public class StoryPostShowActivity extends BaseActivity {
     RecyclerView recycleRVStories, recycleRVPost;
     StoriesPostAdapter storiesPostAdapter;
     StoriesViewAdapter storiesViewAdapter;
@@ -37,8 +37,7 @@ public class StoryPostShowActivity extends AppCompatActivity {
     private String storyUserOld;
     private CommonClassStoryForAPI CallInstaApi;
     public long storyUser;
-    ProgressBar progressStory;
-
+    ProgressBar progressStory,progressStoryShow;
 
     public DisposableObserver<RootStory> storyDetailsMainObserver = new DisposableObserver<RootStory>() {
         @Override
@@ -54,45 +53,43 @@ public class StoryPostShowActivity extends AppCompatActivity {
                     storiesViewAdapter.notifyDataSetChanged();
                 }
             } catch (Exception e) {
-                Log.d("TAG", "onNextsssss: " + e.getMessage());
                 e.printStackTrace();
             }
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.d("TAG", "onErrorssss: " + e.getMessage());
             e.printStackTrace();
         }
 
         @Override
         public void onComplete() {
-
         }
     };
+
 
     public String postMax;
     DisposableObserver<Root> postStoryDetailsMainObserver = new DisposableObserver<Root>() {
         @Override
         public void onNext(Root root) {
+            Log.d("TAG", "onNext232: ");
             try {
                 postMax = root.next_max_id;
                 if (root.items() != null) {
-                    Log.d("TAG", "itemsss: " + root.items.size());
                     if (root.user.pk_id.equals(storyUserOld)) {
                         storiesPostAdapter.items.addAll(root.items);
                     } else {
                         storiesPostAdapter.items = (root.items);
                     }
-                    Log.d("TAG", "sizess: " + postMax + " " + storiesPostAdapter.items.size());
                     storiesPostAdapter.notifyDataSetChanged();
+                    progressStoryShow.setVisibility(View.GONE);
                 } else {
                     storiesPostAdapter.items = new ArrayList();
                     storiesPostAdapter.notifyDataSetChanged();
+                    progressStoryShow.setVisibility(View.GONE);
                 }
                 storyUserOld = root.user.pk_id;
             } catch (Exception e) {
-                Log.d("TAG", "onNextsssss: " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -100,13 +97,14 @@ public class StoryPostShowActivity extends AppCompatActivity {
         @Override
         public void onError(Throwable e) {
             progressStory.setVisibility(View.GONE);
-            Log.d("TAG", "onErrorssss: " + e.getMessage());
+            progressStoryShow.setVisibility(View.GONE);
             e.printStackTrace();
         }
 
         @Override
         public void onComplete() {
             progressStory.setVisibility(View.GONE);
+            progressStoryShow.setVisibility(View.GONE);
         }
     };
 
@@ -119,7 +117,6 @@ public class StoryPostShowActivity extends AppCompatActivity {
         CallInstaApi = CommonClassStoryForAPI.getInstance();
 
         long storyUsers = getIntent().getLongExtra("userId",0);
-        Log.d("TAG", "storyUsersd: "+storyUsers);
 
         recycleRVStories = findViewById(R.id.recycleRVStories);
         recycleRVPost = findViewById(R.id.recycleRVPost);
@@ -127,15 +124,17 @@ public class StoryPostShowActivity extends AppCompatActivity {
         txtPost = findViewById(R.id.txtPost);
         txtStory = findViewById(R.id.txtStory);
         progressStory = findViewById(R.id.progressStory);
+        progressStoryShow = findViewById(R.id.progressStoryShow);
 
         storyUser = storyUsers;
         Handler handler = new Handler();
+        progressStoryShow.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 callStoriesDetailApi(String.valueOf(storyUser));
             }
-        },1000);
+        },2500);
 
         txtStory.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
@@ -167,7 +166,7 @@ public class StoryPostShowActivity extends AppCompatActivity {
         recycleRVPost.setLayoutManager(gridLayoutManagers);
         recycleRVPost.setNestedScrollingEnabled(false);
         recycleRVPost.setHasFixedSize(false);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        gridLayoutManagers.setOrientation(RecyclerView.VERTICAL);
 
         storiesPostAdapter = new StoriesPostAdapter(activity, new ArrayList<>(), activity);
         recycleRVPost.setAdapter(storiesPostAdapter);
@@ -184,6 +183,7 @@ public class StoryPostShowActivity extends AppCompatActivity {
             }
         });
     }
+
     private void callStoriesDetailApis(String str, String maxIds) {
         try {
             if (!new CommonClass(activity).isNetworkAvailable()) {
@@ -191,7 +191,6 @@ public class StoryPostShowActivity extends AppCompatActivity {
             } else if (CallInstaApi != null) {
                 CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
                 DisposableObserver<Root> disposableObservers = postStoryDetailsMainObserver;
-                Log.d("TAG", "callStoriesDetailApi: " + str);
                 commonClassStoryForAPI2.getFullPostExtra(disposableObservers, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID), maxIds);
             }
         } catch (Exception e) {
@@ -206,7 +205,7 @@ public class StoryPostShowActivity extends AppCompatActivity {
                 CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
                 DisposableObserver<RootStory> disposableObserver = storyDetailsMainObserver;
                 DisposableObserver<Root> disposableObservers = postStoryDetailsMainObserver;
-                Log.d("TAG", "callStoriesDetailApi: " + str);
+                Log.d("TAG", "callStoriesDetailApighj: "+str);
                 commonClassStoryForAPI2.getFullPost(disposableObservers, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
                 commonClassStoryForAPI2.getFullStory(disposableObserver, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
             }
