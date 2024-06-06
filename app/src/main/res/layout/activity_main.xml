@@ -53,9 +53,9 @@
             android:id="@+id/imgInstagramBrowser"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:adjustViewBounds="true"
-            android:padding="@dimen/_4sdp"
+            android:padding="@dimen/_6sdp"
             android:src="@drawable/browser"
             android:visibility="gone" />
 
@@ -63,14 +63,11 @@
             android:id="@+id/imgInstagramExplore"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_7sdp"
             android:adjustViewBounds="true"
-            android:padding="@dimen/_3sdp"
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/explore"
             android:visibility="gone" />
-
-
-
     </LinearLayout>
 
     <ImageView

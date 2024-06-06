@@ -51,10 +51,12 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
 
             if (itemModel.carousel_media_count > 0) {
                 holder.multiImage.setVisibility(View.VISIBLE);
+                holder.imgShadow.setVisibility(View.VISIBLE);
             } else {
                 holder.multiImage.setVisibility(View.GONE);
+                holder.imgShadow.setVisibility(View.GONE);
             }
-            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).override(200, 200).into(holder.shapeableImage);
+            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).override(200, 200).into(holder.imgPhotoShow);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,14 +97,14 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView shapeableImage;
-        ImageView imgStoryPlay, multiImage;
+        ImageView imgStoryPlay, multiImage,imgPhotoShow,imgShadow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            shapeableImage = itemView.findViewById(R.id.shapeableImage);
+            imgPhotoShow = itemView.findViewById(R.id.imgPhotoShow);
             imgStoryPlay = itemView.findViewById(R.id.imgStoryPlay);
             multiImage = itemView.findViewById(R.id.multiImage);
+            imgShadow = itemView.findViewById(R.id.imgShadow);
         }
     }
 }

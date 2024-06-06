@@ -15,17 +15,8 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 
 public interface InstagramStoryAPIInterface {
     @GET
-    Observable<JsonObject> callResult(
-            @Url String url,
-            @Header("Cookie") String cookie,
-            @Header("User-Agent") String userAgent
-    );
-
-
-    @GET
     Observable<StoryModel> getStoriesApi(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3);
 
-    //    "https://www.instagram.com/{username}/?__a=1"
     @GET
     Observable<Root> getUserDetail(@Url String str, @Header("Cookie") String str2, @Header("User-Agent") String str3, @Query("max_id") String str4);
 

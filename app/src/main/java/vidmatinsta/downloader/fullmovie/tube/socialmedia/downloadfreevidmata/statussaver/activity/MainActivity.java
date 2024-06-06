@@ -20,13 +20,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -50,7 +48,7 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
 public class MainActivity extends BaseActivity {
-    TextView txtInSaver;
+    TextView txtInSaver, login, login_txt, login_cancel, txtLogin, txtLogout;
     TabLayout tabLayout;
     CustomViewPager viewPager;
     MainActivity activity;
@@ -62,9 +60,9 @@ public class MainActivity extends BaseActivity {
     HistoryFragment historyFragment = new HistoryFragment();
     SettingFragment settingFragment = new SettingFragment();
     String[] permissions;
-    ImageView imgInstagramLogin, imgHomeS, imgInstagramBrowser, imgInstagramExplore,imgLogin;
+    ImageView imgInstagramLogin, imgHomeS, imgInstagramBrowser, imgInstagramExplore, imgLogin;
     String languageCode;
-    SwitchCompat switchCompat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,70 +119,63 @@ public class MainActivity extends BaseActivity {
                 View view = layoutInflater.inflate(R.layout.login_dialog, null);
                 alertDialog.setView(view);
 
-                TextView txtLogin = view.findViewById(R.id.txtLogin);
-                switchCompat = view.findViewById(R.id.Switch);
+                login = view.findViewById(R.id.login);
+                login_txt = view.findViewById(R.id.login_txt);
+                login_cancel = view.findViewById(R.id.login_cancel);
+                txtLogin = view.findViewById(R.id.txtLogin);
+                txtLogout = view.findViewById(R.id.txtLogout);
 
-                if (switchCompat != null) {
-                    if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
-                        switchCompat.setChecked(true);
-                    } else {
-                        switchCompat.setChecked(false);
-                    }
+
+                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                    txtLogin.setVisibility(View.GONE);
+                    txtLogout.setVisibility(View.VISIBLE);
+                    login.setText(R.string.logout);
+                    login_txt.setText(R.string.do_you_want_to_logout_your_instagram_account);
+                } else {
+                    txtLogin.setVisibility(View.VISIBLE);
+                    txtLogout.setVisibility(View.GONE);
+                    login.setText(R.string.login);
+                    login_txt.setText(R.string.do_you_want_to_login_your_instagram_account);
                 }
 
-                txtLogin.setSelected(true);
 
-                switchCompat.setOnClickListener(new DebouncedOnClickListener(750) {
+                login_cancel.setOnClickListener(new DebouncedOnClickListener(750) {
                     @Override
                     public void onDebouncedClick(View v) {
-                        switchCompat.setChecked(false);
+                        alertDialog.dismiss();
+                    }
+                });
+
+                txtLogin.setOnClickListener(new DebouncedOnClickListener(750) {
+                    @Override
+                    public void onDebouncedClick(View v) {
                         if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                             startActivityForResult(new Intent(activity, MainInstagramLogin.class), 250);
-                            return;
                         }
-                        AlertDialog delete_dialog = new AlertDialog.Builder(activity, R.style.MyTransparentBottomSheetDialogTheme).create();
-                        LayoutInflater layoutInflater = getLayoutInflater();
-                        View view1 = layoutInflater.inflate(R.layout.logout_dailog, null);
-                        delete_dialog.setView(view1);
-                        delete_dialog.setCanceledOnTouchOutside(false);
+                        alertDialog.dismiss();
+                    }
+                });
 
-                        TextView story_cancel = view1.findViewById(R.id.story_cancel);
-                        TextView story_yes = view1.findViewById(R.id.story_yes);
-
-                        story_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                delete_dialog.dismiss();
-                                switchCompat.setChecked(true);
-                            }
-                        });
-
-                        story_yes.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SharedPref.getInstance(activity).mainSharedPutBoolean(activity, SharedPref.ISINSTALOGIN, false);
-                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.COOKIES, "");
-                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.CSRF, "");
-                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.SESSIONID, "");
-                                SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.USERID, "");
-                                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
-                                    switchCompat.setChecked(true);
-                                } else {
-                                    switchCompat.setChecked(false);
-                                    findViewById(R.id.recycleRVUserList).setVisibility(View.GONE);
-                                }
-                                delete_dialog.dismiss();
-                            }
-                        });
-
-                        delete_dialog.show();
-                        Window window = delete_dialog.getWindow();
-                        DisplayMetrics displayMetrics = new DisplayMetrics();
-                        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                        int screenWidth = displayMetrics.widthPixels;
-                        int dialogWidth = (int) (screenWidth * 0.80);
-                        window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        window.setGravity(Gravity.CENTER);
+                txtLogout.setOnClickListener(new DebouncedOnClickListener(750) {
+                    @Override
+                    public void onDebouncedClick(View v) {
+                        SharedPref.getInstance(activity).mainSharedPutBoolean(activity, SharedPref.ISINSTALOGIN, false);
+                        SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.COOKIES, "");
+                        SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.CSRF, "");
+                        SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.SESSIONID, "");
+                        SharedPref.getInstance(activity).mainSharedPutString(activity, SharedPref.USERID, "");
+                        if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                            txtLogin.setVisibility(View.GONE);
+                            txtLogout.setVisibility(View.VISIBLE);
+                            login.setText(R.string.logout);
+                            login_txt.setText(R.string.do_you_want_to_logout_your_instagram_account);
+                        } else {
+                            txtLogin.setVisibility(View.VISIBLE);
+                            txtLogout.setVisibility(View.GONE);
+                            login.setText(R.string.login);
+                            login_txt.setText(R.string.do_you_want_to_login_your_instagram_account);
+                            findViewById(R.id.recycleRVUserList).setVisibility(View.GONE);
+                        }
                         alertDialog.dismiss();
                     }
                 });
@@ -261,7 +252,7 @@ public class MainActivity extends BaseActivity {
             public void onDebouncedClick(View v) {
                 if (!SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                     startActivity(new Intent(activity, BrowserLogin.class));
-                }else {
+                } else {
                     startActivity(new Intent(activity, BrowserLogin.class));
                 }
             }
@@ -399,7 +390,6 @@ public class MainActivity extends BaseActivity {
                         }
                     });
                 } else {
-//                    ActivityCompat.requestPermissions(activity, permissions, 101);
                 }
             }
         } else {
@@ -413,7 +403,6 @@ public class MainActivity extends BaseActivity {
                         }
                     });
                 } else {
-//                    ActivityCompat.requestPermissions(activity, permissions, 101);
                 }
             }
         }
@@ -439,15 +428,20 @@ public class MainActivity extends BaseActivity {
             historyFragment.onActivityResult(requestCode, resultCode, data);
         }
         if (requestCode == 250 && resultCode == -1) {
-            if (switchCompat != null) {
-                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
-                    switchCompat.setChecked(true);
-                } else {
-                    switchCompat.setChecked(false);
-                }
+            if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                txtLogin.setVisibility(View.GONE);
+                txtLogout.setVisibility(View.VISIBLE);
+                login.setText(R.string.logout);
+                login_txt.setText(R.string.do_you_want_to_logout_your_instagram_account);
+            } else {
+                txtLogin.setVisibility(View.VISIBLE);
+                txtLogout.setVisibility(View.GONE);
+                login.setText(R.string.login);
+                login_txt.setText(R.string.do_you_want_to_login_your_instagram_account);
             }
         }
     }
+
 
     @Override
     protected void onResume() {

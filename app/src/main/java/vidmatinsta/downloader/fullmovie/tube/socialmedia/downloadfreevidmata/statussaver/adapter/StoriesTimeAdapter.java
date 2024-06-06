@@ -46,11 +46,6 @@ public class StoriesTimeAdapter extends RecyclerView.Adapter<StoriesTimeAdapter.
             } else {
                 holder.imgStoryPlay.setVisibility(View.GONE);
             }
-            /*if (itemModel.play_count>0){
-                holder.multiImage.setVisibility(View.VISIBLE);
-            }else {
-                holder.multiImage.setVisibility(View.VISIBLE);
-            }*/
             Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).override(200,200).into(holder.shapeableImage);
         } catch (Exception e) {
             e.printStackTrace();

@@ -98,7 +98,6 @@ public class AudioActivity extends BaseActivity {
         }
 
 
-//        musicFile.clear();
 
 
         findViewById(R.id.imgAudioBack).setOnClickListener(new View.OnClickListener() {

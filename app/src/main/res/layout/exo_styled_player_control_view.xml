@@ -61,13 +61,14 @@
 
             <ImageView
                 android:id="@+id/imgVideoDownload"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/download"
                 android:adjustViewBounds="true"
                 android:visibility="gone"
+                android:padding="@dimen/_5sdp"
                 app:tint="@color/white" />
 
         </RelativeLayout>

@@ -45,19 +45,6 @@ public class InstagramStoryClient {
                     .client(client)
                     .build();
         }
-//        if (afterLogin){
-//              String base = "https://optekasoft.net";
-//            new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-//            Retrofit build = new Retrofit.Builder().baseUrl(base).addConverterFactory(GsonConverterFactory.create()).client(new OkHttpClient.Builder().addInterceptor(new NetworkConnectionInterceptor(mactivity)).addInterceptor(new Interceptor() { // from class: instagram.video.downloader.story.saver.insapp.Apis.APIClient.1
-//                @Override // okhttp3.Interceptor
-//                public Response intercept(Chain chain) throws IOException {
-//                    String compact = Jwts.builder().claim("platform", "android").claim("time", Long.valueOf(System.currentTimeMillis())).signWith(SignatureAlgorithm.HS256, InstagramStoryClient.getEncryptedKey().getBytes()).compact();
-//                    Log.e("scdacc", "token = " + compact);
-//                    return chain.proceed(chain.request().newBuilder().addHeader("Authorization", "Bearer " + compact).build());
-//                }
-//            }).retryOnConnectionFailure(true).callTimeout(2L, TimeUnit.MINUTES).connectTimeout(60L, TimeUnit.SECONDS).readTimeout(60L, TimeUnit.SECONDS).writeTimeout(60L, TimeUnit.SECONDS).cache(new Cache(mactivity.getCacheDir(), 5242880)).build()).build();
-//            retrofit = build;
-//        }
     }
 
 

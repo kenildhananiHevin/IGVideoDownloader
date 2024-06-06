@@ -215,13 +215,7 @@ public class HomeFragment extends Fragment {
                     }
                     if (new URL(edtPasteLink.getText().toString()).getHost().equals("www.instagram.com")) {
                         tempUrl = edtPasteLink.getText().toString();
-//                        String str2 = getUrlInstaWithoutParameters(tempUrl) + "?__a=1&__d=dis";
                         String str3 = url_clean(tempUrl).split("\\?")[0];
-//                        if (!str3.endsWith("/")) {
-//                            str2 = str3;
-//                        } else {
-//                            str2 = str3;
-//                        }
                         CallInstaApi.callResult(getInstaPhoto,getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
                     } else {
                         Toast.makeText(requireActivity(), "Enter Valid Url", Toast.LENGTH_SHORT).show();
@@ -248,15 +242,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
-//    public static JsonObject rootPhotoVideoJson;
 
     public DisposableObserver<ArrayList<Node>> getInstaPhoto = new DisposableObserver<ArrayList<Node>>() {
         @Override
         public void onNext(ArrayList<Node> rootPhotoVideo) {
             Log.e("=====Kenil", "onError1: " + new Gson().toJson(rootPhotoVideo));
             try {
-//                Gson gson = new Gson();
-//                rootPhotoVideoJson = rootPhotoVideo;
                 alertDialog.dismiss();
                 requireActivity().startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
             } catch (Exception e) {
@@ -297,193 +288,6 @@ public class HomeFragment extends Fragment {
         public void onComplete() {
         }
     };
-
-/*
-
-
-    private String getUrlInstaWithoutParameters(String tempUrl) {
-        try {
-            URI uri = new URI(tempUrl);
-            return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), null, uri.getFragment()).toString();
-        } catch (Exception e) {
-            Toast.makeText(requireActivity(), "Enter Valid Url", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-
-    }
-
-    private DisposableObserver<JsonObject> getInstaUserName = new DisposableObserver<JsonObject>() {
-        @Override
-        public void onNext(JsonObject jsonObject) {
-            int i;
-            int mediaType = 0;
-            try {
-                list.clear();
-                JSONObject json = new JSONObject(jsonObject.toString());
-                JSONArray itemsArray = json.getJSONArray("items");
-                String userNametemp = "";
-                for (int i2 = 0; i2 < itemsArray.length(); i2++) {
-                    JSONObject itemObject = itemsArray.getJSONObject(i2);
-                    mediaType = itemObject.getInt("media_type");
-                    userNametemp = itemObject.getJSONObject("user").getString("username");
-                    String str = "url";
-                    if (mediaType == 1) {
-                        JSONArray candidatesArray = itemObject.getJSONObject("image_versions2").getJSONArray("candidates");
-                        for (int i4 = 0; i4 < candidatesArray.length(); i4++) {
-                            JSONObject candidateObject = candidatesArray.getJSONObject(i4);
-                            InstagramDetailModel instagramDetailModel = new InstagramDetailModel();
-                            instagramDetailModel.width = candidateObject.getInt("width");
-                            instagramDetailModel.height = candidateObject.getInt("height");
-                            instagramDetailModel.url = candidateObject.getString(str);
-                            instagramDetailModel.isFlag = (i4 == 0);
-                            list.add(instagramDetailModel);
-                        }
-                        i = i2;
-                    } else {
-                        i = i2;
-                        if (mediaType == 2) {
-                            JSONArray videoVersionsArray = itemObject.getJSONArray("video_versions");
-                            for (int i7 = 0; i7 < videoVersionsArray.length(); i7++) {
-                                JSONObject videoObject = videoVersionsArray.getJSONObject(i7);
-                                InstagramDetailModel instagramDetailModel2 = new InstagramDetailModel();
-                                instagramDetailModel2.width = videoObject.getInt("width");
-                                instagramDetailModel2.height = videoObject.getInt("height");
-                                instagramDetailModel2.url = videoObject.getString(str);
-                                instagramDetailModel2.isFlag = (i7 == 0);
-                                list.add(instagramDetailModel2);
-                            }
-                        } else {
-                            Toast.makeText(requireActivity(), R.string.somethingWentWrong, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    i2 = i + 1;
-                }
-                *//*dialogInstagramDownload(userNametemp, list.get(0).url);*//*
-                if (list.size() == 0) {
-                    Toast.makeText(requireActivity(), R.string.somethingWentWrong, Toast.LENGTH_SHORT).show();
-                }
-
-                if (mediaType == 1 || mediaType == 8) {
-                    startActivity(new Intent(requireActivity(), ImageListActivity.class).putExtra("url", "").putExtra("link", edtPasteLink.getText().toString()).putExtra("name", userNametemp).putExtra("list", new Gson().toJson(list)));
-
-//                    startDownload(list.getUrl(), requireActivity(), getImageFilenameFromURL(list.get(0).getUrl()), alertDialog, edtPasteLink.getText().toString(), userNametemp);
-                } else {
-                    startDownload(list.get(0).getUrl(), requireActivity(), getVideoFilenameFromURL(list.get(0).getUrl()), alertDialog, edtPasteLink.getText().toString(), userNametemp);
-                }
-//                startDownload(list.get(0).getUrl(), requireActivity(), getVideoFilenameFromURL(list.get(0).getUrl()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                String str2;
-                String str3 = url_clean(tempUrl).split("\\?")[0];
-                if (!str3.endsWith("/")) {
-                    str2 = str3;
-                } else {
-                    str2 = str3;
-                }
-                try {
-//                    CallInstaApi.try_with_webview_api(str2,page);
-                    CallInstaApi.callResult(instagramObserver, str2, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; " + "sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public void onError(Throwable th) {
-            th.printStackTrace();
-            String str2;
-            String str3 = url_clean(tempUrl).split("\\?")[0];
-            if (!str3.endsWith("/")) {
-                str2 = str3;
-            } else {
-                str2 = str3;
-            }
-            try {
-//                CallInstaApi.try_with_webview_api(str2,page);
-                CallInstaApi.callResult(instagramObserver, str2, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; " + "sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
-            } catch (Exception e) {
-                Toast.makeText(requireActivity(), R.string.somethingWentWrong, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onComplete() {
-        }
-    };
-
-    private DisposableObserver<JsonObject> instagramObserver = new DisposableObserver<JsonObject>() {
-        @Override
-        public void onNext(JsonObject jsonObject) {
-            try {
-                InstagramResponseModelTemp temp = new Gson().fromJson(jsonObject.toString(), new TypeToken<InstagramResponseModelTemp>() {
-                }.getType());
-                Log.e("====Hits", "onNext: " + temp);
-
-                InstagramResponseModel responseModel = new Gson().fromJson(jsonObject.toString(), new TypeToken<InstagramResponseModel>() {
-                }.getType());
-                InstagramResponseModel.ApplyChildView edgeSidecarChildren = responseModel.getGraphql().getShortcodeMedia().getEdgeSidecarToChildren();
-                if (edgeSidecarChildren != null) {
-                    List<InstagramResponseModel.ApplyChildView.Edge> edges = edgeSidecarChildren.getEdges();
-                    for (int i = 0; i < edges.size(); i++) {
-                        if (edges.get(i).getNode().isVideo()) {
-                            mMediaTypeVideo = edges.get(i).getNode().getVideoUrl();
-                            String str = mMediaTypeVideo;
-                            startDownload(str, requireActivity(), getVideoFilenameFromURL(mMediaTypeVideo), alertDialog, edtPasteLink.getText().toString(), "");
-                            edtPasteLink.setText("");
-                            mMediaTypeVideo = "";
-                        } else {
-                            mMediaTypeImage = edges.get(i).getNode().getDisplayResources().get(edges.get(i).getNode().getDisplayResources().size() - 1).getSrc();
-                            String str3 = mMediaTypeImage;
-                            startDownload(str3, requireActivity(), getImageFilenameFromURL(mMediaTypeImage), alertDialog, edtPasteLink.getText().toString(), "");
-                            mMediaTypeImage = "";
-                            edtPasteLink.setText("");
-                        }
-                    }
-                } else if (responseModel.getGraphql().getShortcodeMedia().isVideo()) {
-                    mMediaTypeVideo = responseModel.getGraphql().getShortcodeMedia().getVideoUrl();
-                    String str5 = mMediaTypeVideo;
-                    startDownload(str5, requireActivity(), getVideoFilenameFromURL(mMediaTypeVideo), alertDialog, edtPasteLink.getText().toString(), "");
-                    mMediaTypeVideo = "";
-                    edtPasteLink.setText("");
-                } else {
-                    mMediaTypeImage = responseModel.getGraphql().getShortcodeMedia().getDisplayResources().get(responseModel.getGraphql().getShortcodeMedia().getDisplayResources().size() - 1).getSrc();
-                    String str7 = mMediaTypeImage;
-                    startDownload(str7, requireActivity(), getImageFilenameFromURL(mMediaTypeImage), alertDialog, edtPasteLink.getText().toString(), "");
-                    mMediaTypeImage = "";
-                    edtPasteLink.setText("");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(requireActivity(), R.string.logout_for_instagram, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void onError(Throwable th) {
-            Toast.makeText(requireActivity(), R.string.logout_for_instagram, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onComplete() {
-        }
-    };
-
-    public static String getVideoFilenameFromURL(String str) {
-        try {
-            return new File(new URL(str).getPath()).getName();
-        } catch (MalformedURLException e) {
-            return System.currentTimeMillis() + ".mp4";
-        }
-    }
-
-    public static String getImageFilenameFromURL(String str) {
-        try {
-            return new File(new URL(str).getPath()).getName();
-        } catch (MalformedURLException e) {
-            return System.currentTimeMillis() + ".jpg";
-        }
-    }*/
 
     String foundLink = "";
 

@@ -44,14 +44,15 @@ public class BrowserLogin extends BaseActivity {
 
     public void MainView() {
         mainWebView.getSettings().setJavaScriptEnabled(true);
-        mainWebView.setWebViewClient(new WebviewWebclient());
+        if (SharedPref.getInstance(thisActivity).mainSharedGetBoolean(thisActivity, SharedPref.ISINSTALOGIN)){
+            Log.e("=====Kenil", "MainView: ");
+        }else {
+            CookieManager.getInstance().removeAllCookie();
+            mainWebView.setWebViewClient(new WebviewWebclient());
+            Log.e("=====Kenil", "MainView11: ");
+        }
         mainWebView.loadUrl("https://www.instagram.com");
-        mainWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView webView, int newProgress) {
-                mainRefresh.setRefreshing(newProgress != 100);
-            }
-        });
+        CookieSyncManager.getInstance().sync();
     }
 
     public String mainFindLoginOrNot(String str, String str2) {
@@ -71,12 +72,13 @@ public class BrowserLogin extends BaseActivity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView webView, String str) {
             webView.loadUrl(str);
-            return true;
+            return false;
         }
 
         @Override
         public void onPageFinished(WebView webView, String str) {
             super.onPageFinished(webView, str);
+
             cooci = CookieManager.getInstance().getCookie(str);
             try {
                 String mainFindLoginOrNot = mainFindLoginOrNot(str, "sessionid");
@@ -94,10 +96,19 @@ public class BrowserLogin extends BaseActivity {
                     Intent intent = new Intent();
                     intent.putExtra("result", "result");
                     thisActivity.setResult(-1, intent);
+                    mainWebView.setWebViewClient(null);
+                    mainWebView.loadUrl("https://www.instagram.com");
+                    recreate();
+                    CookieSyncManager.getInstance().sync();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

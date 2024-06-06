@@ -32,7 +32,7 @@ public class InstagramStoryClientTemp {
                         Request original = chain.request();
                         Request.Builder requestBuilder = original.newBuilder()
                                 .header("User-Agent", "Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)")
-                                .header("Cookie", "66861895529; sessionid=66861895529%3As2eK3DKOHaryxc%3A6%3AAYfdap4g7QqAgc_sztETRvUchD3KDd0OWsIFUx2UAg");
+                                .header("Cookie", cookie);
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
                     }

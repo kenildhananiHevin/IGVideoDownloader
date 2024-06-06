@@ -47,7 +47,7 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
             } else {
                 holder.imgStoryPlay.setVisibility(View.GONE);
             }
-            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).into(holder.shapeableImage);
+            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).into(holder.imgPhotoShow);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,12 +90,11 @@ public class StoriesViewAdapter extends RecyclerView.Adapter<StoriesViewAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView shapeableImage;
-        ImageView imgStoryPlay;
+        ImageView imgStoryPlay,imgPhotoShow;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            shapeableImage = itemView.findViewById(R.id.shapeableImage);
+            imgPhotoShow = itemView.findViewById(R.id.imgPhotoShow);
             imgStoryPlay = itemView.findViewById(R.id.imgStoryPlay);
         }
     }

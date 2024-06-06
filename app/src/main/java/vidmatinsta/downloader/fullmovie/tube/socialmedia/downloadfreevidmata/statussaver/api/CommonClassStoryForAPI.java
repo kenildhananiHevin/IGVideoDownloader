@@ -47,16 +47,6 @@ public class CommonClassStoryForAPI {
         return CommonClassStoryForAPI;
     }
 
-    private String webKitKeysFun(String str, String str2) {
-        if (str2 == null || str2.isEmpty() || str2.equalsIgnoreCase("null") || str2.equalsIgnoreCase("0")) {
-            if (str.contains("/tv/")) {
-                return "Instagram 128.0.0.19.128 (Linux; Android 8.0; ANE-LX1 Build/HUAWEIANE-LX1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.109 Mobile Safari/537.36";
-            } else {
-                return "Mozilla/5.0 (Linux; U; Android 4.2.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
-            }
-        }
-        return str2;
-    }
 
 
     private void followRedirect(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String url, String str2) {
@@ -103,7 +93,6 @@ public class CommonClassStoryForAPI {
     public static List<Node> stickyNodesList = new ArrayList<>();
 
     public void callResult(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
-        Log.d("TAG", "edtPasteLinksss: " + str);
         String oldUrl = str;
         if (oldUrl.endsWith("/")) {
             oldUrl = oldUrl.substring(0, oldUrl.length() - 1);
@@ -158,62 +147,6 @@ public class CommonClassStoryForAPI {
                 Log.e("=====4", "onResponse: " + t.getMessage());
             }
         });
-
-       /* InstagramStoryClient.getInstance(mactivity).getService().callResult(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
-            public void onSubscribe(Disposable disposable) {
-            }
-
-            @Override
-            public void onNext(JsonObject userDetailModelGraphqlUser) {
-                Log.d("=====Kenil", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
-
-                var listEdges = userDetailModelGraphqlUser.getAsJsonObject("data").getAsJsonObject("shortcode_media").getAsJsonObject("edge_sidecar_to_children").getAsJsonArray("edges");
-
-                for (JsonElement listEdge : listEdges) {
-                    JsonElement node = listEdge.getAsJsonObject().get("node");
-                    Node stikynode = new Gson().fromJson(node, Node.class);
-                    stickyNodesList.add(stikynode);
-                }
-                Log.e("TAG", "onNext: " + stickyNodesList.size());
-                disposableObserver.onNext(userDetailModelGraphqlUser);
-            }
-
-            public void onError(Throwable th) {
-                disposableObserver.onError(th);
-                Log.d("=====Kenil", "onNextghj2: " + th);
-            }
-
-            public void onComplete() {
-                disposableObserver.onComplete();
-            }
-        });*/
-//        if (modifiedStr2 == null || modifiedStr2.isEmpty()) {
-//            modifiedStr2 = "";
-//        }
-//        webKitKeysFun(str, modifiedStr2);
-
-//        InstagramStoryClient.getInstance(mactivity).getService().callResult(str, modifiedStr2, webKitKeysFun(str, modifiedStr2))
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Observer<JsonObject>() {
-//                    @Override
-//                    public void onComplete() {
-//                    }
-//
-//                    @Override
-//                    public void onSubscribe(Disposable disposable) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(JsonObject jsonObject) {
-//                        disposableObserver.onNext(jsonObject);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable th) {
-//                        disposableObserver.onError(th);
-//                    }
-//                });
     }
 
 

@@ -24,10 +24,6 @@ public class PhotoVideoActivity extends BaseActivity {
         activity = this;
 
         recyclePhotoVideo = findViewById(R.id.recyclePhotoVideo);
-
-//        stickyNodesList.clear();
-
-//        Log.d("=====Kenil", "onCreate1: " + rootPhotoVideoJson);
         if (stickyNodesList != null) {
             if (stickyNodesList.size() > 0) {
                 recyclePhotoVideo.setLayoutManager(new GridLayoutManager(activity, 3));

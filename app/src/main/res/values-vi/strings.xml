@@ -86,7 +86,10 @@
     <string name="logout_for_instagram">Đăng xuất Instagram?</string>
     <string name="story">CÂU CHUYỆN</string>
     <string name="posts">BÀI VIẾT</string>
-
+    <string name="logout">Logout</string>
+    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
+    <string name="login">Login</string>
+    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
 
 
 </resources>
