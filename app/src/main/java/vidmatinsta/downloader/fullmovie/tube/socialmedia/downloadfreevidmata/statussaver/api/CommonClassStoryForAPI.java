@@ -6,6 +6,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -32,6 +33,7 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story_show.RootStory;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
 public class CommonClassStoryForAPI {
 
@@ -48,9 +50,8 @@ public class CommonClassStoryForAPI {
     }
 
 
-
-    private void followRedirect(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String url, String str2) {
-        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
+    private void followRedirect(FragmentActivity fragmentActivity, final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String url, String str2) {
+        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(SharedPref.getInstance(fragmentActivity).sharedGetString(fragmentActivity, SharedPref.COOKIES)).create(InstagramStoryAPIInterfaceTemp.class);
         Call<InstagramResponseModelTemp> call = apiService.callResult1(url, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
         call.enqueue(new Callback<InstagramResponseModelTemp>() {
             @Override
@@ -92,7 +93,7 @@ public class CommonClassStoryForAPI {
 
     public static List<Node> stickyNodesList = new ArrayList<>();
 
-    public void callResult(final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
+    public void callResult(FragmentActivity fragmentActivity, final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
         String oldUrl = str;
         if (oldUrl.endsWith("/")) {
             oldUrl = oldUrl.substring(0, oldUrl.length() - 1);
@@ -102,8 +103,7 @@ public class CommonClassStoryForAPI {
 
         Log.e("=====1", "callResult: " + str3);
         Log.e("=====2", "callResult: " + str2);
-
-        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
+        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(SharedPref.getInstance(fragmentActivity).sharedGetString(fragmentActivity, SharedPref.COOKIES)).create(InstagramStoryAPIInterfaceTemp.class);
         Call<InstagramResponseModelTemp> call = apiService.callResult1(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
 
         call.enqueue(new Callback<>() {
@@ -132,8 +132,8 @@ public class CommonClassStoryForAPI {
                     Log.e("=====344", "onResponse: ");
                     String newUrl = response.headers().get("Location");
                     if (newUrl != null) {
-                        Log.e("=====346", "onResponse: "+newUrl);
-                        followRedirect(disposableObserver, disposableObserver2, newUrl, str2);
+                        Log.e("=====346", "onResponse: " + newUrl);
+                        followRedirect(fragmentActivity,disposableObserver, disposableObserver2, newUrl, str2);
                     } else {
                         Log.e("=====345", "onResponse: ");
                     }
@@ -195,19 +195,13 @@ public class CommonClassStoryForAPI {
     }
 
     public void getUserExplore(final DisposableObserver disposableObserver, String str, String str2) {
-/*        String key = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            key = encrypt("https://www.instagram.com/explore/grid/?module=explore_popular");
-        }
-        Log.d("TAG", "getFullPostExtra: " + key);*/
-
         InstagramStoryClient.getInstance(mactivity).getService().getUsersExplore(a("j/lr6TYl4YNfKyXJTehUaiggxkQBERodO20Naug4Lkp18M49Hf0pL0XzhRShEklQnOgUtCN9LKnDrwxvlRrF0w=="), str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
             public void onSubscribe(Disposable disposable) {
             }
 
             @Override
             public void onNext(JsonObject userDetailModelGraphqlUser) {
-                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser.getAsJsonArray("sectional_items")));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
@@ -223,13 +217,10 @@ public class CommonClassStoryForAPI {
     }
 
     public void getUserExploreExtra(final DisposableObserver disposableObserver, String str, String str2, String exploreMaxId) {
-      /*  String key = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            key = encrypt("https://www.instagram.com/explore/grid/?module=explore_popular");
-        }
-        Log.d("TAG", "getFullPostExtra1: " + key);*/
         InstagramStoryClient.getInstance(mactivity).getService().getUserTimeExplore(a("j/lr6TYl4YNfKyXJTehUaiggxkQBERodO20Naug4Lkp18M49Hf0pL0XzhRShEklQnOgUtCN9LKnDrwxvlRrF0w=="), str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", exploreMaxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<JsonObject>() {
             public void onSubscribe(Disposable disposable) {
+
+
             }
 
             @Override
@@ -252,6 +243,7 @@ public class CommonClassStoryForAPI {
     public void getFullPost(final DisposableObserver disposableObserver, String str, String str2) {
         InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", "0").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
             public void onSubscribe(Disposable disposable) {
+
             }
 
             @Override
@@ -272,12 +264,6 @@ public class CommonClassStoryForAPI {
     }
 
     public void getFullPostExtra(final DisposableObserver disposableObserver, String str, String str2, String maxId) {
-       /* String key = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            key = encrypt("https://i.instagram.com/api/v1/feed/user/");
-        }*/
-        /*Log.d("TAG", "getFullPostExtra: " + key);*/
-
         InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", maxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
             public void onSubscribe(Disposable disposable) {
             }

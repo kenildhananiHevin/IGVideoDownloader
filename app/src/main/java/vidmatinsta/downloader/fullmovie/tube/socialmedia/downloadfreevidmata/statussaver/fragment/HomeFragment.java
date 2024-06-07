@@ -1,5 +1,7 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment;
 
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.a;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipboardManager;
@@ -177,11 +179,6 @@ public class HomeFragment extends Fragment {
                     return;
                 }
 
-                if (edtPasteLink.getText().toString().contains("stories")) {
-                    Log.d("TAG", "edtPasteLinks1: " + edtPasteLink.getText().toString());
-                    Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if (!CommonClass.IgVideoPathDirectory.exists()) {
                     CommonClass.IgVideoPathDirectory.mkdirs();
                 }
@@ -191,6 +188,12 @@ public class HomeFragment extends Fragment {
                     loginDownload(edtPasteLink.getText().toString());
                     create_progress();
                     return;
+                } else {
+                    if (edtPasteLink.getText().toString().contains("stories")) {
+                        Log.d("TAG", "edtPasteLinks1: " + edtPasteLink.getText().toString());
+                        Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
                 DownloadClick(edtPasteLink.getText().toString());
                 create_progress();
@@ -216,11 +219,13 @@ public class HomeFragment extends Fragment {
                     if (new URL(edtPasteLink.getText().toString()).getHost().equals("www.instagram.com")) {
                         tempUrl = edtPasteLink.getText().toString();
                         String str3 = url_clean(tempUrl).split("\\?")[0];
-                        CallInstaApi.callResult(getInstaPhoto,getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
+                        Log.e("=====Kenil", "loginDownload: " + str3);
+                        CallInstaApi.callResult(requireActivity(),getInstaPhoto, getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
                     } else {
                         Toast.makeText(requireActivity(), "Enter Valid Url", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
+                    Log.e("=====Kenil", "loginDownload: "+e.getMessage());
                     e.printStackTrace();
                 }
             } else {
@@ -231,11 +236,11 @@ public class HomeFragment extends Fragment {
 
     private String url_clean(String str) {
         try {
-            String replace = str.replace("https://instagram.com", "https://www.instagram.com");
-            if (replace.startsWith("https://www.instagram.com")) {
+            String replace = str.replace(a("NDCiQCnI3sx1+ahv/1Pbv7g8j+sPKuSETmlxi1RCtkM="), a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="));
+            if (replace.startsWith(a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="))) {
                 return replace;
             }
-            String str2 = "https://www.instagram.com" + str.split("https://www.instagram.com")[1];
+            String str2 = a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg=") + str.split(a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="))[1];
             return str2.contains(" ") ? str.split(" ")[0] : str2;
         } catch (Exception unused) {
             return str;
@@ -251,7 +256,7 @@ public class HomeFragment extends Fragment {
                 alertDialog.dismiss();
                 requireActivity().startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
             } catch (Exception e) {
-                Log.e("=====Kenil", "onNext: "+e.getMessage());
+                Log.e("=====Kenil", "onNext: " + e.getMessage());
             }
         }
 
@@ -270,10 +275,10 @@ public class HomeFragment extends Fragment {
         @Override
         public void onNext(String rootPhotoVideo) {
             try {
-                if (rootPhotoVideo.contains(".jpg") || rootPhotoVideo.contains(".heic") || rootPhotoVideo.contains(".png") || rootPhotoVideo.contains(".jpeg") || rootPhotoVideo.contains(".webp")){
-                    startDownload(rootPhotoVideo, requireActivity(), System.currentTimeMillis() + ".jpg", alertDialog, edtPasteLink.getText().toString(),"");
-                }else {
-                    startDownload(rootPhotoVideo, requireActivity(), System.currentTimeMillis() + ".mp4", alertDialog, edtPasteLink.getText().toString(),"");
+                if (rootPhotoVideo.contains(".jpg") || rootPhotoVideo.contains(".heic") || rootPhotoVideo.contains(".png") || rootPhotoVideo.contains(".jpeg") || rootPhotoVideo.contains(".webp")) {
+                    startDownload(rootPhotoVideo, requireActivity(), System.currentTimeMillis() + ".jpg", alertDialog, edtPasteLink.getText().toString(), "");
+                } else {
+                    startDownload(rootPhotoVideo, requireActivity(), System.currentTimeMillis() + ".mp4", alertDialog, edtPasteLink.getText().toString(), "");
                 }
 
             } catch (Exception e) {

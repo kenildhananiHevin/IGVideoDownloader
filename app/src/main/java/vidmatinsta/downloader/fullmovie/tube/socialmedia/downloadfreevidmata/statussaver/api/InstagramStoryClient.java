@@ -1,5 +1,7 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api;
 
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.a;
+
 import android.app.Activity;
 import android.util.Log;
 
@@ -39,7 +41,7 @@ public class InstagramStoryClient {
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://www.instagram.com/")
+                    .baseUrl(a("j/lr6TYl4YNfKyXJTehUaifiw1AcYbbYBP3KbRfbnUs="))
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)

@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">Keluar dari Instagram?</string>
     <string name="story">CERITA</string>
     <string name="posts">POSTINGAN</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">Keluar</string>
+    <string name="do_you_want_to_logout_your_instagram_account">Apakah Anda ingin keluar dari akun Instagram Anda?</string>
+    <string name="login">Masuk</string>
+    <string name="do_you_want_to_login_your_instagram_account">Apakah Anda ingin masuk ke akun Instagram Anda?</string>
+
 
 
 </resources>

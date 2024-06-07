@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">इंस्टाग्राम के लिए लॉगआउट?</string>
     <string name="story">कहानी</string>
     <string name="posts">पोस्ट्स</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">लॉग आउट</string>
+    <string name="do_you_want_to_logout_your_instagram_account">क्या आप अपने इंस्टाग्राम अकाउंट से लॉग आउट करना चाहते हैं?</string>
+    <string name="login">लॉग इन</string>
+    <string name="do_you_want_to_login_your_instagram_account">क्या आप अपने इंस्टाग्राम अकाउंट में लॉग इन करना चाहते हैं?</string>
+
 
 
 </resources>

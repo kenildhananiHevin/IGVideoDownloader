@@ -88,6 +88,7 @@ public class MainInstagramLogin extends BaseActivity {
                 String mainFindLoginOrNot3 = mainFindLoginOrNot(str, "ds_user_id");
                 if (mainFindLoginOrNot != null && mainFindLoginOrNot2 != null && mainFindLoginOrNot3 != null) {
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.COOKIES, cooci);
+                    Log.e("=====Kenil", "onPageFinished: "+cooci);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.CSRF, mainFindLoginOrNot2);
                     Log.d("TAG", "onPageFinisheds1: "+mainFindLoginOrNot);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.SESSIONID, mainFindLoginOrNot);

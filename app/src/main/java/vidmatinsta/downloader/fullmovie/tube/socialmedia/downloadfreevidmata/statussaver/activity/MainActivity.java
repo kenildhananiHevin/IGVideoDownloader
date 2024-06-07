@@ -124,8 +124,6 @@ public class MainActivity extends BaseActivity {
                 login_cancel = view.findViewById(R.id.login_cancel);
                 txtLogin = view.findViewById(R.id.txtLogin);
                 txtLogout = view.findViewById(R.id.txtLogout);
-
-
                 if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                     txtLogin.setVisibility(View.GONE);
                     txtLogout.setVisibility(View.VISIBLE);
@@ -261,8 +259,12 @@ public class MainActivity extends BaseActivity {
         imgInstagramExplore.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
             public void onDebouncedClick(View v) {
-                Intent intent = new Intent(activity, ExploreActivity.class);
-                startActivity(intent);
+                if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
+                    Intent intent = new Intent(activity, ExploreActivity.class);
+                    startActivity(intent);
+                }else {
+                    imgLogin.performClick();
+                }
             }
         });
 

@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">Instagramのログアウト?</string>
     <string name="story">ストーリー</string>
     <string name="posts">投稿</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">ログアウト</string>
+    <string name="do_you_want_to_logout_your_instagram_account">インスタグラムアカウントからログアウトしますか？</string>
+    <string name="login">ログイン</string>
+    <string name="do_you_want_to_login_your_instagram_account">インスタグラムアカウントにログインしますか？</string>
+
 
 
 </resources>

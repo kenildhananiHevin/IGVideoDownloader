@@ -1,5 +1,10 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api;
 
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.a;
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.encrypt;
+
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,12 +21,14 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
 public class InstagramStoryClientTemp {
     private static Retrofit retrofit = null;
     private static final Map<String, List<Cookie>> cookieStore = new HashMap<>();
 
     public static Retrofit getClient(String cookie) {
+        Log.e("=====Kenil", "intercept: "+cookie);
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -29,10 +36,11 @@ public class InstagramStoryClientTemp {
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
+
                         Request original = chain.request();
                         Request.Builder requestBuilder = original.newBuilder()
                                 .header("User-Agent", "Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)")
-                                .header("Cookie", cookie);
+                                .header("Cookie",  cookie);
                         Request request = requestBuilder.build();
                         return chain.proceed(request);
                     }
@@ -53,12 +61,18 @@ public class InstagramStoryClientTemp {
                 .build();
 
         if (retrofit == null) {
+          /*  String key = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                key = encrypt("https://www.instagram.com/");
+            }
+            Log.d("TAG", "getFullPostExtra123: " + key);*/
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://www.instagram.com/")
+                    .baseUrl(a("j/lr6TYl4YNfKyXJTehUaifiw1AcYbbYBP3KbRfbnUs="))
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
         return retrofit;
     }
+
 }

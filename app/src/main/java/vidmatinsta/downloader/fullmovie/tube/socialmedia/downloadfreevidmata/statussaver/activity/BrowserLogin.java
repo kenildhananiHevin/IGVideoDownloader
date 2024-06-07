@@ -1,5 +1,8 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity;
 
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.a;
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.encrypt;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +54,7 @@ public class BrowserLogin extends BaseActivity {
             mainWebView.setWebViewClient(new WebviewWebclient());
             Log.e("=====Kenil", "MainView11: ");
         }
-        mainWebView.loadUrl("https://www.instagram.com");
+        mainWebView.loadUrl(a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="));
         CookieSyncManager.getInstance().sync();
     }
 
@@ -97,7 +100,7 @@ public class BrowserLogin extends BaseActivity {
                     intent.putExtra("result", "result");
                     thisActivity.setResult(-1, intent);
                     mainWebView.setWebViewClient(null);
-                    mainWebView.loadUrl("https://www.instagram.com");
+                    mainWebView.loadUrl(a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="));
                     recreate();
                     CookieSyncManager.getInstance().sync();
                 }

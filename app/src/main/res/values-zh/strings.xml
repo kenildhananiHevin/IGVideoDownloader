@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">登出 Instagram？</string>
     <string name="story">故事</string>
     <string name="posts">帖子</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">退出登录</string>
+    <string name="do_you_want_to_logout_your_instagram_account">您要退出您的Instagram账户吗？</string>
+    <string name="login">登录</string>
+    <string name="do_you_want_to_login_your_instagram_account">您要登录您的Instagram账户吗？</string>
+
 
 
 </resources>

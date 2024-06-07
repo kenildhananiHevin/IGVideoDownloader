@@ -68,7 +68,7 @@
                 android:src="@drawable/download"
                 android:adjustViewBounds="true"
                 android:visibility="gone"
-                android:padding="@dimen/_5sdp"
+                android:padding="@dimen/_7sdp"
                 app:tint="@color/white" />
 
         </RelativeLayout>

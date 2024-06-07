@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,12 +67,12 @@ public class PhotoVideoAdapter extends RecyclerView.Adapter<PhotoVideoAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ShapeableImageView shapeablePhotoVideo;
+        ImageView shapeablePhotoVideo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            shapeablePhotoVideo = itemView.findViewById(R.id.shapeablePhotoVideo);
+            shapeablePhotoVideo = itemView.findViewById(R.id.imgPhotoShow);
         }
     }
 }

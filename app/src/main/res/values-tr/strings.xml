@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">Instagram\'dan çıkış yap?</string>
     <string name="story">HİKAYE</string>
     <string name="posts">GÖNDERİLER</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">Çıkış Yap</string>
+    <string name="do_you_want_to_logout_your_instagram_account">Instagram hesabınızdan çıkış yapmak istiyor musunuz?</string>
+    <string name="login">Giriş Yap</string>
+    <string name="do_you_want_to_login_your_instagram_account">Instagram hesabınıza giriş yapmak istiyor musunuz?</string>
+
 
 
 </resources>

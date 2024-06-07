@@ -86,10 +86,11 @@
     <string name="logout_for_instagram">Mag-log Out sa Instagram?</string>
     <string name="story">KWENTO</string>
     <string name="posts">MGA POST</string>
-    <string name="logout">Logout</string>
-    <string name="do_you_want_to_logout_your_instagram_account">Do you want to logout your Instagram account?</string>
-    <string name="login">Login</string>
-    <string name="do_you_want_to_login_your_instagram_account">Do you want to login your Instagram account?</string>
+    <string name="logout">Mag-logout</string>
+    <string name="do_you_want_to_logout_your_instagram_account">Gusto mo bang mag-logout sa iyong Instagram account?</string>
+    <string name="login">Mag-login</string>
+    <string name="do_you_want_to_login_your_instagram_account">Gusto mo bang mag-login sa iyong Instagram account?</string>
+
 
 
 </resources>
