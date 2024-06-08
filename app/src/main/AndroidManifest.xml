@@ -84,6 +84,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:exported="true">
+
+        </activity>
 
         <service
             android:name=".service.VideoLiveWallpaperIGService"

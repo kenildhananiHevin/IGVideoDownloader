@@ -1,5 +1,7 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model;
 
+import androidx.annotation.Keep;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -7,14 +9,17 @@ import java.util.List;
 
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.Node;
 
+@Keep
 public class InstagramResponseModelTemp implements Serializable {
     @SerializedName("data")
     Data data;
 
+    @Keep
     public class Data implements Serializable {
         @SerializedName("shortcode_media")
         shortcode_media shortcode_media;
 
+        @Keep
         public class shortcode_media implements Serializable {
             @SerializedName("edge_sidecar_to_children")
             edge_sidecar_to_children edge_sidecar_to_children;
@@ -39,6 +44,7 @@ public class InstagramResponseModelTemp implements Serializable {
                 this.video_url = video_url;
             }
 
+            @Keep
             public class edge_sidecar_to_children implements Serializable {
                 @SerializedName("edges")
                 List<edges> edges;

@@ -32,6 +32,7 @@ public class InstagramStoryClientTemp {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new RetryInterceptor())
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -59,7 +60,6 @@ public class InstagramStoryClientTemp {
                     }
                 })
                 .build();
-
         if (retrofit == null) {
           /*  String key = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

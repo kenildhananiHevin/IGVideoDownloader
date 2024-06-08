@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver",
+  "applicationId": "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.test",
   "variantName": "release",
   "elements": [
     {
@@ -12,8 +12,8 @@
       "filters": [],
       "attributes": [],
       "versionCode": 2,
-      "versionName": "2.0",
-      "outputFile": "vidmatinsta-downloader-fullmovie-tube-socialmedia-downloadfreevidmata-statussaver-2.0-release.apk"
+      "versionName": "2.0_dev",
+      "outputFile": "vidmatinsta-downloader-fullmovie-tube-socialmedia-downloadfreevidmata-statussaver-test-2.0_dev-release.apk"
     }
   ],
   "elementType": "File"

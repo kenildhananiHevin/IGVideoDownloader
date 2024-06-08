@@ -6,15 +6,24 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file("D:\\kenil\\IGVideoDownloader\\app\\vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.jks")
+            storePassword "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
+            keyAlias "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
+            keyPassword "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
+        }
+    }
+
     namespace 'vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver'
     compileSdk 33
 
     defaultConfig {
-        applicationId "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
+        applicationId "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.test"
         minSdk 24
         targetSdk 33
         versionCode 2
-        versionName "2.0"
+        versionName "2.0_dev"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "${applicationId.replace(".", "-")}-${versionName}"
         }
@@ -25,6 +34,7 @@ android {
             shrinkResources true
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {

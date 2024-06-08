@@ -1,15 +1,14 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -39,32 +38,32 @@ public class ExploreActivity extends BaseActivity {
         public void onNext(JsonObject rootTime) {
             try {
                 explorePostMax = rootTime.get("next_max_id").getAsString();
+                Log.e("====Kenil", "ExploreApis: " + explorePostMax);
                 if (rootTime.getAsJsonArray("sectional_items") != null) {
-                   ArrayList<Media> media = new ArrayList<>();
+                    ArrayList<Media> media = new ArrayList<>();
                     for (int i = 0; i < rootTime.getAsJsonArray("sectional_items").size(); i++) {
                         JsonObject item = (JsonObject) rootTime.getAsJsonArray("sectional_items").get(i);
-                            if (item.get("layout_type").getAsString().equals("one_by_two_right")){
+                        if (item.get("layout_type").getAsString().equals("one_by_two_right")) {
                                /* for (FillItem fill_item : item.layout_content.fill_items) {
                                     media.add(fill_item.media);
                                 }
                                 for (Item item1 : item.layout_content.one_by_two_item.clips.items) {
                                     media.add(item1.media);
                                 }*/
-                               /* for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonObject("one_by_two_item").getAsJsonObject("clips").getAsJsonArray("items")) {
-                                    JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
-                                    String url = ((JsonObject)((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                    Log.e("TAG", "onNext:11 "+url);
-                                    media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"),Media.class));
-                                }*/
-                            }
-                        if (item.get("layout_type").getAsString().equals("one_by_two_left")){
-/*
                             for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonObject("one_by_two_item").getAsJsonObject("clips").getAsJsonArray("items")) {
                                 JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
-                                String url = ((JsonObject)((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                Log.e("TAG", "onNext:22 "+url);
-                                media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"),Media.class));
-                            }*/
+                                String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
+                                Log.e("TAG", "onNext:11 " + url);
+                                media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
+                            }
+                        }
+                        if (item.get("layout_type").getAsString().equals("one_by_two_left")) {
+                            for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonObject("one_by_two_item").getAsJsonObject("clips").getAsJsonArray("items")) {
+                                JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
+                                String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
+                                Log.e("TAG", "onNext:22 " + url);
+                                media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
+                            }
                            /* for (FillItem fill_item : item.layout_content.fill_items) {
                                 media.add(fill_item.media);
                             }
@@ -72,13 +71,13 @@ public class ExploreActivity extends BaseActivity {
                                 media.add(item1.media);
                             }*/
                         }
-                        if (item.get("layout_type").getAsString().equals("media_grid")){
-                            Log.e("TAG", "onNext: "+item.get("layout_type").toString());
+                        if (item.get("layout_type").getAsString().equals("media_grid")) {
+                            Log.e("TAG", "onNext: " + item.get("layout_type").toString());
                             for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonArray("medias")) {
                                 JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
-                                String url = ((JsonObject)((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                Log.e("TAG", "onNext:33 "+url);
-                                media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"),Media.class));
+                                String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
+                                Log.e("TAG", "onNext:33 " + url);
+                                media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
                             }
                         }
                     }
@@ -98,9 +97,17 @@ public class ExploreActivity extends BaseActivity {
 
         @Override
         public void onError(Throwable e) {
+            explorePostMax = null;
             Log.d("TAG", "onErrorssss: " + e.getMessage());
             e.printStackTrace();
             progressExplore.setVisibility(View.GONE);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ExploreDetailApi();
+//                }
+//            },1000);
+            Log.e("====Kenil", "ExploreApis1: ");
         }
 
         @Override
@@ -128,7 +135,7 @@ public class ExploreActivity extends BaseActivity {
             public void run() {
                 ExploreDetailApi();
             }
-        },1500);
+        }, 1000);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity, 3);
         recycleExplore.setLayoutManager(gridLayoutManager);
@@ -142,10 +149,30 @@ public class ExploreActivity extends BaseActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (progressExplore.getVisibility() == View.VISIBLE) {
+                    return;
+                }
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (explorePostMax != null) {
+                    if (explorePostMax != null && Integer.parseInt(explorePostMax) < 20) {
                         progressExplore.setVisibility(View.VISIBLE);
-                        ExploreApis(explorePostMax);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ExploreApis(explorePostMax);
+                            }
+                        }, 5000);
+                        Log.e("====Kenil", "ExploreApis4: ");
+                    } else {
+                        /*if (Integer.parseInt(explorePostMax) > 0) {
+                            progressExplore.setVisibility(View.VISIBLE);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ExploreDetailApi();
+                                }
+                            }, 5000);
+                            Log.e("====Kenil", "ExploreApis5: ");
+                        }*/
                     }
                 }
             }
@@ -153,6 +180,7 @@ public class ExploreActivity extends BaseActivity {
     }
 
     private void ExploreDetailApi() {
+        explorePostMax = null;
         try {
             if (!new CommonClass(activity).isNetworkAvailable()) {
                 Toast.makeText(activity, "No Internet Connection", Toast.LENGTH_SHORT).show();

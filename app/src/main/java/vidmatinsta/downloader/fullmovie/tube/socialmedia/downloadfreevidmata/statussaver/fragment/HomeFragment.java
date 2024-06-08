@@ -1,6 +1,7 @@
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment;
 
 import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.a;
+import static vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI.stickyNodesList;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -41,18 +43,25 @@ import com.google.gson.Gson;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 import io.reactivex.observers.DisposableObserver;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.MainInstagramLogin;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.PhotoVideoActivity;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.StoryAdapter;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.InstagramStoryAPIInterfaceTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.InstagramStoryClientTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.Node;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
@@ -80,6 +89,8 @@ public class HomeFragment extends Fragment {
     private String mMediaTypeImage = null;
     private String mMediaTypeVideo = null;
     private String tempUrl = "";
+
+    WebView webView;
 
     private DisposableObserver<StoryModel> storyObserver = new DisposableObserver<StoryModel>() {
         @Override
@@ -137,6 +148,8 @@ public class HomeFragment extends Fragment {
         progressStory = view.findViewById(R.id.progressStory);
 
         CallInstaApi = CommonClassStoryForAPI.getInstance();
+
+        setupWebView(view);
 
 
         txtOpenInstagram.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +217,62 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    private void setupWebView(View view) {
+        webView = view.findViewById(R.id.webview);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                // Inject JavaScript to capture data
+                webView.evaluateJavascript(
+                        "(function() { " +
+                                "    var pre = document.querySelector('pre'); " +
+                                "    var json = pre ? pre.innerText : ''; " +
+                                "    Android.handleData(json); " +
+                                "})()",
+                        null
+                );
+            }
+        });
+        // Adding a JavaScript interface to capture the data from the web page
+        webView.addJavascriptInterface(new JavaScriptInterface(), "Android");
+
+    }
+
+    private class JavaScriptInterface {
+        @JavascriptInterface
+        public void handleData(String datas) {
+            Log.e("===Hits", "handleData: " + datas);
+            InstagramResponseModelTemp temp = new Gson().fromJson(datas, InstagramResponseModelTemp.class);
+            if (temp != null) {
+                if (temp.getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
+                    List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = temp.getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
+                    int size = data.size();
+                    for (int i = 0; i < size; i++) {
+                        stickyNodesList.add(data.get(i).getNode());
+                    }
+                    alertDialog.dismiss();
+                    startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
+                    Log.e("=====33", "onResponse: " + size);
+                } else {
+                    String data = temp.getData().getShortcode_media().getVideo_url();
+                    if (data == null) {
+                        data = temp.getData().getShortcode_media().getDisplay_url();
+                    }
+                    if (data.contains(".jpg") || data.contains(".heic") || data.contains(".png") || data.contains(".jpeg") || data.contains(".webp")) {
+                        startDownload(data, requireActivity(), System.currentTimeMillis() + ".jpg", alertDialog, edtPasteLink.getText().toString(), "");
+                    } else {
+                        startDownload(data, requireActivity(), System.currentTimeMillis() + ".mp4", alertDialog, edtPasteLink.getText().toString(), "");
+                    }
+
+                }
+            }
+        }
+    }
+
     private void loginDownload(String loginDownloads) {
         String str2;
         if (loginDownloads.equals("")) {
@@ -220,12 +289,12 @@ public class HomeFragment extends Fragment {
                         tempUrl = edtPasteLink.getText().toString();
                         String str3 = url_clean(tempUrl).split("\\?")[0];
                         Log.e("=====Kenil", "loginDownload: " + str3);
-                        CallInstaApi.callResult(requireActivity(),getInstaPhoto, getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
+                        callResult(requireActivity(), getInstaPhoto, getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
                     } else {
                         Toast.makeText(requireActivity(), "Enter Valid Url", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Log.e("=====Kenil", "loginDownload: "+e.getMessage());
+                    Log.e("=====Kenil", "loginDownload: " + e.getMessage());
                     e.printStackTrace();
                 }
             } else {
@@ -251,7 +320,6 @@ public class HomeFragment extends Fragment {
     public DisposableObserver<ArrayList<Node>> getInstaPhoto = new DisposableObserver<ArrayList<Node>>() {
         @Override
         public void onNext(ArrayList<Node> rootPhotoVideo) {
-            Log.e("=====Kenil", "onError1: " + new Gson().toJson(rootPhotoVideo));
             try {
                 alertDialog.dismiss();
                 requireActivity().startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
@@ -466,4 +534,53 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
+    public void callResult(FragmentActivity fragmentActivity, final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
+        String oldUrl = str;
+        if (oldUrl.endsWith("/")) {
+            oldUrl = oldUrl.substring(0, oldUrl.length() - 1);
+        }
+        String[] split = oldUrl.split("/");
+        String str3 = "graphql/query/?query_hash=b3055c01b4b222b8a47dc12b090e4e64&variables={%22shortcode%22:%22" + split[split.length - 1] + "%22}";
+
+        Log.e("=====1", "callResult: " + str3);
+        Log.e("=====2", "callResult: " + str2);
+        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
+        Call<InstagramResponseModelTemp> call = apiService.callResult1(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        Log.e("Krutik", "SuccessDataLoad: " + new Gson().toJson(response.body()));
+                        if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
+                            List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
+                            int size = data.size();
+                            for (int i = 0; i < size; i++) {
+                                stickyNodesList.add(data.get(i).getNode());
+                            }
+                            disposableObserver.onNext(stickyNodesList);
+                        } else {
+                            String data = response.body().getData().getShortcode_media().getVideo_url();
+                            if (data == null) {
+                                data = response.body().getData().getShortcode_media().getDisplay_url();
+                            }
+                            disposableObserver2.onNext(data);
+                        }
+                    } else {
+                        Log.e("=====5", "onResponse: ");
+                    }
+                }else {
+                    String newUrl =response.raw().request().url().toString();
+                    webView.loadUrl(newUrl);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
+                Log.e("=====4", "onResponse: " + t.getMessage());
+            }
+        });
+    }
 }

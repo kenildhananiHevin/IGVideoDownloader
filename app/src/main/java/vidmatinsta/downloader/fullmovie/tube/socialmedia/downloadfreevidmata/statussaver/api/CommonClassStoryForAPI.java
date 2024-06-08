@@ -50,104 +50,10 @@ public class CommonClassStoryForAPI {
     }
 
 
-    private void followRedirect(FragmentActivity fragmentActivity, final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String url, String str2) {
-        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(SharedPref.getInstance(fragmentActivity).sharedGetString(fragmentActivity, SharedPref.COOKIES)).create(InstagramStoryAPIInterfaceTemp.class);
-        Call<InstagramResponseModelTemp> call = apiService.callResult1(url, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
-        call.enqueue(new Callback<InstagramResponseModelTemp>() {
-            @Override
-            public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
-                        List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
-                        int size = data.size();
-                        for (int i = 0; i < size; i++) {
-                            stickyNodesList.add(data.get(i).getNode());
-                        }
-                        disposableObserver.onNext(stickyNodesList);
-                        Log.e("=====33", "onResponse: " + size);
-                    } else {
-                        String data = response.body().getData().getShortcode_media().getVideo_url();
-                        if (data == null) {
-                            data = response.body().getData().getShortcode_media().getDisplay_url();
-                        }
-                        disposableObserver2.onNext(data);
-                    }
-
-                } else {
-                    Log.e("=====347", "onResponse: ");
-                    try {
-                        String errorBody = response.errorBody().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }
 
     public static List<Node> stickyNodesList = new ArrayList<>();
 
-    public void callResult(FragmentActivity fragmentActivity, final DisposableObserver disposableObserver, final DisposableObserver disposableObserver2, String str, String str2) {
-        String oldUrl = str;
-        if (oldUrl.endsWith("/")) {
-            oldUrl = oldUrl.substring(0, oldUrl.length() - 1);
-        }
-        String[] split = oldUrl.split("/");
-        String str3 = "graphql/query/?query_hash=b3055c01b4b222b8a47dc12b090e4e64&variables={%22shortcode%22:%22" + split[split.length - 1] + "%22}";
 
-        Log.e("=====1", "callResult: " + str3);
-        Log.e("=====2", "callResult: " + str2);
-        InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(SharedPref.getInstance(fragmentActivity).sharedGetString(fragmentActivity, SharedPref.COOKIES)).create(InstagramStoryAPIInterfaceTemp.class);
-        Call<InstagramResponseModelTemp> call = apiService.callResult1(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
-
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
-                            List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
-                            int size = data.size();
-                            for (int i = 0; i < size; i++) {
-                                stickyNodesList.add(data.get(i).getNode());
-                            }
-                            disposableObserver.onNext(stickyNodesList);
-                        } else {
-                            String data = response.body().getData().getShortcode_media().getVideo_url();
-                            if (data == null) {
-                                data = response.body().getData().getShortcode_media().getDisplay_url();
-                            }
-                            disposableObserver2.onNext(data);
-                        }
-                    } else {
-                        Log.e("=====5", "onResponse: ");
-                    }
-                } else if (response.code() == 302) {
-                    Log.e("=====344", "onResponse: ");
-                    String newUrl = response.headers().get("Location");
-                    if (newUrl != null) {
-                        Log.e("=====346", "onResponse: " + newUrl);
-                        followRedirect(fragmentActivity,disposableObserver, disposableObserver2, newUrl, str2);
-                    } else {
-                        Log.e("=====345", "onResponse: ");
-                    }
-                } else {
-                    Log.e("=====355", "onResponse: ");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
-                Log.e("=====4", "onResponse: " + t.getMessage());
-            }
-        });
-    }
 
 
     public void getStories(final DisposableObserver disposableObserver, String str) {
@@ -179,7 +85,7 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(RootStory userDetailModelGraphqlUser) {
-                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
@@ -201,13 +107,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(JsonObject userDetailModelGraphqlUser) {
-                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser.getAsJsonArray("sectional_items")));
+//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser.getAsJsonArray("sectional_items")));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                Log.e("====Kenil", "ExploreApis2: "+th);
             }
 
             public void onComplete() {
@@ -225,13 +131,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(JsonObject userDetailModelGraphqlUser) {
-                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                Log.e("====Kenil", "ExploreApis3: "+th);
             }
 
             public void onComplete() {
@@ -248,7 +154,7 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(Root userDetailModelGraphqlUser) {
-                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
@@ -270,7 +176,7 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(Root userDetailModelGraphqlUser) {
-                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
