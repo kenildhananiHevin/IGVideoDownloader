@@ -169,6 +169,30 @@ public class CommonClassStoryForAPI {
         });
     }
 
+    public void getProfilePic(final DisposableObserver disposableObserver, String str, String str2) {
+        InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", "0").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
+            public void onSubscribe(Disposable disposable) {
+
+            }
+
+            @Override
+            public void onNext(Root userDetailModelGraphqlUser) {
+//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+                disposableObserver.onNext(userDetailModelGraphqlUser);
+            }
+
+            public void onError(Throwable th) {
+                disposableObserver.onError(th);
+                Log.d("TAG", "onNextghj2: " + th);
+            }
+
+            public void onComplete() {
+                disposableObserver.onComplete();
+            }
+        });
+    }
+
+
     public void getFullPostExtra(final DisposableObserver disposableObserver, String str, String str2, String maxId) {
         InstagramStoryClient.getInstance(mactivity).getService().getUserDetail(a("nkBz6UCOMjENvG2xDD9iec5uFKnFUc9ElRjyJsyvu41wf8jum1CnTSKx9TuFywM3") + str, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"", maxId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Root>() {
             public void onSubscribe(Disposable disposable) {

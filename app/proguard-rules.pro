@@ -32,7 +32,7 @@
 
 -dontwarn okhttp3.**
 
--keep class com.cashloan.myapplication.igvideodownloader.model.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.**{*;}
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.Languages.**{*;}
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager.**{*;}
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage.**{*;}
@@ -42,8 +42,11 @@
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.time_line.**{*;}
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.**{*;}
 -keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadManagerTemp.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadTemp.**{*;}
+-keep class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp.**{*;}
 
--keepclassmembers class com.cashloan.myapplication.igvideodownloader.model.**{*;}
+-keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.**{*;}
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.Languages.**{*;}
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager.**{*;}
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage.**{*;}
@@ -53,6 +56,9 @@
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.time_line.**{*;}
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.**{*;}
 -keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp.**{*;}
+-keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadManagerTemp.**{*;}
+-keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadTemp.**{*;}
+-keepclassmembers class vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp.**{*;}
 
 
 -keepattributes Signature

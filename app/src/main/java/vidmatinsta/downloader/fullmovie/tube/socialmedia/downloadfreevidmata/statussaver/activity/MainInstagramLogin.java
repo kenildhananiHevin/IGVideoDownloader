@@ -9,12 +9,30 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener;
 
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Path;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
 
@@ -88,11 +106,11 @@ public class MainInstagramLogin extends BaseActivity {
                 String mainFindLoginOrNot3 = mainFindLoginOrNot(str, "ds_user_id");
                 if (mainFindLoginOrNot != null && mainFindLoginOrNot2 != null && mainFindLoginOrNot3 != null) {
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.COOKIES, cooci);
-                    Log.e("=====Kenil", "onPageFinished: "+cooci);
+                    Log.e("=====Kenil", "onPageFinisheds2: " + cooci);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.CSRF, mainFindLoginOrNot2);
-                    Log.d("TAG", "onPageFinisheds1: "+mainFindLoginOrNot);
+                    Log.e("=====Kenil", "onPageFinisheds1: " + mainFindLoginOrNot);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.SESSIONID, mainFindLoginOrNot);
-                    Log.d("TAG", "onPageFinisheds: "+mainFindLoginOrNot3);
+                    Log.e("=====Kenil", "onPageFinisheds: " + mainFindLoginOrNot3);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.USERID, mainFindLoginOrNot3);
                     SharedPref.mainSharedPutBoolean(thisActivity, SharedPref.ISINSTALOGIN, true);
                     webView.destroy();
@@ -106,4 +124,5 @@ public class MainInstagramLogin extends BaseActivity {
             }
         }
     }
+
 }

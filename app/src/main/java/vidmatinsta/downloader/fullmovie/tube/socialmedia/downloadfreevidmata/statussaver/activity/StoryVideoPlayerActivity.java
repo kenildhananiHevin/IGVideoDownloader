@@ -53,7 +53,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
     public static StyledPlayerView player;
     private ExoPlayer players;
     float currentSpeed = 1.0f;
-    ImageView imgShare, imgWallpaper, imgBack, imgMore, imgRepost, imgTopTrans, imgOpenInst, imgDownload;
+    ImageView imgShare, imgWallpaper, imgBack, imgRepost,imgWall, imgTopTrans, imgOpenInst, imgDownload;
     LinearLayout linearItem;
     String pathAudio = CommonClass.IgAudioPathDirectory + "/" + System.currentTimeMillis() + "." + "mp3";
     TextView txtVideoPlayer, txtImage;
@@ -63,6 +63,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
     ArrayList<String> photopath = new ArrayList<>();
     private ImagePagerAdapter adapter;
     ViewPager2 imgPic;
+    ProgressBar progressAudio;
 
 
     @SuppressLint("MissingInflatedId")
@@ -108,6 +109,8 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         imgOpenInst = findViewById(R.id.imgOpenInst);
         txtImage = findViewById(R.id.txtImage);
         imgDownload = findViewById(R.id.imgDownload);
+        progressAudio = findViewById(R.id.progressAudio);
+        imgWall = findViewById(R.id.imgWall);
 
 
         players = new ExoPlayer.Builder(activity).build();
@@ -133,23 +136,27 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
             imgTopTrans.setVisibility(View.VISIBLE);
-            imgOpenInst.setVisibility(View.GONE);
             imgDownload.setVisibility(View.VISIBLE);
+            imgWall.setVisibility(View.VISIBLE);
             imgRepost.setVisibility(View.GONE);
-
+            imgOpenInst.setVisibility(View.GONE);
+            imgShare.setVisibility(View.GONE);
+            imgWallpaper.setVisibility(View.GONE);
         } else if (url.contains(".jpg") || url.contains(".heic") || url.contains(".png") || url.contains(".jpeg") || url.contains(".webp")) {
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
             imgTopTrans.setVisibility(View.VISIBLE);
-
             photopath.add(url);
-            adapter = new ImagePagerAdapter(this, photopath);
+            adapter = new ImagePagerAdapter(activity, photopath);
             imgPic.setAdapter(adapter);
             imgPic.setCurrentItem(positions);
-            imgOpenInst.setVisibility(View.GONE);
             imgDownload.setVisibility(View.VISIBLE);
+            imgWall.setVisibility(View.VISIBLE);
+            imgOpenInst.setVisibility(View.GONE);
             imgRepost.setVisibility(View.GONE);
+            imgShare.setVisibility(View.GONE);
+            imgWallpaper.setVisibility(View.GONE);
         } else {
             new GuideView.Builder(activity)
                     .setTitle(getString(R.string.extract_audio))
@@ -191,7 +198,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             }
         });
 
-        imgWallpaper.setOnClickListener(new View.OnClickListener() {
+        imgWall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(activity, WallpaperActivity.class).putExtra("uriImg", photopath.get(imgPic.getCurrentItem())));
@@ -235,16 +242,39 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         findViewById(R.id.imgVideoAudio).setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
             public void onDebouncedClick(View v) {
-                try {
-                    new AudioExtractor().genVideoUsingMuxer(url, pathAudio, -1, -1, true, false);
-                    startActivity(new Intent(activity, AudioActivity.class)
-                            .putExtra("path", pathAudio)
-                            .putExtra("name", url)
-                            .putExtra("positionsss", "do not list"));
-                } catch (IOException e) {
-                    Log.d("TAG", "errorss: " + e.getMessage());
-                    throw new RuntimeException(e);
-                }
+                Log.e("===K", "onDebouncedClick: ");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressAudio.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            new AudioExtractor().genVideoUsingMuxer(url, pathAudio, -1, -1, true, false);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressAudio.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    startActivity(new Intent(activity, AudioActivity.class)
+                                            .putExtra("path", pathAudio)
+                                            .putExtra("name", url)
+                                            .putExtra("positionsss", "do not list"));
+                                }
+                            });
+                        } catch (IOException e) {
+                            Log.e("===K", "errorss: " + e.getMessage());
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }).start();
             }
         });
 

@@ -3,7 +3,7 @@ package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.st
 import java.io.IOException;
 
 public class NoConnectivityException extends IOException {
-    @Override // java.lang.Throwable
+    @Override
     public String getMessage() {
         return "No Internet Connection";
     }

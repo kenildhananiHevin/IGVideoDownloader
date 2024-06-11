@@ -17,9 +17,11 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.StoryVideoPlayerActivity;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.Candidate;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.Item;
 
 public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.ViewHolder> {
@@ -73,7 +75,18 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
                     if (itemModel.carousel_media_count > 0) {
                         ArrayList<String> photoPath = new ArrayList<>();
                         for (int i = 0; i < itemModel.carousel_media.size(); i++) {
-                            photoPath.add(itemModel.carousel_media.get(i).image_versions2.candidates.get(0).url);
+                            if(itemModel.carousel_media.get(i).image_versions2.candidates.size()<2) {
+                                photoPath.add(itemModel.carousel_media.get(i).image_versions2.candidates.get(0).url);
+                            }else{
+                                List<Candidate> candidates = itemModel.carousel_media.get(i).image_versions2.candidates;
+                                Candidate maxCandidate = candidates.get(0);
+                                for (Candidate candidate : candidates) {
+                                    if (candidate.width * candidate.height > maxCandidate.width * maxCandidate.height) {
+                                        maxCandidate = candidate;
+                                    }
+                                }
+                                photoPath.add(maxCandidate.url);
+                            }
                         }
                         intent.putExtra("photopath", new Gson().toJson(photoPath));
                         intent.putExtra("lin", "");

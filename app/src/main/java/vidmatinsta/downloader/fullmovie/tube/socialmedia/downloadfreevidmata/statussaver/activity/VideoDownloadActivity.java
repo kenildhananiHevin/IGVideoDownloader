@@ -91,7 +91,6 @@ public class VideoDownloadActivity extends BaseActivity {
             }
         });
 
-
         if (uri.endsWith(".jpg") || uri.endsWith(".heic") || uri.endsWith(".png") || uri.endsWith(".jpeg") || uri.endsWith(".webp")) {
             videoItem.setVisibility(View.GONE);
             imageItem.setVisibility(View.VISIBLE);
@@ -138,7 +137,7 @@ public class VideoDownloadActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Glide.with(activity).load(uri).override(500,500).into(imgDownload);
+                        Glide.with(activity).load(uri).override(500, 500).into(imgDownload);
                     }
                 });
             }

@@ -17,14 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.VideoAdapter;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.VideoAdapter;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
 
 
 public class VideoFragment extends Fragment {
@@ -96,7 +96,7 @@ public class VideoFragment extends Fragment {
 
         if (CommonClass.IgVideoPathDirectory.listFiles() != null) {
             for (File videofiles : CommonClass.IgVideoPathDirectory.listFiles()) {
-                if (!videofiles.getName().endsWith(".jpg")) {
+                if (!videofiles.getName().endsWith(".jpg") && !videofiles.getName().endsWith(".jpeg") && !videofiles.getName().endsWith(".heic") && !videofiles.getName().endsWith(".png") && !videofiles.getName().endsWith(".webp")) {
                     videoFile.add(videofiles);
                     Log.d("TAG", "videofiles2: " + videoFile.size());
                 }

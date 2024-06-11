@@ -7,6 +7,7 @@ public class SharedPref {
     public static String CSRF = "mainCsrf";
     public static final String SESSIONID = "mainSessionId";
     public static final String USERID = "mainUserId";
+    public static final String PROFILE_PIC = "profile_pic";
     public static final String ISINSTALOGIN = "mainIsInstagramLogin";
     private static final String USER_PREFS = "com.cashloan.myapplication.igvideodownloader";
     public static String PREFERENCE = "AllDownloader";

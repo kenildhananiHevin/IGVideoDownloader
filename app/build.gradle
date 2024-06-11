@@ -6,14 +6,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-            storeFile file("D:\\kenil\\IGVideoDownloader\\app\\vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.jks")
-            storePassword "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
-            keyAlias "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
-            keyPassword "vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver"
-        }
-    }
 
     namespace 'vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver'
     compileSdk 33
@@ -34,7 +26,6 @@ android {
             shrinkResources true
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
     compileOptions {
@@ -104,5 +95,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-perf'
 
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation group: 'com.android.volley', name: 'volley', version: '1.2.1'
 
 }

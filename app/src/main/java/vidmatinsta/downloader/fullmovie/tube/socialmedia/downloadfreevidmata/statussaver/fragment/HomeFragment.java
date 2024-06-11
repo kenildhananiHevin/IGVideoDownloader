@@ -10,8 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,8 +21,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
@@ -32,7 +28,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -46,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
 import io.reactivex.observers.DisposableObserver;
@@ -56,22 +50,26 @@ import retrofit2.Response;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.MainInstagramLogin;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.PhotoVideoActivity;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.activity.VideoDownloadActivity;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.adapter.StoryAdapter;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.InstagramStoryAPIInterfaceTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.InstagramStoryClientTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.VisitedVideoPage;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.Node;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryTray;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginDownloadCompleteTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginGlobalOjTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.InstagramDownload;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.TouchableWebView;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.Utils;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.VideoContentSearch;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginApiTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginInterfaceFragLinkTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp;
 
 public class HomeFragment extends Fragment {
     public static EditText edtPasteLink;
@@ -107,6 +105,8 @@ public class HomeFragment extends Fragment {
                     } catch (Exception unused) {
                     }
                 }
+                if (arrayList.isEmpty()) {
+                }
                 storyAdapter = new StoryAdapter(requireActivity(), arrayList, new StoryUserListInterface() {
                     @Override
                     public void storyUserListClick(int i, StoryTray storyTray) {
@@ -122,6 +122,11 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onError(Throwable e) {
+            SharedPref.getInstance(requireActivity()).mainSharedPutBoolean(requireActivity(), SharedPref.ISINSTALOGIN, false);
+            SharedPref.getInstance(requireActivity()).mainSharedPutString(requireActivity(), SharedPref.COOKIES, "");
+            SharedPref.getInstance(requireActivity()).mainSharedPutString(requireActivity(), SharedPref.CSRF, "");
+            SharedPref.getInstance(requireActivity()).mainSharedPutString(requireActivity(), SharedPref.SESSIONID, "");
+            SharedPref.getInstance(requireActivity()).mainSharedPutString(requireActivity(), SharedPref.USERID, "");
             e.printStackTrace();
             progressStory.setVisibility(View.GONE);
         }
@@ -208,7 +213,7 @@ public class HomeFragment extends Fragment {
                         return;
                     }
                 }
-                DownloadClick(edtPasteLink.getText().toString());
+                DownloadClick1(edtPasteLink.getText().toString());
                 create_progress();
             }
         });
@@ -237,7 +242,6 @@ public class HomeFragment extends Fragment {
                 );
             }
         });
-        // Adding a JavaScript interface to capture the data from the web page
         webView.addJavascriptInterface(new JavaScriptInterface(), "Android");
 
     }
@@ -364,25 +368,121 @@ public class HomeFragment extends Fragment {
 
     String foundLink = "";
 
-    public void DownloadClick(String url) {
-        VideoContentSearch.firstJpegFound = false;
-        VideoContentSearch.isVideo = false;
-        setupDownloaderSettings(new VideoFoundCallback() {
-            @Override
-            public void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio) {
-                Log.d("TAG", "onVideoFoundss: " + type);
-                Log.d("TAG", "onVideoFoundss1: " + link);
-                Log.d("TAG", "onVideoFoundss2: " + name);
-                if (!foundLink.equals(link)) {
-                    foundLink = link;
-                    startDownload(link, requireActivity(), System.currentTimeMillis() + "." + type, alertDialog, edtPasteLink.getText().toString(), name);
-                }
+    public void DownloadClick1(String url) {
+        String str2 = "";
+        if (url.contains("instagram.com")) {
+            String str3 = url_clean(url).split("\\?")[0];
+            if (!str3.endsWith("/")) {
+                str2 = str3 + "/?__a=1&__d=dis";
+            } else {
+                str2 = str3 + "?__a=1&__d=dis";
             }
-        }, url);
-        page.loadUrl(url);
+            create_progress();
+            if (!str2.contains("instagram.com/stories/")) {
+                tryWithWebViewApi(str2);
+            }
+        }
     }
 
+    public void tryWithWebViewApi(final String str) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    alertDialog.dismiss();
+                    new WithOutLoginApiTemp(getActivity(), new WithOutLoginInterfaceFragLinkTemp() {
+                        @Override
+                        public void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
+                            if (getActivity() != null) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+//                                        stickyNodesList = new ArrayList<>();
+                                        WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.add(new WithOutLoginListDownloadTemp(str, str5, z, z2));
+                                        int size = WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.size() - 1;
+                                        if (z) {
+//                                            for (int i = 0; i < arrayList.size(); i++) {
+//                                                if (!((WithOutLoginSlideDataTemp) arrayList.get(i)).isIs_video()) {
+//                                                    Node node = new Node();
+//                                                    node.setDisplayUrl(arrayList.get(i).getDisplay_resources());
+//                                                    stickyNodesList.add(node);
+//                                                }
+//                                            }
+                                            for (int i = 0; i < arrayList.size(); i++) {
+                                                if (((WithOutLoginSlideDataTemp) arrayList.get(i)).isIs_video()) {
+                                                    WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(((WithOutLoginSlideDataTemp) arrayList.get(i)).getVideo_url(), ".mp4", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
+                                                        @Override
+                                                        public void onDone(String url, String name) {
+                                                            startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                                                    .putExtra("Type", "mp4")
+                                                                    .putExtra("url", url)
+                                                                    .putExtra("link", edtPasteLink.getText().toString())
+                                                                    .putExtra("name", name));
+                                                        }
+                                                    });
+                                                } else {
+                                                    int finalI = i;
+                                                    WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(((WithOutLoginSlideDataTemp) arrayList.get(i)).getDisplay_resources(), ".jpg", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
+                                                        @Override
+                                                        public void onDone(String url, String name) {
+                                                            startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                                                    .putExtra("Type", "jpg")
+                                                                    .putExtra("url", url)
+                                                                    .putExtra("link", edtPasteLink.getText().toString())
+                                                                    .putExtra("name", name));
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                            return;
+                                        }
+                                        if (z2) {
+                                            Log.e("dddownler", "video_src = " + str6);
+                                            WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str6, ".mp4", size, 0, alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
+                                                @Override
+                                                public void onDone(String url, String name) {
+                                                    startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                                            .putExtra("Type", "mp4")
+                                                            .putExtra("url", url)
+                                                            .putExtra("link", edtPasteLink.getText().toString())
+                                                            .putExtra("name", name));
+                                                }
+                                            });
+                                        } else {
+//                                            for (int i = 0; i < arrayList.size(); i++) {
+//                                                    Node node = new Node();
+//                                                    node.setDisplayUrl(str5);
+//                                                    stickyNodesList.add(node);
+//                                            }
+                                            Log.e("dddownler", "display_resources = " + str5);
+                                            WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str5, ".jpg", size, 0, alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
+                                                @Override
+                                                public void onDone(String url, String name) {
+                                                    startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                                            .putExtra("Type", "jpg")
+                                                            .putExtra("url", url)
+                                                            .putExtra("link", edtPasteLink.getText().toString())
+                                                            .putExtra("name", name));
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }).WithOutLoginTryWithWebViewApi(str, page);
+                }
+            });
+        }
+    }
+
+
     private void create_progress() {
+        try {
+            alertDialog.dismiss();
+        }catch (Exception e){
+        }
+
         alertDialog = new AlertDialog.Builder(requireActivity(), R.style.MyTransparentBottomSheetDialogTheme).create();
         LayoutInflater layoutInflater = getLayoutInflater();
         View view1 = layoutInflater.inflate(R.layout.pogress_dailog, null);
@@ -398,103 +498,6 @@ public class HomeFragment extends Fragment {
         int dialogWidth = (int) (screenWidth * 0.88);
         window.setLayout(dialogWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-    }
-
-    interface VideoFoundCallback {
-        void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio);
-    }
-
-    private void setupDownloaderSettings(final VideoFoundCallback callback, String mainUrl) {
-        defaultSSLSF = HttpsURLConnection.getDefaultSSLSocketFactory();
-        page.getSettings().setJavaScriptEnabled(true);
-        page.getSettings().setDomStorageEnabled(true);
-        page.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        page.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        page.setWebViewClient(new WebViewClient() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d("TAG", "onVideoFoundss11: " + view);
-                return super.shouldOverrideUrlLoading(view, request);
-            }
-
-            @Override
-            public void onPageStarted(final WebView webview, final String url, Bitmap favicon) {
-                Log.d("TAG", "onVideoFoundss10: " + url);
-                super.onPageStarted(webview, url, favicon);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                Log.d("TAG", "onVideoFoundss9: " + url);
-                super.onPageFinished(view, url);
-            }
-
-            @Override
-            public void onLoadResource(final WebView view, final String url) {
-                Log.d("TAG", "onVideoFoundss8: " + url);
-                final String viewUrl = view.getUrl();
-                final String title = view.getTitle();
-                try {
-                    new VideoContentSearch(requireActivity(), url, viewUrl, title, mainUrl) {
-                        @Override
-                        public void onStartInspectingURL() {
-                            Log.d("TAG", "onVideoFoundss6: " + viewUrl);
-                            Utils.disableSSLCertificateChecking();
-                        }
-
-                        @Override
-                        public void onFinishedInspectingURL(boolean finishedAll) {
-                            Log.d("TAG", "onVideoFoundss5: " + viewUrl);
-                            HttpsURLConnection.setDefaultSSLSocketFactory(defaultSSLSF);
-                        }
-
-                        @Override
-                        public void onVideoFound(String size, String type, String link, String name, String page, boolean chunked, String website, boolean audio) {
-                            Log.e("TAG", "onVideoFoundss7: " + link);
-                            callback.onVideoFound(size, type, link, name, page, chunked, website, audio);
-                        }
-                    }.start();
-                } catch (Exception e) {
-                    Log.d("TAG", "onVideoFoundss4: " + e.getMessage());
-                }
-            }
-
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                Log.d("VDDebug", "Ads detected: " + url);
-                return super.shouldInterceptRequest(view, url);
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                return shouldInterceptRequest(view, request.getUrl().toString());
-            }
-
-
-        });
-        page.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                Log.d("TAG", "onProgressChanged: " + newProgress);
-            }
-
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                Log.e("TAG", "onVideoFound 1: " + view.getUrl());
-                VisitedVideoPage videoVisitPage = new VisitedVideoPage();
-                videoVisitPage.title = title;
-                videoVisitPage.link = view.getUrl();
-            }
-
-            @Override
-            public Bitmap getDefaultVideoPoster() {
-                return Bitmap.createBitmap(50, 50, Bitmap.Config.ARGB_8888);
-            }
-
-        });
     }
 
     public static void startDownload(String paths, FragmentActivity instagram, String name, AlertDialog alertDialog, String edtPaste, String nameIns) {
@@ -571,8 +574,8 @@ public class HomeFragment extends Fragment {
                     } else {
                         Log.e("=====5", "onResponse: ");
                     }
-                }else {
-                    String newUrl =response.raw().request().url().toString();
+                } else {
+                    String newUrl = response.raw().request().url().toString();
                     webView.loadUrl(newUrl);
                 }
             }

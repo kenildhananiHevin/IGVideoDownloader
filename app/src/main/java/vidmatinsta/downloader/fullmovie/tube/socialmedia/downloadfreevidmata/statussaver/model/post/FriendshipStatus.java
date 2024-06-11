@@ -1,3 +1,4 @@
+/*
 package vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post;
 
 
@@ -16,3 +17,4 @@ public class FriendshipStatus {
     public boolean incoming_request;
     public boolean outgoing_request;
 }
+*/

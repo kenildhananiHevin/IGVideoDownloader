@@ -90,6 +90,18 @@
             android:visibility="gone"
             app:tint="@color/white" />
 
+        <ImageView
+            android:id="@+id/imgWall"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:padding="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@id/imgDownload"
+            android:layout_marginEnd="@dimen/_35sdp"
+            android:src="@drawable/ig_wall"
+            android:visibility="gone"
+            android:adjustViewBounds="true"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -131,5 +143,6 @@
             android:src="@drawable/ig_share_player" />
 
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,23 +13,26 @@
         android:layout_height="?actionBarSize"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/_5sdp"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/imgLogin"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:adjustViewBounds="true"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_5sdp"
             android:visibility="gone"
+            app:civ_border_color="@color/all_bg"
+            app:civ_border_width="@dimen/_1sdp"
             android:src="@drawable/ig_profile" />
 
         <TextView
             android:id="@+id/txtInSaver"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_weight="1"
             android:ellipsize="marquee"
             android:fontFamily="@font/sf_pro_text_bold"

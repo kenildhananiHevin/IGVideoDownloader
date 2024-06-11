@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
@@ -38,13 +39,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.observers.DisposableObserver;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.CommonClassStoryForAPI;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment.HistoryFragment;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment.HomeFragment;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.fragment.SettingFragment;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.CustomViewPager;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.post.Root;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginGlobalOjTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 
 public class MainActivity extends BaseActivity {
@@ -60,17 +66,20 @@ public class MainActivity extends BaseActivity {
     HistoryFragment historyFragment = new HistoryFragment();
     SettingFragment settingFragment = new SettingFragment();
     String[] permissions;
-    ImageView imgInstagramLogin, imgHomeS, imgInstagramBrowser, imgInstagramExplore, imgLogin;
+    ImageView imgInstagramLogin, imgHomeS, imgInstagramBrowser, imgInstagramExplore;
+    CircleImageView imgLogin;
     String languageCode;
+    private CommonClassStoryForAPI CallInstaApi;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        WithOutLoginGlobalOjTemp.CreateGlobalOj(this);
         activity = this;
         savedTabPosition = getSavedTabPosition();
+        CallInstaApi = CommonClassStoryForAPI.getInstance();
 
         SharedPreferences preferences = getSharedPreferences("Language", 0);
         languageCode = preferences.getString("language_code", "en");
@@ -124,6 +133,10 @@ public class MainActivity extends BaseActivity {
                 login_cancel = view.findViewById(R.id.login_cancel);
                 txtLogin = view.findViewById(R.id.txtLogin);
                 txtLogout = view.findViewById(R.id.txtLogout);
+
+                txtLogin.setSelected(true);
+                txtLogout.setSelected(true);
+
                 if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                     txtLogin.setVisibility(View.GONE);
                     txtLogout.setVisibility(View.VISIBLE);
@@ -173,6 +186,7 @@ public class MainActivity extends BaseActivity {
                             login.setText(R.string.login);
                             login_txt.setText(R.string.do_you_want_to_login_your_instagram_account);
                             findViewById(R.id.recycleRVUserList).setVisibility(View.GONE);
+                            Glide.with(activity).load(R.drawable.ig_profile).override(200, 200).into(imgLogin);
                         }
                         alertDialog.dismiss();
                     }
@@ -207,7 +221,7 @@ public class MainActivity extends BaseActivity {
                     tab.setIcon(R.drawable.ig_home);
                     imgInstagramLogin.setVisibility(View.GONE);
                     imgInstagramBrowser.setVisibility(View.VISIBLE);
-                    imgInstagramExplore.setVisibility(View.VISIBLE);
+                    imgInstagramExplore.setVisibility(View.GONE);
                     imgLogin.setVisibility(View.VISIBLE);
                 } else if (tab.getPosition() == 2) {
                     hideKeyboard(activity);
@@ -262,7 +276,7 @@ public class MainActivity extends BaseActivity {
                 if (SharedPref.getInstance(activity).mainSharedGetBoolean(activity, SharedPref.ISINSTALOGIN)) {
                     Intent intent = new Intent(activity, ExploreActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     imgLogin.performClick();
                 }
             }
@@ -307,6 +321,42 @@ public class MainActivity extends BaseActivity {
                     ActivityCompat.requestPermissions(activity, permissions, 101);
                 }
             }
+        }
+    }
+
+    public DisposableObserver<Root> profilePicObserver = new DisposableObserver<Root>() {
+        @Override
+        public void onNext(Root story) {
+            try {
+                Log.e("===Kenil", "onNext: " + story);
+                Glide.with(activity).load(story.user.profile_pic_url).override(200, 200).into(imgLogin);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onComplete() {
+        }
+    };
+
+    private void callStoriesDetailApi(String str) {
+        try {
+            if (!new CommonClass(activity).isNetworkAvailable()) {
+                Toast.makeText(activity, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            } else if (CallInstaApi != null) {
+                CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
+                DisposableObserver<Root> disposableObservers = profilePicObserver;
+                Log.d("TAG", "callStoriesDetailApighj: " + str);
+                commonClassStoryForAPI2.getProfilePic(disposableObservers, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -453,6 +503,9 @@ public class MainActivity extends BaseActivity {
         if (!Objects.equals(this.languageCode, languageCode)) {
             recreate();
         }
+
+        callStoriesDetailApi(SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID));
+
     }
 
 

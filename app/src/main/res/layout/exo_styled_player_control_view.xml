@@ -71,7 +71,20 @@
                 android:padding="@dimen/_7sdp"
                 app:tint="@color/white" />
 
+
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progressAudio"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_below="@id/linearToolBar"
+            android:indeterminateTint="@color/app_color"
+            android:indeterminateTintMode="src_atop"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linearVideoItem"
@@ -155,6 +168,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
