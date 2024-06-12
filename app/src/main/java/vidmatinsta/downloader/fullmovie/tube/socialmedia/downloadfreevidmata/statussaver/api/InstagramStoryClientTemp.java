@@ -28,7 +28,7 @@ public class InstagramStoryClientTemp {
     private static final Map<String, List<Cookie>> cookieStore = new HashMap<>();
 
     public static Retrofit getClient(String cookie) {
-        Log.e("=====Kenil", "intercept: "+cookie);
+        
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
@@ -65,7 +65,7 @@ public class InstagramStoryClientTemp {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 key = encrypt("https://www.instagram.com/");
             }
-            Log.d("TAG", "getFullPostExtra123: " + key);*/
+            */
             retrofit = new Retrofit.Builder()
                     .baseUrl(a("j/lr6TYl4YNfKyXJTehUaifiw1AcYbbYBP3KbRfbnUs="))
                     .client(client)

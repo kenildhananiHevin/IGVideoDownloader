@@ -46,7 +46,7 @@
     <string name="press">再次按返回退出</string>
     <string name="shares">分享</string>
     <string name="delete_video">删除视频？</string>
-    <string name="splash_desc"> 粘贴任何照片、视频、捲軸的URL，立即下载</string>
+    <string name="splash_desc">粘贴任何照片、视频、卷轴和故事的URL即可立即下载</string>
     <string name="apply_now">立即申请</string>
     <string name="cancles">取消</string>
     <string name="ok">确定</string>

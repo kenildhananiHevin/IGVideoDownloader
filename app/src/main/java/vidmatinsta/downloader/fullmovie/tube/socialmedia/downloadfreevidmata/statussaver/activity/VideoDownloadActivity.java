@@ -45,8 +45,8 @@ public class VideoDownloadActivity extends BaseActivity {
         String names = getIntent().getStringExtra("name");
 
 
-        Log.d("TAG", "onCreategj: " + uri);
-        Log.d("TAG", "onCreategj1: " + links);
+        
+        
 
         MediaScannerConnection.scanFile(this, new String[]{uri}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
@@ -133,7 +133,7 @@ public class VideoDownloadActivity extends BaseActivity {
         MediaScannerConnection.scanFile(activity, new String[]{uri}, null, new MediaScannerConnection.OnScanCompletedListener() {
             @Override
             public void onScanCompleted(String path, Uri uri) {
-                Log.d("TAG", "onScanCompleted: " + uri);
+                
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -164,7 +164,7 @@ public class VideoDownloadActivity extends BaseActivity {
 
                     );
                 } catch (IOException e) {
-                    Log.d("TAG", "errorss: " + e.getMessage());
+                    
                     throw new RuntimeException(e);
                 }
             }

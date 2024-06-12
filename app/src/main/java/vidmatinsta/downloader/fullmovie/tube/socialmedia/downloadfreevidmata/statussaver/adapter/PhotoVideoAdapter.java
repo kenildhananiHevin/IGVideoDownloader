@@ -41,7 +41,7 @@ public class PhotoVideoAdapter extends RecyclerView.Adapter<PhotoVideoAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull PhotoVideoAdapter.ViewHolder holder, int position) {
 
-        Glide.with(activity).load(stickyNodesList.get(position).getDisplayUrl()).override(200,200).into(holder.shapeablePhotoVideo);
+        Glide.with(activity).load(stickyNodesList.get(position).getDisplayUrl()).into(holder.shapeablePhotoVideo);
 
         holder.itemView.setOnClickListener(new DebouncedOnClickListener(750) {
             @Override

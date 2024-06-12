@@ -57,19 +57,18 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.api.InstagramStoryClientTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.interfaces.StoryUserListInterface;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.InstagramResponseModelTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.photo_video.Node;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryModel;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.story.StoryTray;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginDownloadCompleteTemp;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginGlobalOjTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.InstagramDownload;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.SharedPref;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.TouchableWebView;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginApiTemp;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginGlobalOjTemp;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.WithOutLoginInterfaceFragLinkTemp;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginListDownloadTemp;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp;
 
 public class HomeFragment extends Fragment {
     public static EditText edtPasteLink;
@@ -115,7 +114,7 @@ public class HomeFragment extends Fragment {
                 });
                 recycleRVUserList.setAdapter(storyAdapter);
             } catch (Exception e) {
-                Log.d("TAG", "onNext: " + e.getMessage());
+                
                 e.printStackTrace();
             }
         }
@@ -200,18 +199,18 @@ public class HomeFragment extends Fragment {
                 if (!CommonClass.IgVideoPathDirectory.exists()) {
                     CommonClass.IgVideoPathDirectory.mkdirs();
                 }
-                Log.d("TAG", "rundfg: " + edtPasteLink.getText().toString());
+                
 
                 if (SharedPref.getInstance(requireActivity()).mainSharedGetBoolean(requireActivity(), SharedPref.ISINSTALOGIN)) {
                     loginDownload(edtPasteLink.getText().toString());
                     create_progress();
                     return;
                 } else {
-                    if (edtPasteLink.getText().toString().contains("stories")) {
-                        Log.d("TAG", "edtPasteLinks1: " + edtPasteLink.getText().toString());
-                        Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+//                    if (edtPasteLink.getText().toString().contains("stories")) {
+//                        
+//                        Toast.makeText(requireActivity(), R.string.invalid_url, Toast.LENGTH_SHORT).show();
+//                        return;
+//                    }
                 }
                 DownloadClick1(edtPasteLink.getText().toString());
                 create_progress();
@@ -249,7 +248,7 @@ public class HomeFragment extends Fragment {
     private class JavaScriptInterface {
         @JavascriptInterface
         public void handleData(String datas) {
-            Log.e("===Hits", "handleData: " + datas);
+            
             InstagramResponseModelTemp temp = new Gson().fromJson(datas, InstagramResponseModelTemp.class);
             if (temp != null) {
                 if (temp.getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
@@ -260,7 +259,7 @@ public class HomeFragment extends Fragment {
                     }
                     alertDialog.dismiss();
                     startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
-                    Log.e("=====33", "onResponse: " + size);
+                    
                 } else {
                     String data = temp.getData().getShortcode_media().getVideo_url();
                     if (data == null) {
@@ -292,13 +291,16 @@ public class HomeFragment extends Fragment {
                     if (new URL(edtPasteLink.getText().toString()).getHost().equals("www.instagram.com")) {
                         tempUrl = edtPasteLink.getText().toString();
                         String str3 = url_clean(tempUrl).split("\\?")[0];
-                        Log.e("=====Kenil", "loginDownload: " + str3);
-                        callResult(requireActivity(), getInstaPhoto, getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
-                    } else {
+                        if (!tempUrl.contains("instagram.com/stories/")) {
+                            callResult(requireActivity(), getInstaPhoto, getPhotoVideo, str3, "" + SharedPref.sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.sharedGetString(requireActivity(), SharedPref.SESSIONID));
+                        }else {
+                            DownloadClick1(tempUrl);
+                        }
+                      } else {
                         Toast.makeText(requireActivity(), "Enter Valid Url", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Log.e("=====Kenil", "loginDownload: " + e.getMessage());
+                    
                     e.printStackTrace();
                 }
             } else {
@@ -328,18 +330,18 @@ public class HomeFragment extends Fragment {
                 alertDialog.dismiss();
                 requireActivity().startActivity(new Intent(requireActivity(), PhotoVideoActivity.class));
             } catch (Exception e) {
-                Log.e("=====Kenil", "onNext: " + e.getMessage());
+                
             }
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.e("=====Kenil", "onError: " + e.getMessage());
+            
         }
 
         @Override
         public void onComplete() {
-            Log.e("=====Kenil", "onComplete: ");
+            
         }
     };
 
@@ -380,7 +382,73 @@ public class HomeFragment extends Fragment {
             create_progress();
             if (!str2.contains("instagram.com/stories/")) {
                 tryWithWebViewApi(str2);
+                return;
             }
+            new WithOutLoginApiTemp(getActivity(), new WithOutLoginInterfaceFragLinkTemp() {
+                @Override
+                public void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
+                    
+                }
+
+                @Override
+                public void WithOutLoginGetStoryUserIdMediaId(String str, String str2, String str3) {
+
+                    
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new WithOutLoginApiTemp(getActivity(), new WithOutLoginInterfaceFragLinkTemp() {
+                                    @Override
+                                    public void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
+                                        getResult(str, str2, str3, str4, str5, z, z2, str6, arrayList, z3);
+                                    }
+
+                                    @Override
+                                    public void WithOutLoginGetStoryUserIdMediaId(String str, String str2, String str3) {
+                                        
+                                    }
+
+                                    @Override
+                                    public void WithOutLoginGetStoryUserIdMediaIdLocal(String str) {
+                                        
+                                        if (getActivity() != null) {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    WithOutLoginApiTemp apiVar = new WithOutLoginApiTemp(getActivity(), new WithOutLoginInterfaceFragLinkTemp() {
+                                                        @Override
+                                                        public void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
+                                                            getResult(str, str2, str3, str4, str5, z, z2, str6, arrayList, z3);
+                                                        }
+
+                                                        @Override
+                                                        public void WithOutLoginGetStoryUserIdMediaId(String str, String str2, String str3) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void WithOutLoginGetStoryUserIdMediaIdLocal(String str) {
+
+                                                        }
+                                                    });
+                                                    
+                                                    apiVar.with_out_login_get_data_story_item_by_media2(str, page);
+                                                }
+                                            });
+                                        }
+                                    }
+                                }).with_out_login_get_data_story_item_by_media(str, str2, str3, page);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void WithOutLoginGetStoryUserIdMediaIdLocal(String str) {
+                    
+                }
+            }).with_out_login_get_data_story_data_by_username(str2.split("\\?")[0], page);
         }
     }
 
@@ -393,84 +461,63 @@ public class HomeFragment extends Fragment {
                     new WithOutLoginApiTemp(getActivity(), new WithOutLoginInterfaceFragLinkTemp() {
                         @Override
                         public void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-//                                        stickyNodesList = new ArrayList<>();
-                                        WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.add(new WithOutLoginListDownloadTemp(str, str5, z, z2));
-                                        int size = WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.size() - 1;
-                                        if (z) {
-//                                            for (int i = 0; i < arrayList.size(); i++) {
-//                                                if (!((WithOutLoginSlideDataTemp) arrayList.get(i)).isIs_video()) {
-//                                                    Node node = new Node();
-//                                                    node.setDisplayUrl(arrayList.get(i).getDisplay_resources());
-//                                                    stickyNodesList.add(node);
-//                                                }
-//                                            }
-                                            for (int i = 0; i < arrayList.size(); i++) {
-                                                if (((WithOutLoginSlideDataTemp) arrayList.get(i)).isIs_video()) {
-                                                    WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(((WithOutLoginSlideDataTemp) arrayList.get(i)).getVideo_url(), ".mp4", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
-                                                        @Override
-                                                        public void onDone(String url, String name) {
-                                                            startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
-                                                                    .putExtra("Type", "mp4")
-                                                                    .putExtra("url", url)
-                                                                    .putExtra("link", edtPasteLink.getText().toString())
-                                                                    .putExtra("name", name));
-                                                        }
-                                                    });
-                                                } else {
-                                                    int finalI = i;
-                                                    WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(((WithOutLoginSlideDataTemp) arrayList.get(i)).getDisplay_resources(), ".jpg", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
-                                                        @Override
-                                                        public void onDone(String url, String name) {
-                                                            startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
-                                                                    .putExtra("Type", "jpg")
-                                                                    .putExtra("url", url)
-                                                                    .putExtra("link", edtPasteLink.getText().toString())
-                                                                    .putExtra("name", name));
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            return;
-                                        }
-                                        if (z2) {
-                                            Log.e("dddownler", "video_src = " + str6);
-                                            WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str6, ".mp4", size, 0, alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
-                                                @Override
-                                                public void onDone(String url, String name) {
-                                                    startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
-                                                            .putExtra("Type", "mp4")
-                                                            .putExtra("url", url)
-                                                            .putExtra("link", edtPasteLink.getText().toString())
-                                                            .putExtra("name", name));
-                                                }
-                                            });
-                                        } else {
-//                                            for (int i = 0; i < arrayList.size(); i++) {
-//                                                    Node node = new Node();
-//                                                    node.setDisplayUrl(str5);
-//                                                    stickyNodesList.add(node);
-//                                            }
-                                            Log.e("dddownler", "display_resources = " + str5);
-                                            WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str5, ".jpg", size, 0, alertDialog, edtPasteLink.getText().toString(), new WithOutLoginDownloadCompleteTemp() {
-                                                @Override
-                                                public void onDone(String url, String name) {
-                                                    startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
-                                                            .putExtra("Type", "jpg")
-                                                            .putExtra("url", url)
-                                                            .putExtra("link", edtPasteLink.getText().toString())
-                                                            .putExtra("name", name));
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            }
+                            getResult(str, str2, str3, str4, str5, z, z2, str6, arrayList, z3);
+                        }
+
+                        @Override
+                        public void WithOutLoginGetStoryUserIdMediaId(String str, String str2, String str3) {
+                        }
+
+                        @Override
+                        public void WithOutLoginGetStoryUserIdMediaIdLocal(String str) {
                         }
                     }).WithOutLoginTryWithWebViewApi(str, page);
+                }
+            });
+        }
+    }
+
+    public void getResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3) {
+        if (getActivity() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.add(new WithOutLoginListDownloadTemp(str, str5, z, z2));
+                    int size = WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.withOutLoginListDownloadTemps.size() - 1;
+                    if (z) {
+                        for (int i = 0; i < arrayList.size(); i++) {
+                            if (arrayList.get(i).isIs_video()) {
+                                WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(arrayList.get(i).getVideo_url(), ".mp4", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), (url, name) -> startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                        .putExtra("Type", "mp4")
+                                        .putExtra("url", url)
+                                        .putExtra("link", edtPasteLink.getText().toString())
+                                        .putExtra("name", name)), i == (arrayList.size() - 1));
+                            } else {
+                                WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(arrayList.get(i).getDisplay_resources(), ".jpg", size, arrayList.size(), alertDialog, edtPasteLink.getText().toString(), (url, name) -> startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                        .putExtra("Type", "jpg")
+                                        .putExtra("url", url)
+                                        .putExtra("link", edtPasteLink.getText().toString())
+                                        .putExtra("name", name)), i == (arrayList.size() - 1));
+                            }
+                        }
+                        return;
+                    }
+                    if (z2) {
+                        
+                        WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str6, ".mp4", size, 0, alertDialog, edtPasteLink.getText().toString(), (url, name) -> startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                .putExtra("Type", "mp4")
+                                .putExtra("url", url)
+                                .putExtra("link", edtPasteLink.getText().toString())
+                                .putExtra("name", name)), true);
+                    } else {
+//
+                        
+                        WithOutLoginGlobalOjTemp.withOutLoginDownloadManagerLocallyTemp.downloadVideo(str5, ".jpg", size, 0, alertDialog, edtPasteLink.getText().toString(), (url, name) -> startActivity(new Intent(requireActivity(), VideoDownloadActivity.class)
+                                .putExtra("Type", "jpg")
+                                .putExtra("url", url)
+                                .putExtra("link", edtPasteLink.getText().toString())
+                                .putExtra("name", name)), true);
+                    }
                 }
             });
         }
@@ -480,7 +527,7 @@ public class HomeFragment extends Fragment {
     private void create_progress() {
         try {
             alertDialog.dismiss();
-        }catch (Exception e){
+        } catch (Exception e) {
         }
 
         alertDialog = new AlertDialog.Builder(requireActivity(), R.style.MyTransparentBottomSheetDialogTheme).create();
@@ -501,7 +548,7 @@ public class HomeFragment extends Fragment {
     }
 
     public static void startDownload(String paths, FragmentActivity instagram, String name, AlertDialog alertDialog, String edtPaste, String nameIns) {
-        new InstagramDownload(instagram, name, alertDialog, edtPaste, nameIns).execute(paths);
+        new InstagramDownload(instagram, name, alertDialog, edtPaste, nameIns, true).execute(paths);
     }
 
     private void callStoriesApi() {
@@ -515,7 +562,7 @@ public class HomeFragment extends Fragment {
                 commonClassStoryForAPI2.getStories(disposableObserver, "ds_user_id=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(requireActivity()).sharedGetString(requireActivity(), SharedPref.SESSIONID));
             }
         } catch (Exception e) {
-            Log.d("TAG", "callStoriesApi: " + e.getMessage());
+            
             e.printStackTrace();
         }
     }
@@ -546,8 +593,8 @@ public class HomeFragment extends Fragment {
         String[] split = oldUrl.split("/");
         String str3 = "graphql/query/?query_hash=b3055c01b4b222b8a47dc12b090e4e64&variables={%22shortcode%22:%22" + split[split.length - 1] + "%22}";
 
-        Log.e("=====1", "callResult: " + str3);
-        Log.e("=====2", "callResult: " + str2);
+        
+        
         InstagramStoryAPIInterfaceTemp apiService = InstagramStoryClientTemp.getClient(str2).create(InstagramStoryAPIInterfaceTemp.class);
         Call<InstagramResponseModelTemp> call = apiService.callResult1(str3, str2, "\"Instagram 146.0.0.27.125 Android (28/9; 420dpi; 1080x2131; samsung; SM-A505FN; a50; exynos9610; fi_FI; 221134032)\"");
 
@@ -556,7 +603,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<InstagramResponseModelTemp> call, Response<InstagramResponseModelTemp> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Log.e("Krutik", "SuccessDataLoad: " + new Gson().toJson(response.body()));
+                        
                         if (response.body().getData().getShortcode_media().getEdge_sidecar_to_children() != null) {
                             List<InstagramResponseModelTemp.Data.shortcode_media.edge_sidecar_to_children.edges> data = response.body().getData().getShortcode_media().getEdge_sidecar_to_children().getEdges();
                             int size = data.size();
@@ -572,7 +619,7 @@ public class HomeFragment extends Fragment {
                             disposableObserver2.onNext(data);
                         }
                     } else {
-                        Log.e("=====5", "onResponse: ");
+                        
                     }
                 } else {
                     String newUrl = response.raw().request().url().toString();
@@ -582,7 +629,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<InstagramResponseModelTemp> call, Throwable t) {
-                Log.e("=====4", "onResponse: " + t.getMessage());
+                
             }
         });
     }

@@ -50,7 +50,7 @@ public class WebViewActivity extends AppCompatActivity {
         @JavascriptInterface
         public void handleData(String data) {
             // This method will be called from JavaScript with the data from the web page
-            Log.e("===Hits", "handleData: "+data );
+            
             System.out.println("Received data from web page: " + data);
             // You can also update your UI or pass the data to other parts of your app
         }

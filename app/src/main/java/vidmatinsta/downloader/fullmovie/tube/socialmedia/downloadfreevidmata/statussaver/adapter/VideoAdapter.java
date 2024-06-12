@@ -176,7 +176,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                                     .putExtra("positions", position)
                             );
                         } catch (IOException e) {
-                            Log.d("TAG", "errorss: " + e.getMessage());
+                            
                             throw new RuntimeException(e);
                         }
                         alertDialog.dismiss();

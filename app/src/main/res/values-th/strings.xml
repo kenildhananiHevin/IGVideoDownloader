@@ -46,7 +46,7 @@
     <string name="press">กดกลับอีกครั้งเพื่อออก</string>
     <string name="shares">แชร์</string>
     <string name="delete_video">ลบวิดีโอ?</string>
-    <string name="splash_desc">วาง URL ของรูปภาพ วิดีโอ วงล้อใด ๆ เพื่อดาวน์โหลดทันที</string>
+    <string name="splash_desc">วาง URL ของรูปภาพ, วิดีโอ, ม้วนและเรื่องราวเพื่อดาวน์โหลดทันที</string>
     <string name="apply_now">สมัครตอนนี้</string>
     <string name="cancles">ยกเลิก</string>
     <string name="ok">ตกลง</string>

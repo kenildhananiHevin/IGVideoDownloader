@@ -45,12 +45,12 @@ public class VideoFragment extends Fragment {
         languageCode = preferences.getString("language_code", "en");
 
         videoFile = new ArrayList<>();
-        Log.d("TAG", "videofiles: " + videoFile.size());
+        
 
         recycleVideo = view.findViewById(R.id.recycleVideo);
         empty_list = view.findViewById(R.id.empty_list);
 
-        Log.d("TAG", "videofiles1: " + videoFile.size());
+        
 
         recycleVideo.setLayoutManager(new LinearLayoutManager(requireActivity()));
         videoAdapter = new VideoAdapter(requireActivity(), videoFile, new VideoAdapter.DeleteData() {
@@ -98,7 +98,7 @@ public class VideoFragment extends Fragment {
             for (File videofiles : CommonClass.IgVideoPathDirectory.listFiles()) {
                 if (!videofiles.getName().endsWith(".jpg") && !videofiles.getName().endsWith(".jpeg") && !videofiles.getName().endsWith(".heic") && !videofiles.getName().endsWith(".png") && !videofiles.getName().endsWith(".webp")) {
                     videoFile.add(videofiles);
-                    Log.d("TAG", "videofiles2: " + videoFile.size());
+                    
                 }
             }
         }

@@ -7,4 +7,7 @@ import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.sta
 public interface WithOutLoginInterfaceFragLinkTemp {
     void WithOutLoginGetResult(String str, String str2, String str3, String str4, String str5, boolean z, boolean z2, String str6, ArrayList<WithOutLoginSlideDataTemp> arrayList, boolean z3);
 
+    void WithOutLoginGetStoryUserIdMediaId(String str, String str2, String str3);
+
+    void WithOutLoginGetStoryUserIdMediaIdLocal(String str);
 }

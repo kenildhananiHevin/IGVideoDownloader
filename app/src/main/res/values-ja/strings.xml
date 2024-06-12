@@ -46,7 +46,7 @@
     <string name="press">終了するにはもう一度戻るを押します</string>
     <string name="shares">共有</string>
     <string name="delete_video">ビデオを削除しますか？</string>
-    <string name="splash_desc">写真、ビデオ、リールのURLを貼り付けて、すぐにダウンロード</string>
+    <string name="splash_desc">写真、ビデオ、リール、およびストーリーのダウンロード用のURLを即座に貼り付けます</string>
     <string name="apply_now">今すぐ適用</string>
     <string name="cancles">キャンセル</string>
     <string name="ok">わかりました</string>

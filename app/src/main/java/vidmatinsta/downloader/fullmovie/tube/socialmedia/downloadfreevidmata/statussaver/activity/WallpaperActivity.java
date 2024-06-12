@@ -40,7 +40,7 @@ public class WallpaperActivity extends BaseActivity {
         String imgWall = getIntent().getStringExtra("uriImg");
 
 
-        Log.d("TAG", "onCreateImg: " + imgWall);
+        
 
         imgWallPic = findViewById(R.id.imgWallPic);
         txtApply = findViewById(R.id.txtApply);
@@ -95,7 +95,7 @@ public class WallpaperActivity extends BaseActivity {
                                 } else {
                                     wallpaperManager.setBitmap(bitmap);
                                 }
-                                Log.d("TAG", "runsss: ");
+                                
                                 Toast.makeText(activity, getString(R.string.wallpaper_set), Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 Toast.makeText(activity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -110,7 +110,7 @@ public class WallpaperActivity extends BaseActivity {
                                 } else {
                                     wallpaperManager.setBitmap(bitmap);
                                 }
-                                Log.d("TAG", "runsss1: ");
+                                
                                 Toast.makeText(activity, getString(R.string.wallpaper_set), Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 Toast.makeText(activity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
@@ -125,7 +125,7 @@ public class WallpaperActivity extends BaseActivity {
                                 } else {
                                     wallpaperManager.setBitmap(bitmap);
                                 }
-                                Log.d("TAG", "runsss2: ");
+                                
                                 Toast.makeText(activity, getString(R.string.wallpaper_set), Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 Toast.makeText(activity, getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();

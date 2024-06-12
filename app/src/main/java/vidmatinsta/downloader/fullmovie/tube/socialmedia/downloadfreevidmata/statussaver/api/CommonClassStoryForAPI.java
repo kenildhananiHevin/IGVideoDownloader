@@ -85,13 +85,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(RootStory userDetailModelGraphqlUser) {
-//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                
             }
 
             public void onComplete() {
@@ -107,13 +107,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(JsonObject userDetailModelGraphqlUser) {
-//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser.getAsJsonArray("sectional_items")));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.e("====Kenil", "ExploreApis2: "+th);
+                
             }
 
             public void onComplete() {
@@ -131,13 +131,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(JsonObject userDetailModelGraphqlUser) {
-//                Log.d("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.e("====Kenil", "ExploreApis3: "+th);
+                
             }
 
             public void onComplete() {
@@ -154,13 +154,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(Root userDetailModelGraphqlUser) {
-//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                
             }
 
             public void onComplete() {
@@ -177,13 +177,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(Root userDetailModelGraphqlUser) {
-//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                
             }
 
             public void onComplete() {
@@ -200,13 +200,13 @@ public class CommonClassStoryForAPI {
 
             @Override
             public void onNext(Root userDetailModelGraphqlUser) {
-//                Log.i("TAG", "onNextghj1: " + new Gson().toJson(userDetailModelGraphqlUser));
+//                
                 disposableObserver.onNext(userDetailModelGraphqlUser);
             }
 
             public void onError(Throwable th) {
                 disposableObserver.onError(th);
-                Log.d("TAG", "onNextghj2: " + th);
+                
             }
 
             public void onComplete() {

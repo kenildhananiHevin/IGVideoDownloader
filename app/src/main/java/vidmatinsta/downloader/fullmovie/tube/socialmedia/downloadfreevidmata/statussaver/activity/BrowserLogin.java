@@ -48,11 +48,11 @@ public class BrowserLogin extends BaseActivity {
     public void MainView() {
         mainWebView.getSettings().setJavaScriptEnabled(true);
         if (SharedPref.getInstance(thisActivity).mainSharedGetBoolean(thisActivity, SharedPref.ISINSTALOGIN)){
-            Log.e("=====Kenil", "MainView: ");
+            
         }else {
             CookieManager.getInstance().removeAllCookie();
             mainWebView.setWebViewClient(new WebviewWebclient());
-            Log.e("=====Kenil", "MainView11: ");
+            
         }
         mainWebView.loadUrl(a(" j/lr6TYl4YNfKyXJTehUar8Yvax/ruvNnHF0vZU3HYg="));
         CookieSyncManager.getInstance().sync();
@@ -90,9 +90,9 @@ public class BrowserLogin extends BaseActivity {
                 if (mainFindLoginOrNot != null && mainFindLoginOrNot2 != null && mainFindLoginOrNot3 != null) {
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.COOKIES, cooci);
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.CSRF, mainFindLoginOrNot2);
-                    Log.d("TAG", "onPageFinisheds1: "+mainFindLoginOrNot);
+                    
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.SESSIONID, mainFindLoginOrNot);
-                    Log.d("TAG", "onPageFinisheds: "+mainFindLoginOrNot3);
+                    
                     SharedPref.mainSharedPutString(thisActivity, SharedPref.USERID, mainFindLoginOrNot3);
                     SharedPref.mainSharedPutBoolean(thisActivity, SharedPref.ISINSTALOGIN, true);
                     webView.destroy();

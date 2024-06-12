@@ -40,7 +40,7 @@ public class ImagePagerAdapter extends RecyclerView.Adapter<ImagePagerAdapter.Im
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         String imageUrl = imageUrls.get(position);
-        Glide.with(context).asBitmap().load(imageUrl).override(200, 200).into(new CustomTarget<Bitmap>() {
+        Glide.with(context).asBitmap().load(imageUrl).into(new CustomTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 holder.imageView.setImageBitmap(resource);

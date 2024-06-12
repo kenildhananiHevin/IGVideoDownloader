@@ -72,7 +72,7 @@ public class StoryPostShowActivity extends BaseActivity {
     DisposableObserver<Root> postStoryDetailsMainObserver = new DisposableObserver<Root>() {
         @Override
         public void onNext(Root root) {
-            Log.d("TAG", "onNext232: ");
+            
             try {
                 postMax = root.next_max_id;
                 if (root.items() != null) {
@@ -205,7 +205,7 @@ public class StoryPostShowActivity extends BaseActivity {
                 CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
                 DisposableObserver<RootStory> disposableObserver = storyDetailsMainObserver;
                 DisposableObserver<Root> disposableObservers = postStoryDetailsMainObserver;
-                Log.d("TAG", "callStoriesDetailApighj: "+str);
+                
                 commonClassStoryForAPI2.getFullPost(disposableObservers, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
                 commonClassStoryForAPI2.getFullStory(disposableObserver, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
             }

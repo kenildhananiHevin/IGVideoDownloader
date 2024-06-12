@@ -24,34 +24,34 @@ public class WithOutLoginDownloadManagerLocallyTemp {
     }
 
 
-    public void downloadVideo(String str, String str2, int i, int i2, AlertDialog alertDialog, String edtpaste, WithOutLoginDownloadCompleteTemp temp) {
+    public void downloadVideo(String str, String str2, int i, int i2, AlertDialog alertDialog, String edtpaste, WithOutLoginDownloadCompleteTemp temp, boolean isLast) {
         this.withOutLoginListDownloadManagerTemps.add(new WithOutLoginListDownloadManagerTemp(str, str2, i, i2));
-        WithOutLoginCheckAndStart(temp, alertDialog, edtpaste);
+        WithOutLoginCheckAndStart(temp, alertDialog, edtpaste,isLast);
     }
 
-    public void WithOutLoginCheckAndStart(WithOutLoginDownloadCompleteTemp temp, AlertDialog alertDialog, String edtpaste) {
+    public void WithOutLoginCheckAndStart(WithOutLoginDownloadCompleteTemp temp, AlertDialog alertDialog, String edtpaste, boolean isLast) {
         if (this.withOutLoginListDownloadManagerTemps.size() == 0) {
             return;
         }
-        WithOutLoginRunDownload(this.withOutLoginListDownloadManagerTemps.get(0).getUrl(), this.withOutLoginListDownloadManagerTemps.get(0).getType(), this.withOutLoginListDownloadManagerTemps.get(0).getIndex(), this.withOutLoginListDownloadManagerTemps.get(0).getCount(), temp, alertDialog, edtpaste);
+        WithOutLoginRunDownload(this.withOutLoginListDownloadManagerTemps.get(0).getUrl(), this.withOutLoginListDownloadManagerTemps.get(0).getType(), this.withOutLoginListDownloadManagerTemps.get(0).getIndex(), this.withOutLoginListDownloadManagerTemps.get(0).getCount(), temp, alertDialog, edtpaste,isLast);
         this.withOutLoginListDownloadManagerTemps.remove(0);
     }
 
-    public void WithOutLoginRunDownload(String str, String str2, int i, int i2, WithOutLoginDownloadCompleteTemp temp, AlertDialog alertDialog, String edtpaste) {
+    public void WithOutLoginRunDownload(String str, String str2, int i, int i2, WithOutLoginDownloadCompleteTemp temp, AlertDialog alertDialog, String edtpaste, boolean isLast) {
         long currentTimeMillis = System.currentTimeMillis();
         if (((Activity) this.context) == null) {
             return;
         }
         if (str2.endsWith(".mp4")) {
-            download(str, currentTimeMillis + ".mp4", alertDialog, edtpaste);
+            download(str, currentTimeMillis + ".mp4", alertDialog, edtpaste,isLast);
         } else {
-            download(str, currentTimeMillis + ".jpeg", alertDialog, edtpaste);
+            download(str, currentTimeMillis + ".jpeg", alertDialog, edtpaste,isLast);
         }
     }
 
     @SuppressLint("Range")
-    private void download(final String str, final String str2, AlertDialog alertDialog, String edtpaste) {
-        new InstagramDownload(context, str2, alertDialog, edtpaste, str2).execute(str);
+    private void download(final String str, final String str2, AlertDialog alertDialog, String edtpaste, boolean isLast) {
+        new InstagramDownload(context, str2, alertDialog, edtpaste, str2,isLast).execute(str);
     }
 
 }

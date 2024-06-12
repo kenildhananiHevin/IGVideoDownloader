@@ -76,9 +76,9 @@ public class InstagramStoryClient {
         for (int i = 0; i <= length; i++) {
             int nextLength = (i + 1) * 4050;
             if (nextLength >= str.length()) {
-                Log.d("Response::", str.substring(i * 4050));
+                
             } else {
-                Log.d("Response::", str.substring(i * 4050, nextLength));
+                
             }
         }
     }

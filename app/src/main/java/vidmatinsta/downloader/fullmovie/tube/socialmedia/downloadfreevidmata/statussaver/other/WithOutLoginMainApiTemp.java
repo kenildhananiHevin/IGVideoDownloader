@@ -22,26 +22,22 @@ import java.util.Map;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.model.WithOutLoginSlideDataTemp;
 
 public class WithOutLoginMainApiTemp {
-    WithOutLoginMainApiInterfaceTemp withOutLoginMainApiInterfaceTemp;
     List<Boolean> is_get = new ArrayList();
     private RequestQueue requestQueue;
 
     public WithOutLoginMainApiTemp(Context context) {
-        if (this.withOutLoginMainApiInterfaceTemp == null) {
-            this.withOutLoginMainApiInterfaceTemp = (WithOutLoginMainApiInterfaceTemp) WithOutLoginAPIClientTemp.getClientLocalAuth(context).create(WithOutLoginMainApiInterfaceTemp.class);
-        }
     }
 
     public void WithOutLoginGetDataRapidApi(final String str, Context context, final WithOutLoginInterfaceFragLinkTemp withOutLoginInterfaceFragLinkTemp) {
         this.is_get.size();
         this.is_get.add(false);
         String str2 = "https://instagram-post-reels-stories-downloader.p.rapidapi.com/instagram/?url=" + str.split("\\?")[0];
-        Log.e("ascsacs", "last_u = " + str2);
+        
         StringRequest stringRequest = new StringRequest(0, str2, new Response.Listener<String>() { // from class: instagram.video.downloader.story.saver.insapp.Apis.MainApi.2
             @Override
             public void onResponse(String str3) {
                 try {
-                    Log.e("ascsacs", "response = " + str3);
+                    
                     JsonObject asJsonObject = JsonParser.parseString(str3).getAsJsonObject();
                     if (asJsonObject.get("status").getAsBoolean()) {
                         JsonArray asJsonArray = asJsonObject.get("result").getAsJsonArray();
@@ -68,7 +64,7 @@ public class WithOutLoginMainApiTemp {
                             withOutLoginInterfaceFragLinkTemp.WithOutLoginGetResult(str, "", "", asJsonArray.get(0).getAsJsonObject().get("url").getAsString().replace("amp;", "").replace(";amp", ""), asJsonArray.get(0).getAsJsonObject().get("url").getAsString().replace("amp;", "").replace(";amp", ""), true, false, "", arrayList, false);
                             return;
                         }
-                        Log.e("ascsacs", "e1");
+                        
 //                        interface_frag_linkVar.login();
                         return;
                     }
@@ -80,6 +76,7 @@ public class WithOutLoginMainApiTemp {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                WithOutLoginGetDataRapidApi(str, context, withOutLoginInterfaceFragLinkTemp);
 //                interface_frag_linkVar.login();
             }
         }) {

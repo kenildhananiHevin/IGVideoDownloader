@@ -31,6 +31,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.gson.Gson;
@@ -77,8 +78,8 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         String linkss = getIntent().getStringExtra("lin");
         String allName = getIntent().getStringExtra("name");
         int positions = getIntent().getIntExtra("position", 0);
-        Log.d("TAG", "pathss: " + url);
-        Log.d("TAG", "linkss: " + linkss);
+        
+        
 
 
         try {
@@ -89,10 +90,10 @@ public class StoryVideoPlayerActivity extends BaseActivity {
                     }
                 });
             } else {
-                Log.e("TAG", "onCreate: ");
+                
             }
         } catch (Exception e) {
-            Log.e("=====Kenil", "onCreate: " + e.getMessage());
+            
         }
 
 
@@ -120,6 +121,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             players.setMediaItem(mediaItem);
             players.prepare();
             player.setPlayer(players);
+            players.setRepeatMode(Player.REPEAT_MODE_ONE);
             players.play();
         }
 
@@ -232,17 +234,12 @@ public class StoryVideoPlayerActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.imgVideoShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CommonClass.shareAllVideo(activity, url);
-            }
-        });
+        findViewById(R.id.imgVideoShare).setVisibility(View.GONE);
 
         findViewById(R.id.imgVideoAudio).setOnClickListener(new DebouncedOnClickListener(750) {
             @Override
             public void onDebouncedClick(View v) {
-                Log.e("===K", "onDebouncedClick: ");
+                
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -270,7 +267,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
                                 }
                             });
                         } catch (IOException e) {
-                            Log.e("===K", "errorss: " + e.getMessage());
+                            
                             throw new RuntimeException(e);
                         }
                     }
@@ -281,7 +278,7 @@ public class StoryVideoPlayerActivity extends BaseActivity {
         findViewById(R.id.imgVideoBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         DefaultTimeBar timeBar = player.findViewById(com.google.android.exoplayer2.ui.R.id.exo_progress);
@@ -456,8 +453,6 @@ public class StoryVideoPlayerActivity extends BaseActivity {
                 finalPopupWindow.dismiss();
             }
         });
-
-
     }
 
     @Override
@@ -473,8 +468,16 @@ public class StoryVideoPlayerActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        players.play();
+    protected void onPause() {
+        super.onPause();
+        //players.pause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (progressAudio.getVisibility()==View.VISIBLE){
+        }else {
+            super.onBackPressed();
+        }
     }
 }

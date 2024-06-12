@@ -8,7 +8,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +23,10 @@ import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
-import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.service.VideoLiveWallpaperIGService;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
 
@@ -39,8 +35,12 @@ import java.io.IOException;
 
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.R;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.AudioExtractor;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.CommonClass;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DebouncedOnClickListener;
 import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.other.DocumentUtils;
+import vidmatinsta.downloader.fullmovie.tube.socialmedia.downloadfreevidmata.statussaver.service.VideoLiveWallpaperIGService;
 
 public class VideoPlayerActivity extends BaseActivity {
 
@@ -66,8 +66,6 @@ public class VideoPlayerActivity extends BaseActivity {
         String url = getIntent().getStringExtra("from");
         String linkss = getIntent().getStringExtra("lin");
         String allName = getIntent().getStringExtra("name");
-        Log.d("TAG", "pathss: " + url);
-        Log.d("TAG", "linkss: " + linkss);
 
 
         MediaScannerConnection.scanFile(this, new String[]{url}, null, new MediaScannerConnection.OnScanCompletedListener() {
@@ -96,10 +94,11 @@ public class VideoPlayerActivity extends BaseActivity {
         players.setMediaItem(mediaItem);
         players.prepare();
         player.setPlayer(players);
+        players.setRepeatMode(Player.REPEAT_MODE_ONE);
         players.play();
 
 
-        if (url.endsWith(".jpg")|| url.endsWith(".heic") || url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".webp")) {
+        if (url.endsWith(".jpg") || url.endsWith(".heic") || url.endsWith(".png") || url.endsWith(".jpeg") || url.endsWith(".webp")) {
             player.setVisibility(View.GONE);
             relativeToolBar.setVisibility(View.VISIBLE);
             linearItem.setVisibility(View.VISIBLE);
@@ -176,7 +175,7 @@ public class VideoPlayerActivity extends BaseActivity {
         findViewById(R.id.imgVideoOpenInst).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("TAG", "linkss1: " + linkss);
+
                 Intent videoReels = new Intent("android.intent.action.VIEW", Uri.parse(linkss));
                 videoReels.setPackage("com.instagram.android");
                 try {
@@ -218,7 +217,7 @@ public class VideoPlayerActivity extends BaseActivity {
                             .putExtra("name", allName)
                             .putExtra("positionsss", "do not list"));
                 } catch (IOException e) {
-                    Log.d("TAG", "errorss: " + e.getMessage());
+
                     throw new RuntimeException(e);
                 }
             }
@@ -422,8 +421,8 @@ public class VideoPlayerActivity extends BaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        players.play();
+    protected void onPause() {
+        super.onPause();
+        players.pause();
     }
 }

@@ -76,8 +76,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WithOutLoginGlobalOjTemp.CreateGlobalOj(this);
         activity = this;
+        WithOutLoginGlobalOjTemp.CreateGlobalOj(activity);
         savedTabPosition = getSavedTabPosition();
         CallInstaApi = CommonClassStoryForAPI.getInstance();
 
@@ -328,7 +328,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onNext(Root story) {
             try {
-                Log.e("===Kenil", "onNext: " + story);
+                
                 Glide.with(activity).load(story.user.profile_pic_url).override(200, 200).into(imgLogin);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -352,7 +352,7 @@ public class MainActivity extends BaseActivity {
             } else if (CallInstaApi != null) {
                 CommonClassStoryForAPI commonClassStoryForAPI2 = CallInstaApi;
                 DisposableObserver<Root> disposableObservers = profilePicObserver;
-                Log.d("TAG", "callStoriesDetailApighj: " + str);
+                
                 commonClassStoryForAPI2.getProfilePic(disposableObservers, str, "ds_user_id=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.USERID) + "; sessionid=" + SharedPref.getInstance(activity).sharedGetString(activity, SharedPref.SESSIONID));
             }
         } catch (Exception e) {
@@ -365,7 +365,7 @@ public class MainActivity extends BaseActivity {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception e) {
-            Log.d("TAG", "hideKeyboard: " + e.getMessage());
+            
         }
     }
 

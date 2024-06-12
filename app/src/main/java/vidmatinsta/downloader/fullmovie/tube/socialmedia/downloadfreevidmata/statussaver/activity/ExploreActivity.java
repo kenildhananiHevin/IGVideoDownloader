@@ -38,7 +38,7 @@ public class ExploreActivity extends BaseActivity {
         public void onNext(JsonObject rootTime) {
             try {
                 explorePostMax = rootTime.get("next_max_id").getAsString();
-                Log.e("====Kenil", "ExploreApis: " + explorePostMax);
+                
                 if (rootTime.getAsJsonArray("sectional_items") != null) {
                     ArrayList<Media> media = new ArrayList<>();
                     for (int i = 0; i < rootTime.getAsJsonArray("sectional_items").size(); i++) {
@@ -53,7 +53,7 @@ public class ExploreActivity extends BaseActivity {
                             for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonObject("one_by_two_item").getAsJsonObject("clips").getAsJsonArray("items")) {
                                 JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
                                 String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                Log.e("TAG", "onNext:11 " + url);
+                                
                                 media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
                             }
                         }
@@ -61,7 +61,7 @@ public class ExploreActivity extends BaseActivity {
                             for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonObject("one_by_two_item").getAsJsonObject("clips").getAsJsonArray("items")) {
                                 JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
                                 String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                Log.e("TAG", "onNext:22 " + url);
+                                
                                 media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
                             }
                            /* for (FillItem fill_item : item.layout_content.fill_items) {
@@ -72,11 +72,11 @@ public class ExploreActivity extends BaseActivity {
                             }*/
                         }
                         if (item.get("layout_type").getAsString().equals("media_grid")) {
-                            Log.e("TAG", "onNext: " + item.get("layout_type").toString());
+                            
                             for (JsonElement media1 : item.getAsJsonObject("layout_content").getAsJsonArray("medias")) {
                                 JsonObject myMedia = ((JsonObject) media1).getAsJsonObject("media");
                                 String url = ((JsonObject) ((JsonObject) media1).getAsJsonObject("media").getAsJsonObject("image_versions2").getAsJsonArray("candidates").get(0)).get("url").getAsString();
-                                Log.e("TAG", "onNext:33 " + url);
+                                
                                 media.add(new Gson().fromJson(((JsonObject) media1).getAsJsonObject("media"), Media.class));
                             }
                         }
@@ -90,7 +90,7 @@ public class ExploreActivity extends BaseActivity {
                     progressExplore.setVisibility(View.GONE);
                 }
             } catch (Exception e) {
-                Log.d("TAG", "onNextsssss: " + e.getMessage());
+                
                 e.printStackTrace();
             }
         }
@@ -98,7 +98,7 @@ public class ExploreActivity extends BaseActivity {
         @Override
         public void onError(Throwable e) {
             explorePostMax = null;
-            Log.d("TAG", "onErrorssss: " + e.getMessage());
+            
             e.printStackTrace();
             progressExplore.setVisibility(View.GONE);
 //            new Handler().postDelayed(new Runnable() {
@@ -107,7 +107,7 @@ public class ExploreActivity extends BaseActivity {
 //                    ExploreDetailApi();
 //                }
 //            },1000);
-            Log.e("====Kenil", "ExploreApis1: ");
+            
         }
 
         @Override
@@ -161,7 +161,7 @@ public class ExploreActivity extends BaseActivity {
                                 ExploreApis(explorePostMax);
                             }
                         }, 5000);
-                        Log.e("====Kenil", "ExploreApis4: ");
+                        
                     } else {
                         /*if (Integer.parseInt(explorePostMax) > 0) {
                             progressExplore.setVisibility(View.VISIBLE);
@@ -171,7 +171,7 @@ public class ExploreActivity extends BaseActivity {
                                     ExploreDetailApi();
                                 }
                             }, 5000);
-                            Log.e("====Kenil", "ExploreApis5: ");
+                            
                         }*/
                     }
                 }

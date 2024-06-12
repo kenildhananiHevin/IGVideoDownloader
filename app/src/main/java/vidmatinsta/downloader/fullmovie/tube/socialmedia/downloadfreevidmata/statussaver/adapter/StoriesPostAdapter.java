@@ -58,7 +58,7 @@ public class StoriesPostAdapter extends RecyclerView.Adapter<StoriesPostAdapter.
                 holder.multiImage.setVisibility(View.GONE);
                 holder.imgShadow.setVisibility(View.GONE);
             }
-            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).override(200, 200).into(holder.imgPhotoShow);
+            Glide.with(this.context).load(itemModel.image_versions2.candidates.get(0).url).into(holder.imgPhotoShow);
         } catch (Exception e) {
             e.printStackTrace();
         }

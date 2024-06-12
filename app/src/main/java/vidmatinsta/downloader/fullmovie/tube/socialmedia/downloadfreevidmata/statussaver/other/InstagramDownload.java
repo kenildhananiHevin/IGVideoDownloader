@@ -27,13 +27,15 @@ public class InstagramDownload extends AsyncTask<String, Integer, String> {
     private final AlertDialog alertDialog;
     private final String edtPaste;
     private final  String nameIns;
+    private final  boolean isLast;
 
-    public InstagramDownload(Context context, String mediaName, AlertDialog alertDialog, String edtPaste, String nameIns) {
+    public InstagramDownload(Context context, String mediaName, AlertDialog alertDialog, String edtPaste, String nameIns, boolean isLast) {
         this.mContext = context;
         this.mediaName = mediaName;
         this.alertDialog = alertDialog;
         this.edtPaste = edtPaste;
         this.nameIns = nameIns;
+        this.isLast = isLast;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class InstagramDownload extends AsyncTask<String, Integer, String> {
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            String name = IgVideoPathDirectory + "/" + mediaName;
+            String name = IgVideoPathDirectory + "/" + System.currentTimeMillis() + mediaName;
             fileOutputStream = new FileOutputStream(name);
             int count;
             try {
@@ -65,11 +67,11 @@ public class InstagramDownload extends AsyncTask<String, Integer, String> {
                 output.close();
                 input.close();
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
+                
             }
             return name;
         } catch (Exception e) {
-            Log.d("TAG", "linkss4: " + e.getMessage());
+            
             return e.toString();
         } finally {
             try {
@@ -91,12 +93,15 @@ public class InstagramDownload extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String str) {
         alertDialog.dismiss();
-        Log.d("TAG", "linkss2: "+edtPaste);
-        Log.d("TAG", "linkss3: "+str);
-        mContext.startActivity(new Intent(mContext, VideoDownloadActivity.class)
-                .putExtra("url",str)
-                .putExtra("link",edtPaste)
-                .putExtra("name",nameIns));
+        
+        
+        if (isLast){
+            mContext.startActivity(new Intent(mContext, VideoDownloadActivity.class)
+                    .putExtra("url",str)
+                    .putExtra("link",edtPaste)
+                    .putExtra("name",nameIns));
+        }
+
     }
 
 }
